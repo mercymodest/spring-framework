@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="book" class="com.mercymodest.spring.bean.Book">
+		<property name="name" value="《一入Java深似海》"/>
+		<property name="price" value="999.99"/>
+		<property name="bookNum" value="S8937849NBD34"/>
+	</bean>
+</beans>
