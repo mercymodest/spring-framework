@@ -37,6 +37,21 @@ public class SpringApplicationTest {
 		       2.  读取器
 		       3.  工厂
 		    BeanFactory 是 Spring 工厂最顶层的抽象
+
+		    关于 Spring  Bean 实例的注册流程
+		     1. 定义好 Spring 的配置文件
+		     2. 通过Resource 对象 将 Spring 配置文件进行抽象.抽象成一个具体的Resource 对象 . etc. ClassPathResource
+		     3. 定义好需要的使用Spring Bean 工厂.(各种 Spring BeanFactory)
+		     4. 定义好 XmlBeanDefinitionReader对象,并将定义的 Spring BeanFactory作为参数传递进去,从而构建好二者之间的关联关系
+		     5. 通过 XmsBeanDefinitionReader 对象读取之前所抽象出来的Resource 对象
+		     6. 流程开始解析
+		     7. 针对 XML文件的各个元素及其属性进行解析,在这里真正执行解析是通过 BeanDefinitionParserDelegate 对象来完成的.(设计模式: 委托模式)
+		     8. 通过 BeanDefinitionParserDelegate 进行解析XML的的时候,又使用到了模板方法设计模式(preProcessXml. processXmlDefinitions. postProcessXml.)
+		     9. 当所以的 Bean 标签元素解析完毕后.定义了一个 BeanDefinition 对象,该对象包含 Bean 所有的相关属性
+		     10. BeanDefinition 对象创建完毕之后,Spring又会创建一个 BeanDefinitionHolder对象来持有 BeanDefinition对象
+		     11. BeanDefinitionHolder 主要包含两部分信息: beanName 和 BeanDefinition
+		     12. Spring Bean工厂会将解析创建的 BeanDefinition 信息 放到内部的一个 ConcurrentHashMap.该Map 值是唯一的 beanName,值是 BeanDefinition 对象
+		     13. 调用 Bean解析完成的触发动作,从而触发相关监听器的方法的执行(设计模式: 观察者设计模式)
 		 */
 		// 定义资源
 		Resource resource = new ClassPathResource("spring-bean.xml");
