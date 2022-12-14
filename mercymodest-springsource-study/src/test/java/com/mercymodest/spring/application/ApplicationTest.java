@@ -1,6 +1,5 @@
 package com.mercymodest.spring.application;
 
-import com.mercymodest.spring.bean.Person;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

@@ -2,26 +2,30 @@ package com.mercymodest.spring.bean;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 /**
+ * book pojo
+ *
  * @author ZGH.MercyModest
  * @version V1.0.0
- * @create 2022/02/28
+ * @created 2022/11/09
  */
 @Data
-public class Person {
+public class Book {
 
 	/**
 	 * id
 	 */
-	private Integer id;
+	private Long id;
 
 	/**
-	 * name
+	 * 书名
 	 */
 	private String name;
 
 	/**
-	 * motto
+	 * 价格
 	 */
-	private String motto;
+	private BigDecimal price;
 }

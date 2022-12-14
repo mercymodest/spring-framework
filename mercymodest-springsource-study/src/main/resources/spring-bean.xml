@@ -3,10 +3,10 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!--bean: person-->
-	<bean class="com.mercymodest.spring.bean.Person" id="person">
-		<property name="id" value="1"/>
-		<property name="name" value="modest"/>
-		<property name="motto" value="不积跬步无以至千里,不积细流无以成江海"/>
+	<!--book bean -->
+	<bean id="book" class="com.mercymodest.spring.bean.Book">
+		<property name="id" value="15768998498559867"/>
+		<property name="name" value="《一入Java深似海》"/>
+		<property name="price" value="99.99"/>
 	</bean>
 </beans>
