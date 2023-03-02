@@ -1,11 +1,6 @@
 package com.mercymodest.spring.test;
 
-import com.mercymodest.spring.bean.Book;
-import org.springframework.beans.factory.support.BeanDefinitionReader;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * <pre>
@@ -51,15 +46,17 @@ public class SpringApplicationTest {
 		     12. Spring Bean工厂会将解析创建的 BeanDefinition 信息 放到内部的一个 ConcurrentHashMap.该Map 值是唯一的 beanName,值是 BeanDefinition 对象
 		     13. 调用 Bean解析完成的触发动作,从而触发相关监听器的方法的执行(设计模式: 观察者设计模式)
 		 */
-		// 定义资源
-		Resource resource = new ClassPathResource("spring-bean.xml");
-		// 创建 spring bean 工厂
-		DefaultListableBeanFactory defaultListableBeanFactory = new DefaultListableBeanFactory();
-		// 创建 BeanDefinitionReader
-		BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(defaultListableBeanFactory);
-		// 加载 beanDefinition
-		beanDefinitionReader.loadBeanDefinitions(resource);
-		Book book = (Book) defaultListableBeanFactory.getBean("book");
-		System.out.println(book);
+//		// 定义资源
+//		Resource resource = new ClassPathResource("spring-bean.xml");
+//		// 创建 spring bean 工厂
+//		DefaultListableBeanFactory defaultListableBeanFactory = new DefaultListableBeanFactory();
+//		// 创建 BeanDefinitionReader
+//		BeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(defaultListableBeanFactory);
+//		// 加载 beanDefinition
+//		beanDefinitionReader.loadBeanDefinitions(resource);
+//		Book book = (Book) defaultListableBeanFactory.getBean("book");
+//		System.out.println(book);
+
+		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("spring-bean.xml");
 	}
 }
