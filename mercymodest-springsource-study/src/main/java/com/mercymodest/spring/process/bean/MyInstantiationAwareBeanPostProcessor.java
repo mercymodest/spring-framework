@@ -1,6 +1,7 @@
 package com.mercymodest.spring.process.bean;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.stereotype.Component;
 
@@ -31,5 +32,10 @@ public class MyInstantiationAwareBeanPostProcessor implements InstantiationAware
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 		System.out.println("MyInstantiationAwareBeanPostProcessor.postProcessBeforeInitialization");
 		return bean;
+	}
+
+	@Override
+	public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
+		return InstantiationAwareBeanPostProcessor.super.postProcessProperties(pvs, bean, beanName);
 	}
 }

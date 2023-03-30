@@ -2,6 +2,7 @@ package com.mercymodest.spring.bean;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Getter
 @Setter
-public class Cat {
+public class Cat implements InitializingBean{
 
 	public Cat() {
 		System.out.println("Cat constructor");
@@ -34,5 +35,10 @@ public class Cat {
 	public void setName(String name) {
 		System.out.println("Cat.setName");
 		this.name = name;
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("cat initializingBean afterPropertiesSet");
 	}
 }
