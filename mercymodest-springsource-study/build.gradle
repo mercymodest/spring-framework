@@ -13,6 +13,11 @@ dependencies {
 
     // spring-webmvc
     implementation(project(":spring-webmvc"))
+    // spring aop
+    implementation(project(":spring-aop"))
+    implementation("org.aspectj:aspectjweaver")
+    implementation("org.apache.commons:commons-pool2")
+    implementation("com.jamonapi:jamon")
 
     //lombok
     compileOnly 'org.projectlombok:lombok:1.18.24'
