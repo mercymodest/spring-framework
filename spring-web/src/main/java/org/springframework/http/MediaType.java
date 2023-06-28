@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,6 +94,19 @@ public class MediaType extends MimeType implements Serializable {
 	 * A String equivalent of {@link MediaType#APPLICATION_FORM_URLENCODED}.
 	 */
 	public static final String APPLICATION_FORM_URLENCODED_VALUE = "application/x-www-form-urlencoded";
+
+	/**
+	 * Public constant media type for {@code application/graphql+json}.
+	 * @since 5.3.19
+	 * @see <a href="https://github.com/graphql/graphql-over-http">GraphQL over HTTP spec</a>
+	 */
+	public static final MediaType APPLICATION_GRAPHQL;
+
+	/**
+	 * A String equivalent of {@link MediaType#APPLICATION_GRAPHQL}.
+	 * @since 5.3.19
+	 */
+	public static final String APPLICATION_GRAPHQL_VALUE = "application/graphql+json";
 
 	/**
 	 * Public constant media type for {@code application/json}.
@@ -396,6 +409,7 @@ public class MediaType extends MimeType implements Serializable {
 		APPLICATION_ATOM_XML = new MediaType("application", "atom+xml");
 		APPLICATION_CBOR = new MediaType("application", "cbor");
 		APPLICATION_FORM_URLENCODED = new MediaType("application", "x-www-form-urlencoded");
+		APPLICATION_GRAPHQL = new MediaType("application", "graphql+json");
 		APPLICATION_JSON = new MediaType("application", "json");
 		APPLICATION_JSON_UTF8 = new MediaType("application", "json", StandardCharsets.UTF_8);
 		APPLICATION_NDJSON = new MediaType("application", "x-ndjson");
@@ -517,10 +531,10 @@ public class MediaType extends MimeType implements Serializable {
 	protected void checkParameters(String parameter, String value) {
 		super.checkParameters(parameter, value);
 		if (PARAM_QUALITY_FACTOR.equals(parameter)) {
-			value = unquote(value);
-			double d = Double.parseDouble(value);
+			String unquotedValue = unquote(value);
+			double d = Double.parseDouble(unquotedValue);
 			Assert.isTrue(d >= 0D && d <= 1D,
-					"Invalid quality value \"" + value + "\": should be between 0.0 and 1.0");
+					() -> "Invalid quality value \"" + unquotedValue + "\": should be between 0.0 and 1.0");
 		}
 	}
 

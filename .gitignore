@@ -22,11 +22,14 @@ classes/
 buildSrc/build
 /spring-*/build
 /mercymodest-*/build
+/spring-core/graalvm/build
 /spring-core/kotlin-coroutines/build
 /framework-bom/build
+/framework-docs/build
 /integration-tests/build
 /src/asciidoc/build
 target/
+/target/
 
 # Eclipse artifacts, including WTP generated manifests
 .classpath
@@ -45,3 +48,5 @@ atlassian-ide-plugin.xml
 
 # VS Code
 .vscode/
+
+cached-antora-playbook.yml

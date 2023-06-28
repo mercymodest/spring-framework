@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.reactivestreams.Publisher;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import org.springframework.core.KotlinDetector;
@@ -130,15 +131,23 @@ public abstract class AbstractMessageWriterResultHandler extends HandlerResultHa
 		if (adapter != null) {
 			publisher = adapter.toPublisher(body);
 			boolean isUnwrapped = KotlinDetector.isSuspendingFunction(bodyParameter.getMethod()) &&
-					!COROUTINES_FLOW_CLASS_NAME.equals(bodyType.toClass().getName());
+					!COROUTINES_FLOW_CLASS_NAME.equals(bodyType.toClass().getName()) &&
+					!Flux.class.equals(bodyType.toClass());
 			ResolvableType genericType = isUnwrapped ? bodyType : bodyType.getGeneric();
 			elementType = getElementType(adapter, genericType);
 			actualElementType = elementType;
 		}
 		else {
 			publisher = Mono.justOrEmpty(body);
-			actualElementType = body != null ? ResolvableType.forInstance(body) : bodyType;
-			elementType = (bodyType.toClass() == Object.class && body != null ? actualElementType : bodyType);
+			ResolvableType bodyInstanceType = ResolvableType.forInstance(body);
+			if (bodyType.toClass() == Object.class && body != null) {
+				actualElementType = bodyInstanceType;
+				elementType = bodyInstanceType;
+			}
+			else {
+				actualElementType = (body == null || bodyInstanceType.hasUnresolvableGenerics()) ? bodyType : bodyInstanceType;
+				elementType = bodyType;
+			}
 		}
 
 		if (elementType.resolve() == void.class || elementType.resolve() == Void.class) {

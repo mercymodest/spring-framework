@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,10 @@
 
 package org.springframework.aop.framework;
 
+import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.accessibility.Accessible;
@@ -44,7 +47,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.testfixture.TimeStamped;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatRuntimeException;
 
 /**
  * Also tests AdvisedSupport and ProxyCreatorSupport superclasses.
@@ -277,7 +280,7 @@ public class ProxyFactoryTests {
 
 		assertThat(config.getAdvisors().length == oldCount).isTrue();
 
-		assertThatExceptionOfType(RuntimeException.class)
+		assertThatRuntimeException()
 				.as("Existing object won't implement this interface any more")
 				.isThrownBy(ts::getTimeStamp); // Existing reference will fail
 
@@ -380,6 +383,43 @@ public class ProxyFactoryTests {
 		assertThat(proxy.getName()).isEqualTo("tb");
 	}
 
+	@Test
+	public void testCharSequenceProxy() {
+		CharSequence target = "test";
+		ProxyFactory pf = new ProxyFactory(target);
+		ClassLoader cl = target.getClass().getClassLoader();
+		CharSequence proxy = (CharSequence) pf.getProxy(cl);
+		assertThat(proxy.toString()).isEqualTo(target);
+	}
+
+	@Test
+	public void testDateProxy() {
+		Date target = new Date();
+		ProxyFactory pf = new ProxyFactory(target);
+		pf.setProxyTargetClass(true);
+		ClassLoader cl = target.getClass().getClassLoader();
+		Date proxy = (Date) pf.getProxy(cl);
+		assertThat(proxy.getTime()).isEqualTo(target.getTime());
+	}
+
+	@Test
+	public void testJdbcSavepointProxy() throws SQLException {
+		Savepoint target = new Savepoint() {
+			@Override
+			public int getSavepointId() throws SQLException {
+				return 1;
+			}
+			@Override
+			public String getSavepointName() throws SQLException {
+				return "sp";
+			}
+		};
+		ProxyFactory pf = new ProxyFactory(target);
+		ClassLoader cl = Savepoint.class.getClassLoader();
+		Savepoint proxy = (Savepoint) pf.getProxy(cl);
+		assertThat(proxy.getSavepointName()).isEqualTo("sp");
+	}
+
 
 	@Order(2)
 	public static class A implements Runnable {
@@ -391,7 +431,7 @@ public class ProxyFactoryTests {
 
 
 	@Order(1)
-	public static class B implements Runnable{
+	public static class B implements Runnable {
 
 		@Override
 		public void run() {

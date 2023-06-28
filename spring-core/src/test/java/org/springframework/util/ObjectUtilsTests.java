@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,15 +17,26 @@
 package org.springframework.util;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.Set;
+import java.util.UUID;
 
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
@@ -251,32 +262,28 @@ class ObjectUtilsTests {
 	@Deprecated
 	void hashCodeWithDouble() {
 		double dbl = 9830.43;
-		int expected = (new Double(dbl)).hashCode();
-		assertThat(ObjectUtils.hashCode(dbl)).isEqualTo(expected);
+		assertThat(ObjectUtils.hashCode(dbl)).isEqualTo(Double.hashCode(dbl));
 	}
 
 	@Test
 	@Deprecated
 	void hashCodeWithFloat() {
 		float flt = 34.8f;
-		int expected = (Float.valueOf(flt)).hashCode();
-		assertThat(ObjectUtils.hashCode(flt)).isEqualTo(expected);
+		assertThat(ObjectUtils.hashCode(flt)).isEqualTo(Float.hashCode(flt));
 	}
 
 	@Test
 	@Deprecated
 	void hashCodeWithLong() {
 		long lng = 883L;
-		int expected = (Long.valueOf(lng)).hashCode();
-		assertThat(ObjectUtils.hashCode(lng)).isEqualTo(expected);
+		assertThat(ObjectUtils.hashCode(lng)).isEqualTo(Long.hashCode(lng));
 	}
 
 	@Test
 	void identityToString() {
 		Object obj = new Object();
 		String expected = obj.getClass().getName() + "@" + ObjectUtils.getIdentityHexString(obj);
-		String actual = ObjectUtils.identityToString(obj);
-		assertThat(actual).isEqualTo(expected);
+		assertThat(ObjectUtils.identityToString(obj)).isEqualTo(expected);
 	}
 
 	@Test
@@ -732,7 +739,7 @@ class ObjectUtilsTests {
 
 	@Test
 	void nullSafeToStringWithObjectArray() {
-		Object[] array = {"Han", Long.valueOf(43)};
+		Object[] array = {"Han", 43};
 		assertThat(ObjectUtils.nullSafeToString(array)).isEqualTo("{Han, 43}");
 	}
 
@@ -820,13 +827,156 @@ class ObjectUtilsTests {
 			.withMessage("Constant [bogus] does not exist in enum type org.springframework.util.ObjectUtilsTests$Tropes");
 	}
 
-	private void assertEqualHashCodes(int expected, Object array) {
+
+	private static void assertEqualHashCodes(int expected, Object array) {
 		int actual = ObjectUtils.nullSafeHashCode(array);
 		assertThat(actual).isEqualTo(expected);
-		assertThat(array.hashCode() != actual).isTrue();
+		assertThat(array.hashCode()).isNotEqualTo(actual);
 	}
 
 
 	enum Tropes {FOO, BAR, baz}
+
+
+	@Nested
+	class NullSafeConciseToStringTests {
+
+		private final String truncated = " (truncated)...";
+		private final int truncatedLength = 100 + truncated.length();
+
+		@Test
+		void nullSafeConciseToStringForNull() {
+			assertThat(ObjectUtils.nullSafeConciseToString(null)).isEqualTo("null");
+		}
+
+		@Test
+		void nullSafeConciseToStringForClass() {
+			assertThat(ObjectUtils.nullSafeConciseToString(String.class)).isEqualTo("java.lang.String");
+		}
+
+		@Test
+		void nullSafeConciseToStringForStrings() {
+			String repeat100 = repeat("X", 100);
+			String repeat101 = repeat("X", 101);
+
+			assertThat(ObjectUtils.nullSafeConciseToString("")).isEqualTo("");
+			assertThat(ObjectUtils.nullSafeConciseToString("foo")).isEqualTo("foo");
+			assertThat(ObjectUtils.nullSafeConciseToString(repeat100)).isEqualTo(repeat100);
+			assertThat(ObjectUtils.nullSafeConciseToString(repeat101)).hasSize(truncatedLength).endsWith(truncated);
+		}
+
+		@Test
+		void nullSafeConciseToStringForStringBuilders() {
+			String repeat100 = repeat("X", 100);
+			String repeat101 = repeat("X", 101);
+
+			assertThat(ObjectUtils.nullSafeConciseToString(new StringBuilder("foo"))).isEqualTo("foo");
+			assertThat(ObjectUtils.nullSafeConciseToString(new StringBuilder(repeat100))).isEqualTo(repeat100);
+			assertThat(ObjectUtils.nullSafeConciseToString(new StringBuilder(repeat101))).hasSize(truncatedLength).endsWith(truncated);
+		}
+
+		@Test
+		void nullSafeConciseToStringForEnum() {
+			assertThat(ObjectUtils.nullSafeConciseToString(Tropes.FOO)).isEqualTo("FOO");
+		}
+
+		@Test
+		void nullSafeConciseToStringForNumber() {
+			assertThat(ObjectUtils.nullSafeConciseToString(42L)).isEqualTo("42");
+			assertThat(ObjectUtils.nullSafeConciseToString(99.1234D)).isEqualTo("99.1234");
+		}
+
+		@Test
+		void nullSafeConciseToStringForDate() {
+			Date date = new Date();
+			assertThat(ObjectUtils.nullSafeConciseToString(date)).isEqualTo(date.toString());
+		}
+
+		@Test
+		void nullSafeConciseToStringForTemporal() {
+			LocalDate localDate = LocalDate.now();
+			assertThat(ObjectUtils.nullSafeConciseToString(localDate)).isEqualTo(localDate.toString());
+		}
+
+		@Test
+		void nullSafeConciseToStringForUUID() {
+			UUID id = UUID.randomUUID();
+			assertThat(ObjectUtils.nullSafeConciseToString(id)).isEqualTo(id.toString());
+		}
+
+		@Test
+		void nullSafeConciseToStringForURI() {
+			String uri = "https://www.example.com/?foo=1&bar=2&baz=3";
+			assertThat(ObjectUtils.nullSafeConciseToString(URI.create(uri))).isEqualTo(uri);
+
+			uri += "&qux=" + repeat("4", 60);
+			assertThat(ObjectUtils.nullSafeConciseToString(URI.create(uri)))
+					.hasSize(truncatedLength)
+					.startsWith(uri.subSequence(0, 100))
+					.endsWith(truncated);
+		}
+
+		@Test
+		void nullSafeConciseToStringForURL() throws Exception {
+			String url = "https://www.example.com/?foo=1&bar=2&baz=3";
+			assertThat(ObjectUtils.nullSafeConciseToString(new URL(url))).isEqualTo(url);
+
+			url += "&qux=" + repeat("4", 60);
+			assertThat(ObjectUtils.nullSafeConciseToString(new URL(url)))
+					.hasSize(truncatedLength)
+					.startsWith(url.subSequence(0, 100))
+					.endsWith(truncated);
+		}
+
+		@Test
+		void nullSafeConciseToStringForLocale() {
+			assertThat(ObjectUtils.nullSafeConciseToString(Locale.GERMANY)).isEqualTo("de_DE");
+		}
+
+		@Test
+		void nullSafeConciseToStringForArraysAndCollections() {
+			List<String> list = Arrays.asList("a", "b", "c");
+			assertThat(ObjectUtils.nullSafeConciseToString(new int[][] {{1, 2}, {3, 4}})).startsWith(prefix(int[][].class));
+			assertThat(ObjectUtils.nullSafeConciseToString(list.toArray(new Object[0]))).startsWith(prefix(Object[].class));
+			assertThat(ObjectUtils.nullSafeConciseToString(list.toArray(new String[0]))).startsWith(prefix(String[].class));
+			assertThat(ObjectUtils.nullSafeConciseToString(new ArrayList<>(list))).startsWith(prefix(ArrayList.class));
+			assertThat(ObjectUtils.nullSafeConciseToString(new HashSet<>(list))).startsWith(prefix(HashSet.class));
+		}
+
+		@Test
+		void nullSafeConciseToStringForCustomTypes() {
+			class ExplosiveType {
+				@Override
+				public String toString() {
+					throw new UnsupportedOperationException("no-go");
+				}
+			}
+			ExplosiveType explosiveType = new ExplosiveType();
+			assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(explosiveType::toString);
+			assertThat(ObjectUtils.nullSafeConciseToString(explosiveType)).startsWith(prefix(ExplosiveType.class));
+
+			class WordyType {
+				@Override
+				public String toString() {
+					return repeat("blah blah", 20);
+				}
+			}
+			WordyType wordyType = new WordyType();
+			assertThat(wordyType).asString().hasSizeGreaterThanOrEqualTo(180 /* 9x20 */);
+			assertThat(ObjectUtils.nullSafeConciseToString(wordyType)).startsWith(prefix(WordyType.class));
+		}
+
+		private String repeat(String str, int count) {
+			String result = "";
+			for (int i = 0; i < count; i++) {
+				result += str;
+			}
+			return result;
+		}
+
+		private String prefix(Class<?> clazz) {
+			return clazz.getTypeName() + "@";
+		}
+	}
 
 }

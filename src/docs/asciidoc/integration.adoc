@@ -218,7 +218,7 @@ on the server side (for example, in Spring MVC REST controllers).
 
 Concrete implementations for the main media (MIME) types are provided in the framework
 and are, by default, registered with the `RestTemplate` on the client side and with
-`RequestMethodHandlerAdapter` on the server side (see
+`RequestMappingHandlerAdapter` on the server side (see
 <<web.adoc#mvc-config-message-converters, Configuring Message Converters>>).
 
 The implementations of `HttpMessageConverter` are described in the following sections.
@@ -306,7 +306,7 @@ to serialize only a subset of the object properties, as the following example sh
 ----
 
 [[rest-template-multipart]]
-===== Multipart
+==== Multipart
 
 To send multipart data, you need to provide a `MultiValueMap<String, Object>` whose values
 may be an `Object` for part content, a `Resource` for a file part, or an `HttpEntity` for
@@ -961,7 +961,7 @@ this application context.
 
 NOTE: The preceding example does not show a flexible kind of security infrastructure. For
 more options as far as security is concerned, have a look at the Spring Security project
-at https://projects.spring.io/spring-security/.
+at https://spring.io/projects/spring-security/.
 
 
 
@@ -1605,16 +1605,25 @@ takes a reference to a standard `ConnectionFactory` that would typically come fr
 ===== Using `CachingConnectionFactory`
 
 The `CachingConnectionFactory` extends the functionality of `SingleConnectionFactory`
-and adds the caching of `Session`, `MessageProducer`, and `MessageConsumer` instances. The initial
-cache size is set to `1`. You can use the `sessionCacheSize` property to increase the number of
-cached sessions. Note that the number of actual cached sessions is more than that
-number, as sessions are cached based on their acknowledgment mode, so there can be up to
-four cached session instances (one for each
-acknowledgment mode) when `sessionCacheSize` is set to one. `MessageProducer` and `MessageConsumer` instances are cached within their
-owning session and also take into account the unique properties of the producers and
-consumers when caching. MessageProducers are cached based on their destination.
-MessageConsumers are cached based on a key composed of the destination, selector,
+and adds the caching of `Session`, `MessageProducer`, and `MessageConsumer` instances.
+The initial cache size is set to `1`. You can use the `sessionCacheSize` property to
+increase the number of cached sessions. Note that the number of actual cached sessions
+is more than that number, as sessions are cached based on their acknowledgment mode,
+so there can be up to four cached session instances (one for each acknowledgment mode)
+when `sessionCacheSize` is set to one. `MessageProducer` and `MessageConsumer` instances
+are cached within their owning session and also take into account the unique properties
+of the producers and consumers when caching. MessageProducers are cached based on their
+destination. MessageConsumers are cached based on a key composed of the destination, selector,
 noLocal delivery flag, and the durable subscription name (if creating durable consumers).
+
+[NOTE]
+====
+MessageProducers and MessageConsumers for temporary queues and topics
+(TemporaryQueue/TemporaryTopic) will never be cached. Unfortunately, WebLogic JMS happens
+to implement the temporary queue/topic interfaces on its regular destination implementation,
+mis-indicating that none of its destinations can be cached. Please use a different connection
+pool/cache on WebLogic, or customize `CachingConnectionFactory` for WebLogic purposes.
+====
 
 
 [[jms-destinations]]
@@ -4305,14 +4314,16 @@ This section describes how to send email with the Spring Framework.
 
 .Library dependencies
 ****
-The following JAR needs to be on the classpath of your application in order to use
-the Spring Framework's email library:
+The following JAR needs to be on the classpath of your application in order to use the
+Spring Framework's email support:
 
-* The https://eclipse-ee4j.github.io/mail/[JavaMail / Jakarta Mail 1.6] library
+* The https://jakartaee.github.io/mail-api/[JavaMail / Jakarta Mail 1.6] library
 
 This library is freely available on the web -- for example, in Maven Central as
-`com.sun.mail:jakarta.mail`. Please make sure to use the latest 1.6.x version
-rather than Jakarta Mail 2.0 (which comes with a different package namespace).
+`com.sun.mail:jakarta.mail`. Please make sure to use the latest 1.6.x version (which uses
+the `javax.mail` package namespace) rather than Jakarta Mail 2.0 (which uses the
+`jakarta.mail` package namespace). See the code in the `v1.x` branch of the
+https://github.com/jakartaee/mail-api/tree/v1.x[Jakarta Mail API repository].
 ****
 
 The Spring Framework provides a helpful utility library for sending email that shields
@@ -5341,7 +5352,7 @@ asterisk.
 * Two numbers separated with a hyphen (`-`) express a range of numbers.
 The specified range is inclusive.
 * Following a range (or `*`) with `/` specifies the interval of the number's value through the range.
-* English names can also be used for the day-of-month and day-of-week fields.
+* English names can also be used for the month and day-of-week fields.
 Use the first three letters of the particular day or month (case does not matter).
 * The day-of-month and day-of-week fields can contain a `L` character, which has a different meaning
 ** In the day-of-month field, `L` stands for _the last day of the month_.
