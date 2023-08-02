@@ -56,4 +56,5 @@ settings.gradle.projectsLoaded {
 	}
 }
 include 'mercymodest-springsource-study'
+include 'mercymodest-springmvc-study'
 

@@ -15,6 +15,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyAspect {
 
+	public MyAspect() {
+		System.out.println("MyAspect constructor");
+	}
+
 	@Before("execution(* com.mercymodest.spring.aop.Car.doSomething(..))")
 	public void before(JoinPoint joinPoint) {
 		System.out.println("Before method:" + joinPoint.getSignature());

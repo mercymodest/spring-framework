@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group = 'com.mercymodest.study'
+version = '5.3.29-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // spring-webmvc
+    implementation(project(":spring-webmvc"))
+    // servlet-api
+    compileOnly('javax.servlet:javax.servlet-api:4.0.1')
+
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
