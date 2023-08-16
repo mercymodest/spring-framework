@@ -13,6 +13,10 @@ import java.time.format.DateTimeFormatter;
 @RestController
 public class HelloController {
 
+	public HelloController() {
+		System.out.println("HelloController constructor");
+	}
+
 	@GetMapping("/hello")
 	public String hello() {
 		return "hello"+ DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(java.time.LocalDateTime.now());
