@@ -1,9 +1,12 @@
 package com.mercymodest.study.mvc;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 /**
  * @author ZGH.MercyModest
@@ -18,10 +21,16 @@ public class SpringWebApplicationTest {
 
 	}
 
-	@ComponentScan(basePackages = {"com.mercymodest.study.mvc.controller"},useDefaultFilters = false,includeFilters = {@ComponentScan.Filter(classes = {Controller.class})})
+	@ComponentScan(basePackages = {"com.mercymodest.study.mvc.controller"},useDefaultFilters = false,includeFilters = {
+			@ComponentScan.Filter(classes = {Controller.class})
+	})
 	@Configuration
 	static class WebApplicationConfig{
 
+		@Bean
+		public ViewResolver internalResourceViewResolver() {
+			return new InternalResourceViewResolver("/WEB-INF/views/",".jsp");
+		}
 	}
 	static class WebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 		public WebApplicationInitializer() {
