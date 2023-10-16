@@ -1,10 +1,256 @@
 # Spring 学习笔记
 
 > 当前学习的Spring的版本为 **5.3.x**
+>
+> 翻译软件： [DeepL](https://www.deepl.com/translator)
+>
+> 笔记图片来源：
+>
+> -  [极客时间-小马哥讲 Spring 核心编程思想](https://time.geekbang.org/course/intro/265)
 
-## Spring 架构图
+## Spring 模块总览
 
+> [Spring Framework 1.5.x](https://github.com/spring-projects/spring-framework/tree/5.3.x)
 
+> - Spring-core
+> - Spring-aop
+> - spring-beans
+> - Spring-aspectjs
+> - Spring-context
+> - Spring-context-indexder
+> - Spring-context-support
+> - Spring-expression
+> - Spring-instrument
+> - Spring-jcl
+> - Spring-jdbc
+> - Spring-jms
+> - Spring-messaging
+> - Spring-orm
+> - Spring-oxm
+> - Spring-test
+> - Spring-tx
+> - spirng-web
+> - Spring-webflux
+> - Spring-webmvc
+> - Spring-websocket
+
+## Java语法变化
+
+### Java5
+
+- 枚举
+- 泛型
+- 注解
+- 封箱和拆箱
+
+### Java6
+
+- @Override 接口
+
+### Java7
+
+- Diamond 语法
+- 多catch
+- try-with- resources
+
+### Java8
+
+- Lambda语法
+- 可重复注解
+- 类型注解
+- 新的时间API
+- Optional 类
+
+### Java9
+
+- 模块化
+- 接口私有方法
+
+### Java10
+
+- 局部变量类型推断
+
+## Spring 对于 Java新特性的应用
+
+### Java5语法特性
+
+![image-20231016163107795](https://s2.loli.net/2023/10/16/Gbjf19WhnOzQJ7R.png)
+
+### Java6语法特性
+
+![image-20231016163149516](https://s2.loli.net/2023/10/16/jSxQgtV4dwNqMoA.png)
+
+### Java7语法特性
+
+![image-20231016163210618](https://s2.loli.net/2023/10/16/md4wcgQSBIpVi1t.png)
+
+### Java8语法特性
+
+![image-20231016163245857](https://s2.loli.net/2023/10/16/LmTiz8ce7YdJfBH.png)
+
+## JDK 核心API
+
+![image-20231016163813685](https://s2.loli.net/2023/10/16/RAX2T1nNOyBWmo7.png)
+
+## Spring 对于 JDK API 的实践
+
+### Java5 API
+
+![image-20231016164244903](https://s2.loli.net/2023/10/16/QhgkJ69DMipfBPT.png)
+
+![image-20231016164333376](https://s2.loli.net/2023/10/16/pILR7VHhfGrFMNu.png)
+
+### Java6API
+
+![image-20231016164553057](https://s2.loli.net/2023/10/16/Bu6xgPEDt7HXAay.png)
+
+### Java7
+
+![image-20231016164658748](https://s2.loli.net/2023/10/16/ZfcToXqQDm2KiOJ.png)
+
+### Java8 API
+
+![image-20231016164726806](https://s2.loli.net/2023/10/16/28VC61oOPhjRmle.png)
+
+## Spring 对JavaEE API的整合
+
+### Java EE Web 技术相关
+
+![image-20231016165002806](https://s2.loli.net/2023/10/16/HVWYbKgzUs7Zjy9.png)
+
+### JavaEE 数据存储相关
+
+![image-20231016165124086](https://s2.loli.net/2023/10/16/1dF89xUVhHOuvYE.png)
+
+### JavaEE Bean 技术相关
+
+![image-20231016165258434](https://s2.loli.net/2023/10/16/PZ9TEdeyl4JLFQr.png)
+
+## Spring 编程模型
+
+![image-20231016165400462](https://s2.loli.net/2023/10/16/KaH1oXYkqN6xBre.png)
+
+## 面试题： 什么是SpringFramework 
+
+![image-20231016165819273](https://s2.loli.net/2023/10/16/1K4CsZ3IcaWEx2A.png)
+
+## 面试题：Spring Framework 有哪些核心模块
+
+> - spring--core:  Spring 基础API 如资源管理，泛型处理 
+> - Spring-beans:  Spring Beans 相关 如何依赖查找和依赖注入
+> - spring-aop： Spring AOP 处理，如动态代理，AOP字节码提升
+> - Spring-context:  事件驱动，注解驱动，模块驱动等
+> - spring- expression： spring 表达式语言模块
+
+## 什么是Ioc
+
+> inversion of control 
+
+> [解答来源-WiKi-Inversion_of_control](https://en.wikipedia.org/wiki/Inversion_of_control)
+
+![image-20231016171722178](https://s2.loli.net/2023/10/16/3s1zNEWX8IianQ5.png)
+
+## Ioc 简史
+
+![image-20231016172457371](https://s2.loli.net/2023/10/16/PThSVxUw6uE9ONR.png)
+
+## Ioc主要实现策略
+
+![image-20231016172749796](https://s2.loli.net/2023/10/16/8qZJ1iU2QItpKjo.png)
+
+![image-20231016172915795](https://s2.loli.net/2023/10/16/gD57VsOXAfdIMxn.png)
+
+## Ioc容器的职责
+
+![image-20231016173155698](https://s2.loli.net/2023/10/16/aQPycC9hfeUor68.png)
+
+> - 通用职责
+> - 依赖查找
+>   - 依赖查找
+>   - 依赖注入
+> - 生命周期管理
+>   - 容器
+>   - 托管的资源（Java Beans 或 其Ta的资源）
+> - 配置
+>   - 容器
+>   - 外部化配置
+>   - 托管的资源(Java Bean 或其Ta资源)
+
+## Ioc 的主要实现
+
+- JavaSE
+  - Java Beans
+  - Java Service Loader  SPI
+  - JNDI （Java Naming and Directory Interface）
+- JavaEE
+  - EJB （Enterprise Java Beans）
+  - Servlet
+- 开源实现
+  - Apache Avalon
+  - PicoContainer 
+  - Goolge Guice
+  - Spring Framework
+
+## 传统Ioc容器的实现
+
+- Java Beans 作为 Ioc 容器
+
+  - 特性
+    - 依赖查找
+    - 生命周期管理
+    - 配置元信息
+    - 事件
+    - 自定义
+    - 资源管理
+    - 持久化
+
+  > [Java Beans](https://[www.oracle.com/technetwork/java/javase/tech/index-jsp-138795.html](http://www.oracle.com/technetwork/java/javase/tech/index-jsp-138795.html))
+  >
+  > [BeanContext](https://docs.oracle.com/javase/8/docs/technotes/guides/beans/spec/beancontext.html)
+
+## 轻量级Ioc容器
+
+![image-20231016175946336](https://s2.loli.net/2023/10/16/9Fg5ktdxV3oRfMP.png)
+
+![image-20231016180208193](https://s2.loli.net/2023/10/16/7QCtIEJBLRuGDnk.png)
+
+## 依赖查找和依赖注入的对比
+
+![image-20231016180421743](https://s2.loli.net/2023/10/16/Coyv4WMr5bl8zQI.png)
+
+## 构造器注入和 Setter 注入
+
+![image-20231016180812344](https://s2.loli.net/2023/10/16/fHu4XNZPa6G7AnU.png)
+
+![image-20231016181105371](https://s2.loli.net/2023/10/16/ZOUe6v7fFaIEJKz.png)
+
+![image-20231016181625962](https://s2.loli.net/2023/10/16/nswDUHTt8mblKOG.png)
+
+![image-20231016181651473](https://s2.loli.net/2023/10/16/9Qg43fWqudpI6Ei.png)
+
+![image-20231016181831479](https://s2.loli.net/2023/10/16/gm96lnqN74GKXxC.png)
+
+## 面试题: 什么是Ioc
+
+> Ioc 反转控制 （Inversion of Control） 类似于 好莱坞原则 主要是 依赖查找和依赖注入的实现
+
+##  面试题:  依赖查找和依赖注入的区别
+
+> - 依赖查找 是主动和手动的依赖查找方式，通常需要依赖容器或者标准的API实现
+> - 依赖注入是手动或者自动依赖绑定方式，无需依赖特定容器和API
+
+## 面试题：Spring 作为 Ioc 容器有哪些优势
+
+> - 典型的Ioc 管理
+>   - 依赖查找
+>   - 依赖注入
+> - AOP抽象
+> - 事务的抽象
+> - 事件机制
+> - SPI拓展
+> - 强大的第三方整合能力
+> - 易测试性
+> - 更好的面相对象
 
 ## Spring中的常用注解源码解析
 
