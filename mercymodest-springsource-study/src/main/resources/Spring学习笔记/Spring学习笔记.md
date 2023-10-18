@@ -252,6 +252,119 @@
 > - 易测试性
 > - 更好的面相对象
 
+## SpringIoc 依赖查找的方式
+
+### 通过 BeanName 进行查找
+
+#### 实时查询
+
+```java
+Object cat = beanFactory.getBean("cat");
+```
+
+#### 延迟查找
+
+```java
+// 基于 ObjectFactory 实现延迟查找
+// 使用时 org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean
+  
+ ObjectFactory<Cat> catObjectFactory = (ObjectFactory<Cat>) beanFactory.getBean("catObjectFactory");
+```
+
+### 通过 Bean 类型（Type） 进行查找
+
+#### 查找单个bean
+
+```java
+	Cat cat = beanFactory.getBean(Cat.class);
+```
+
+#### 查找Bean集合
+
+```java
+if (beanFactory instanceof ListableBeanFactory) {
+			ListableBeanFactory listableBeanFactory = (ListableBeanFactory) beanFactory;
+			Map<String, Cat> beanNameBeanMap = listableBeanFactory.getBeansOfType(Cat.class);
+			System.out.println(beanNameBeanMap);
+		}
+```
+
+## 通过注解查找
+
+```java
+if (beanFactory instanceof ListableBeanFactory) {
+			ListableBeanFactory listableBeanFactory = (ListableBeanFactory) beanFactory;
+			Map<String, Object> beanNameBeanMap = listableBeanFactory.getBeansWithAnnotation(Super.class);
+			System.out.println(beanNameBeanMap);
+		}
+```
+
+## SpringIoc 依赖注入
+
+### 手动注入
+
+```xml
+	<bean id="catRepository" class="com.mercymodest.spring.bean.CatRepository">
+		<property name="cats">
+			<list>
+				<ref bean="superCat"/>
+				<ref bean="cat"/>
+			</list>
+		</property>
+	</bean>
+```
+
+### 依赖注入
+
+```xml
+	<bean id="catRepository" class="com.mercymodest.spring.bean.CatRepository" autowire="byType">
+<!--		<property name="cats">-->
+<!--			<list>-->
+<!--				<ref bean="superCat"/>-->
+<!--				<ref bean="cat"/>-->
+<!--			</list>-->
+<!--		</property>-->
+	</bean>
+```
+
+## 如果我们注入 `org.springframework.beans.factory.BeanFactory`
+
+```java
+@Data
+@Accessors(chain = true)
+public class CatRepository {
+
+	private Collection<Cat> cats;
+
+	private BeanFactory beanFactory;
+
+	private ObjectFactory<ApplicationContext> applicationContextObjectFactory;
+}
+```
+
+```java
+		BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:MATE-INF/ioc/dependence-lookup-context.xml");
+
+		CatRepository catRepository = beanFactory.getBean(CatRepository.class);
+		System.out.println(catRepository.getBeanFactory());
+		System.out.println(String.format("catRepository.getBeanFactory == beanFactory : %B", catRepository.getBeanFactory() == beanFactory));
+		System.out.println(catRepository);
+		System.out.println(String.format("catRepository.getApplicationContextObjectContext.getObject == beanFactory : %B", catRepository.getApplicationContextObjectFactory().getObject() == beanFactory));
+```
+
+```shell
+org.springframework.beans.factory.support.DefaultListableBeanFactory@79698539: defining beans [cat,superCat,catObjectFactory,catRepository]; root of factory hierarchy
+catRepository.getBeanFactory == beanFactory : FALSE
+CatRepository(cats=[Cat{id=1, name='Tom'}, SuperCat{superName='super's name', id=1, name='Tom'}], beanFactory=org.springframework.beans.factory.support.DefaultListableBeanFactory@79698539: defining beans [cat,superCat,catObjectFactory,catRepository]; root of factory hierarchy, applicationContextObjectFactory=org.springframework.beans.factory.support.DefaultListableBeanFactory$DependencyObjectProvider@7a765367)
+catRepository.getApplicationContextObjectContext.getObject == beanFactory : TRUE
+```
+
+### 依赖注入的来源
+
+- 自定义Bean
+- 容器内建Bean
+- 容器内建依赖
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`

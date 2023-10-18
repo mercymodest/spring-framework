@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.hazelcast.com/schema/spring"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.hazelcast.com/schema/spring http://www.hazelcast.com/schema/spring/hazelcast-spring.xsd">
+
+	<!--实时查找-->
+	<bean id="cat" class="com.mercymodest.spring.bean.Cat">
+		<property name="id" value="1"/>
+		<property name="name" value="Tom"/>
+	</bean>
+
+	<bean id="superCat" class="com.mercymodest.spring.bean.SuperCat" parent="cat">
+		<property name="superName" value="super's name"/>
+	</bean>
+	<!--基于 ObjectFactory 实现 延时查找-->
+	<bean id="catObjectFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
+		<property name="targetBeanName" value="cat"/>
+	</bean>
+
+	<bean id="catRepository" class="com.mercymodest.spring.bean.CatRepository" autowire="byType">
+<!--		<property name="cats">-->
+<!--			<list>-->
+<!--				<ref bean="superCat"/>-->
+<!--				<ref bean="cat"/>-->
+<!--			</list>-->
+<!--		</property>-->
+	</bean>
+
+</beans>

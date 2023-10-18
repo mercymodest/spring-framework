@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Getter
 @Setter
-public class Cat implements InitializingBean{
+public class Cat implements InitializingBean {
 
 	public Cat() {
 		System.out.println("Cat constructor");
@@ -24,12 +24,12 @@ public class Cat implements InitializingBean{
 	/**
 	 * id
 	 */
-	private Long id;
+	protected Long id;
 
 	/**
 	 * 名称
 	 */
-	private String name;
+	protected String name;
 
 	@Value("${JAVA_HOME}")
 	public void setName(String name) {
@@ -40,5 +40,13 @@ public class Cat implements InitializingBean{
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		System.out.println("cat initializingBean afterPropertiesSet");
+	}
+
+	@Override
+	public String toString() {
+		return "Cat{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				'}';
 	}
 }
