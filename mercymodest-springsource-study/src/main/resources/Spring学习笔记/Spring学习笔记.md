@@ -365,6 +365,96 @@ catRepository.getApplicationContextObjectContext.getObject == beanFactory : TRUE
 - 容器内建Bean
 - 容器内建依赖
 
+## Spring 配置元信息的方式
+
+### Bean定义信息
+
+> - 基于 XML配置
+> - 基于 Properties 配置文件
+> - 基于 Java 注解
+> - 基于 Java API
+
+### Ioc容器配置
+
+> - 基于 XML 配置
+> - 基于 Properties 配置
+> - 基于 Java API
+
+### 外部化配置
+
+> - 基于 Java 注解
+
+##  `BeanFactory` 和 `ApplicationContext` 谁是 Ioc 容器
+
+### 官方说明
+
+> [1.1. Introduction to the Spring IoC Container and Beans](https://docs.spring.io/spring-framework/docs/5.3.30/reference/html/core.html#beans-introduction)
+>
+> ![image-20231018220218796](https://s2.loli.net/2023/10/18/x9KRMJ6HFzGtaDn.png)
+>
+> ![image-20231018220242039](https://s2.loli.net/2023/10/18/OV2IDcoGfzHW4sd.png)
+>
+> ![image-20231018220307218](https://s2.loli.net/2023/10/18/cglzTZ7m21Ny6sU.png)
+>
+> ![image-20231018220326325](https://s2.loli.net/2023/10/18/HcTEB3hw5ZFjazD.png)
+
+## Spring 应用上下文
+
+> `ApplicationContext`
+
+### ApplicationContext  除了具备`BeanFactory`的全部功能之外还提供了什么功能
+
+- 面向切面编程(AOP)
+- 配置元信息(Congiguration Mete Data)
+- 资源管理(Resouces)
+- 国际化(i18n)
+- 事件(Eevnets)
+- 注解(Annotation)
+- Environment 抽象
+
+> `BeanFactory` 是Spring 底层的Ioc容器
+>
+> `ApplicationContext` 是`BeanFactory`的一个超集除了具备`BaenFactory`的功能之外，还具备了一些应用级的功能
+>
+> ![image-20231018221710420](https://s2.loli.net/2023/10/18/v1nyFtVPs4DjYA7.png)
+
+## 面试题:  什么是 Spring Ioc
+
+> Spring 官方说明
+
+![image-20231018223209380](https://s2.loli.net/2023/10/18/Aowz4Zx8r2UEc97.png)
+
+## 面试题 : BeanFactory 和 FactoryBean 的区别
+
+> BeanFactory 是 Ioc 的底层容器，FactoryBean 是一种Bean的创建方式，帮助我们实现复杂的初始化逻辑
+
+## 面试题: Spring Ioc 启动时候做了那些准备
+
+> - 读取配置元信息
+> - Ioc容器的生命周期
+> - Spring的事件发布
+> - 国际化
+> - 执行 BeanFactoryPostProcessor
+> - 执行BeanPostProcessor
+
+## 什么是BeanDefinition
+
+> BeanDefinition 是 Spring Framework 中定义Bean 配置元信息的接口
+>
+> - Bean的名称
+> - Bean行为配置元信息
+>   - 作用域
+>   - 生命周期回调
+>   - 自动绑定的模式
+> - 其它Bean的引用
+>   - Bean的依赖(Dependence)或者合作者(Collborators)关系
+> - 配置设置
+>   - Bean的属性配置
+
+![image-20231018224648046](https://s2.loli.net/2023/10/18/bhEZ6wmGjU9oV2r.png)
+
+
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
