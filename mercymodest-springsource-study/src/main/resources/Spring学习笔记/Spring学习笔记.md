@@ -704,10 +704,81 @@ cat initializingBean afterPropertiesSet
 > ```
 >
 > ```java
-> @Lazy(true)
+> @Lazy(value=true)
+> ```
+>
+
+## Spring Bean 的销毁方式
+
+### @PreDestroy
+
+> ```java
 > ```
 >
 > 
+
+### 实现  DisposableBean 接口 
+
+> ```java
+> ```
+
+### 自定义销毁方法
+
+> - ```xml
+>   <bean destory="destroyMethod"/>
+>   ```
+>
+> - ```java
+>   @Bean(destoryMethod="destroyMethod")
+>   ```
+>
+> - ```java
+>   AbstractBeanDefinition.setDestoryMethodName(String)
+>   ```
+
+## 垃圾回收 Spring Bean
+
+1. 关闭Spring 容器(应用上下文)
+2. 执行 `GC`
+3. Spring Bean 重写 `Object` 的 `finalize` 方法
+
+## 面试题: 如何注册一个 Spring Bean 
+
+### 通过 注解，XML配置，JavaAPI 向容器中注册一个 springBean 的配置元信息
+
+- @Companent
+- <bean/>
+- @Bean
+- BeanDefinitiaonRegistry#registryBeanDefinition
+
+### 通过外部化单实例Bean的注册
+
+- SingletonBeanRegitery#registrySingleton(String beanName, Object singletonObject)
+
+## 面试题:  什么是 Spring BeanDefinition
+
+- BeanDefinition 是 Spring Framework 配置 Spring Bean 元信息的接口
+  - Bean class 名称
+  - Bean 的行为配置：自动绑定模式，作用域，生命周期回调
+  - 对其它Bean的引用 合作者(Collaborlator)或者是依赖(dependency)
+  - 属性配置(Properties)
+- 包含的内容
+  - BeanName
+  - BeanClass
+  - 作用域
+  - 构造器参数
+  - 属性
+  - 延迟加载模式
+  - 自动绑定模式 byType，byName 等
+    - ![image-20231019235645365](https://s2.loli.net/2023/10/20/m8DAeSvq7IBNYZU.png)
+  - 初始化方法
+  - 销毁方法
+
+## 面试题: Spring 是否如何管理 Bean的
+
+1. Ioc 读取 spring bean 的配置元信息
+2. 依赖查找和依赖注入
+3. Spring bean 的生命周期
 
 ## Spring中的常用注解源码解析
 

@@ -7,7 +7,7 @@
 	<bean id="user-by-static-method" class="com.mercymodest.spring.instantiation.User" factory-method="createUser"/>
 
 	<!--实例工厂方法-->
-	<bean id="usrFactory" class="com.mercymodest.spring.instantiation.DefaultUserFactory"/>
+	<bean id="usrFactory" class="com.mercymodest.spring.instantiation.DefaultUserFactory" autowire=""/>
 	<bean id="user-by-instance-method" class="com.mercymodest.spring.instantiation.User" factory-bean="usrFactory"
 		  factory-method="createUser"/>
 
