@@ -2,6 +2,7 @@ package com.mercymodest.spring.bean;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Getter
 @Setter
+@Accessors(chain = true)
 public class Cat implements InitializingBean {
 
 	public Cat() {
@@ -32,9 +34,10 @@ public class Cat implements InitializingBean {
 	protected String name;
 
 	@Value("${JAVA_HOME}")
-	public void setName(String name) {
+	public Cat setName(String name) {
 		System.out.println("Cat.setName");
 		this.name = name;
+		return this;
 	}
 
 	@Override

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.hazelcast.com/schema/spring"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.hazelcast.com/schema/spring http://www.hazelcast.com/schema/spring/hazelcast-spring.xsd">
+
+	<!--静态工厂方法-->
+	<bean id="user-by-static-method" class="com.mercymodest.spring.instantiation.User" factory-method="createUser"/>
+
+	<!--实例工厂方法-->
+	<bean id="usrFactory" class="com.mercymodest.spring.instantiation.DefaultUserFactory"/>
+	<bean id="user-by-instance-method" class="com.mercymodest.spring.instantiation.User" factory-bean="usrFactory"
+		  factory-method="createUser"/>
+
+	<!--FactoryBean-->
+	<bean id="userFactoryBean" class="com.mercymodest.spring.instantiation.SpringInstantiationTest$UserFactoryBean"/>
+
+	<!--single user factory service load-->
+	<bean id="userFactoryServiceLoad" class="org.springframework.beans.factory.serviceloader.ServiceLoaderFactoryBean" laz>
+		<property name="serviceType" value="com.mercymodest.spring.instantiation.UserFactory"/>
+	</bean>
+
+</beans>

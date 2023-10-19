@@ -365,6 +365,12 @@ catRepository.getApplicationContextObjectContext.getObject == beanFactory : TRUE
 - 容器内建Bean
 - 容器内建依赖
 
+> ```java
+> org.springframework.context.support.AbstractApplicationContext#prepareBeanFactory
+> ```
+
+![image-20231019104820839](https://s2.loli.net/2023/10/19/t7GQAxI4KfT6sEO.png)
+
 ## Spring 配置元信息的方式
 
 ### Bean定义信息
@@ -453,7 +459,255 @@ catRepository.getApplicationContextObjectContext.getObject == beanFactory : TRUE
 
 ![image-20231018224648046](https://s2.loli.net/2023/10/18/bhEZ6wmGjU9oV2r.png)
 
+## 构建 BeanDefinition的方式
 
+### 通过 BeanDefinitionBuilder
+
+```java
+		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+		// 1. 通过 BeanDefinitionBuilder 构建
+		AbstractBeanDefinition beanDefinition = BeanDefinitionBuilder.genericBeanDefinition(Cat.class)
+				.addPropertyValue("id", "99")
+				.addPropertyValue("name", "cat name ")
+				.getBeanDefinition();
+		applicationContext.registerBeanDefinition("cat", beanDefinition);
+		System.out.println("before applicationContext refresh");
+		applicationContext.refresh();
+		System.out.println(Arrays.toString(applicationContext.getBeanDefinitionNames()));
+```
+
+```shell
+before applicationContext refresh
+Cat constructor
+Cat.setName
+cat initializingBean afterPropertiesSet
+[org.springframework.context.annotation.internalConfigurationAnnotationProcessor, org.springframework.context.annotation.internalAutowiredAnnotationProcessor, org.springframework.context.annotation.internalCommonAnnotationProcessor, org.springframework.context.event.internalEventListenerProcessor, org.springframework.context.event.internalEventListenerFactory, cat]
+
+```
+
+### 通过 `AbstractBeanDefinition` 及其派生类
+
+> org.springframework.beans.factory.annotation.AnnotatedGenericBeanDefinition
+
+```java
+	AnnotatedGenericBeanDefinition annotatedGenericBeanDefinition = new AnnotatedGenericBeanDefinition(SuperCat.class);
+		MutablePropertyValues mutablePropertyValues = new MutablePropertyValues();
+		mutablePropertyValues.add("id", "111")
+				.add("name", "super cat name")
+				.add("superName", "super cat super name");
+		annotatedGenericBeanDefinition.setPropertyValues(mutablePropertyValues);
+		applicationContext.registerBeanDefinition("superCat", annotatedGenericBeanDefinition);
+```
+
+## Spring Bean 的命名
+
+> 1.  在 Spring Ioc 容器中 每个 Bean 具有一个或多个标识符，这个标识符合 在 Ioc 容器中是唯一的
+> 2. 一般情况下，一个 Bean 只有一个标识符，但是Spring Ioc 支持 给 Bean 其别名来实现 多个Bean 标识符的需求。 使用英文状态下的分号或者逗号
+> 3. 我们在定义 Bean的元信息的时候，我们可以可以留空，这样Sprin会给我自动生成一个唯一的 Bean 标识符（即 Bean 的名称）
+
+### BeanNameGenerator
+
+![image-20231019115929781](https://s2.loli.net/2023/10/19/cCkZR3HwAjDbxnm.png)
+
+#### DefaultBeanNameGenerator
+
+> org.springframework.beans.factory.support.DefaultBeanNameGenerator
+
+#### AnnotationBeanNameGenerator
+
+> org.springframework.context.annotation.AnnotationBeanNameGenerator
+
+![image-20231019121357337](https://s2.loli.net/2023/10/19/EPaZQwlqbzD3ni9.png)
+
+## Spring Bean 的 别名
+
+###  基于 XML 标签
+
+```xml
+	<bean id="superCat" class="com.mercymodest.spring.bean.SuperCat" parent="cat">
+		<property name="superName" value="super's name"/>
+	</bean>
+	
+	<alias name="superCat" alias="superCat2"/>
+	<alias name="superCat" alias="superCat3"/>
+```
+
+### 基于 Java 注解
+
+![image-20231019122215427](https://s2.loli.net/2023/10/19/twxAJHkNvnFGTMX.png)
+
+## SpringBean的注册
+
+### 基于 BeanDefinition 配置信息的注册
+
+1. XML 配置元信息
+
+2. 基于 java 注解
+
+   - @C ompanent
+   - @Import
+   - @Bean
+
+3. 基于 java API 配置元信息
+
+   - 命名方式
+
+     > - ==BeanDefinitionRegistry==
+     >
+     >   ![image-20231019131402731](https://s2.loli.net/2023/10/19/7jYm6s9krCeWAqQ.png)
+     >
+     >   ![image-20231019131222757](https://s2.loli.net/2023/10/19/nXPmx5IdlYRNZkV.png)
+
+   - 非命名方式
+
+     > - BeanDefinitionReaderUtils
+     >
+     > ![image-20231019131707122](https://s2.loli.net/2023/10/19/M1JCmAKWqTxBXkL.png)
+
+   - 基于配置类的方式
+
+     > - AnnotatedBeanDefinitionReader
+     >
+     > ![image-20231019131828060](https://s2.loli.net/2023/10/19/18OoXPMn4pzxmNY.png)
+
+### 外部单实例 Bean 的注册
+
+> SingletonBeanRegistry
+>
+> ![image-20231019132341352](https://s2.loli.net/2023/10/19/Zy2hz6SIxBmqa4o.png)
+>
+> ![image-20231019132422620](https://s2.loli.net/2023/10/19/cXrE2zb5iIZW6e1.png)
+>
+> ![image-20231019132520757](https://s2.loli.net/2023/10/19/gApIabWzBLcUvsG.png)
+
+## Spring Instantiation
+
+### 常规实例化方法
+
+- 构造器
+- 静态工厂方法
+- 实例工厂方法
+- FactoryBean
+
+> - xml 配置
+>
+>   ```xml
+>   	<!--静态工厂方法-->
+>   	<bean id="user-by-static-method" class="com.mercymodest.spring.instantiation.User" factory-method="createUser"/>
+>   
+>   	<!--实例工厂方法-->
+>   	<bean id="usrFactory" class="com.mercymodest.spring.instantiation.DefaultUserFactory"/>
+>   	<bean id="user-by-instance-method" class="com.mercymodest.spring.instantiation.User" factory-bean="usrFactory"
+>   		  factory-method="createUser"/>
+>   
+>   	<!--FactoryBean-->
+>   	<bean id="userFactoryBean" class="com.mercymodest.spring.instantiation.SpringInstantiationTest$UserFactoryBean"/>
+>   ```
+>
+> - java code
+>
+>   ```java
+>   public class SpringInstantiationTest {
+>   
+>   	static class UserFactoryBean implements FactoryBean<User> {
+>   
+>   		@Override
+>   		public User getObject() throws Exception {
+>   			return new User().setId(3).setName("user by  factory bean");
+>   		}
+>   
+>   		@Override
+>   		public Class<?> getObjectType() {
+>   			return User.class;
+>   		}
+>   	}
+>   
+>   	public static void main(String[] args) {
+>   		final String location = "classpath:MATE-INF/instantiation/spring-bean-instantiation.xml";
+>   		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(location);
+>   		System.out.println(Arrays.toString(applicationContext.getBeanDefinitionNames()));
+>   		Object userFactoryBean = applicationContext.getBean("userFactoryBean");
+>   		System.out.println(userFactoryBean);
+>   		Object userFactoryBeanSelf = applicationContext.getBean("&userFactoryBean");
+>   		System.out.println(userFactoryBeanSelf);
+>   	}
+>   }
+>   
+>   ```
+>
+> - Console out
+>
+>   ```shell
+>   [user-by-static-method, usrFactory, user-by-instance-method, userFactoryBean]
+>   User(id=3, name=user by  factory bean)
+>   com.mercymodest.spring.instantiation.SpringInstantiationTest$UserFactoryBean@7e0b0338
+>   ```
+
+### 特殊生成方式
+
+#### ServiceLoadFactoryBean
+
+> ```xml
+> 	<!--single user factory service load-->
+> 	<bean id="userFactoryServiceLoad" class="org.springframework.beans.factory.serviceloader.ServiceLoaderFactoryBean">
+> 		<property name="serviceType" value="com.mercymodest.spring.instantiation.UserFactory"/>
+> 	</bean>
+> 
+> ```
+
+#### AutowireCapableBeanFactory
+
+> ```java
+> final String location = "classpath:META-INF/instantiation/spring-bean-instantiation.xml";
+> 		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(location);
+> 		AutowireCapableBeanFactory autowireCapableBeanFactory = applicationContext.getAutowireCapableBeanFactory();
+> 		System.out.println(applicationContext.getBeansOfType(DefaultUserFactory.class));
+> 		autowireCapableBeanFactory.createBean(DefaultUserFactory.class);
+> 		System.out.println(applicationContext.getBeansOfType(DefaultUserFactory.class));
+> ```
+>
+> ```shell
+> 
+> > Task :mercymodest-springsource-study:SpringInstantiationTest.main()
+> {usrFactory=com.mercymodest.spring.instantiation.DefaultUserFactory@43814d18}
+> {usrFactory=com.mercymodest.spring.instantiation.DefaultUserFactory@43814d18}
+> ```
+
+## Spring Bean 的初始化
+
+### @PostContract 注解
+
+### 实现 InitializingtionBean 接口 `afterPropertiesSet`
+
+![image-20231019170221603](/Users/mercymodest/Library/Application Support/typora-user-images/image-20231019170221603.png)
+
+### 自定义初始化方法
+
+> ```xml
+> <bean init-method="initMethod"/>
+> ```
+>
+> ```java
+> @Bean(initMethod="")
+> ```
+>
+> ```java
+> AbstractBeanDefinition.setInitMethodName(String)
+> ```
+>
+> 
+
+## 延迟初始化
+
+> ```xml
+> <bean lazy-init="true"/>
+> ```
+>
+> ```java
+> @Lazy(true)
+> ```
+>
+> 
 
 ## Spring中的常用注解源码解析
 
