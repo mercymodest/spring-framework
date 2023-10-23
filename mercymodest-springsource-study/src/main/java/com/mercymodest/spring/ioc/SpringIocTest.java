@@ -18,7 +18,7 @@ import java.util.Map;
 public class SpringIocTest {
 
 	public static void main(String[] args) {
-		BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:MATE-INF/ioc/dependence-lookup-context.xml");
+		BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:MATE-INF/ioc/dependency-lookup-context.xml");
 
 		CatRepository catRepository = beanFactory.getBean(CatRepository.class);
 		System.out.println(catRepository.getBeanFactory());

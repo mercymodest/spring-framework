@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,7 +32,6 @@ public class Cat implements InitializingBean {
 	 */
 	protected String name;
 
-	@Value("${JAVA_HOME}")
 	public Cat setName(String name) {
 		System.out.println("Cat.setName");
 		this.name = name;

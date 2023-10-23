@@ -780,6 +780,278 @@ cat initializingBean afterPropertiesSet
 2. 依赖查找和依赖注入
 3. Spring bean 的生命周期
 
+## 依赖查找的前世今生
+
+### 单一类型的依赖查询
+
+> javax.naming.Context#lookup(javax.naming.Name)
+
+### 集合类型的依赖查找
+
+### 层次性依赖查找
+
+> - ![image-20231024002512642](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024002512642.png?token=AOSFPPCVSCADSIW4ITQWCMTFG2P52)
+> - ![image-20231024003154629](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024003154629.png?token=AOSFPPB6AXEV6WGUOFN65Q3FG2QDU)
+
+## Spring Ioc 单一类型的依赖查询
+
+### 通过 Bean 名称 查找
+
+> ```java
+> org.springframework.beans.factory.BeanFactory#getBean(java.lang.String)
+> org.springframework.beans.factory.BeanFactory#getBean(java.lang.String, java.lang.Object...)
+> ```
+
+### 通过 Bean 类型查找
+
+#### 实时查找
+
+```java
+org.springframework.beans.factory.BeanFactory#getBean(java.lang.Class<T>)
+org.springframework.beans.factory.BeanFactory#getBean(java.lang.Class<T>, java.lang.Object...)    
+```
+
+#### 延迟查找
+
+```java
+org.springframework.beans.factory.BeanFactory#getBeanProvider(java.lang.Class<T>)
+org.springframework.beans.factory.BeanFactory#getBeanProvider(org.springframework.core.ResolvableType)    
+```
+
+### 通过 Bean 名称 + Bean 类型 查找
+
+```java
+org.springframework.beans.factory.BeanFactory#getBean(java.lang.String, java.lang.Class<T>)
+```
+
+## Spring Ioc 集合类型依赖查找
+
+> AnnotationConfigApplicationContext
+
+![image-20231024003934599](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024003934599.png?token=AOSFPPFTPHV2TU5KM44QNBDFG2RAK)
+
+> ClassPathXmlApplicationContext
+
+![image-20231024004127162](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024004127162.png?token=AOSFPPG5TD36XHKAZ6GQQZ3FG2RHM)
+
+### 通过 Bean 类型查找
+
+#### 获取 Ioc 容器中指定类型的Bean的名称
+
+```java
+org.springframework.beans.factory.ListableBeanFactory#getBeanNamesForType(java.lang.Class<?>)
+org.springframework.beans.factory.ListableBeanFactory#getBeanNamesForType(org.springframework.core.ResolvableType)    
+```
+
+#### 获取 Ioc 容器中指定类型的Bean实例
+
+```java
+org.springframework.beans.factory.ListableBeanFactory#getBeansOfType(java.lang.Class<T>)
+```
+
+### 通过 Bean 注解查找
+
+#### Spring 4.0 获取标注指定注解的 Bean 名称
+
+```java
+org.springframework.beans.factory.ListableBeanFactory#getBeanNamesForAnnotation
+```
+
+#### Spring 3.0 获取标注指定注解的 Bean 实例
+
+```java
+org.springframework.beans.factory.ListableBeanFactory#getBeansWithAnnotation
+```
+
+#### Spring 3.0  通过 bean 的名称 + bean 的注解 获取指定bean 实例
+
+```java
+org.springframework.beans.factory.ListableBeanFactory#findAnnotationOnBean(java.lang.String, java.lang.Class<A>)
+```
+
+## Spring Ioc 的层次查找
+
+![image-20231024005250361](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024005250361.png?token=AOSFPPHEBJBDMEF3XZE6HMLFG2SSC)
+
+### 测试代码
+
+```java
+package com.mercymodest.spring.hierarchical;
+
+import com.mercymodest.spring.bean.Cat;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryUtils;
+import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+/**
+ * @author ZGH.MercyModest
+ * @version V1.0.0
+ * @create 10-24 1:02
+ */
+public class HierarchicalBeanFactoryTest {
+
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+		applicationContext.register(HierarchicalBeanFactoryTest.class);
+		applicationContext.setParent(createBeanFactoryByXml());
+		applicationContext.refresh();
+		System.out.print("application contains beanNames:");
+		printApplicationBeanNames(applicationContext,true);
+		System.out.println("parent beanFactory contains beanNames:");
+		printApplicationBeanNames(applicationContext.getParent(),true);
+		System.out.printf("application contains cat bean: %s\n", applicationContext.containsBean("cat"));
+		Cat cat = applicationContext.getBean(Cat.class);
+		System.out.println(cat);
+		System.out.println(BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext, Cat.class));
+
+		applicationContext.close();
+	}
+
+	private static ApplicationContext createBeanFactoryByXml() {
+		return new ClassPathXmlApplicationContext("classpath:/META-INF/ioc/dependency-lookup-context.xml");
+	}
+
+	private static void printApplicationBeanNames(BeanFactory beanFactory,boolean ignoredApplicationInnerBeans){
+		if (Objects.isNull(beanFactory)) {
+			System.err.println("beanFactory is null");
+		}
+		if (beanFactory instanceof ListableBeanFactory) {
+			ListableBeanFactory listableBeanFactory= (ListableBeanFactory) beanFactory;
+			List<String> resultBeanNames = Arrays.stream(listableBeanFactory.getBeanDefinitionNames())
+					.filter(beanName -> !ignoredApplicationInnerBeans || !beanName.startsWith("org.springframework"))
+					.collect(Collectors.toList());
+			System.out.println(resultBeanNames);
+		}else {
+			System.err.println("beanFactory is not instanceof ListableBeanFactory");
+		}
+	}
+
+	@Bean
+	public Cat cat() {
+		return new Cat()
+				.setId(2L)
+				.setName("localCatBean");
+	}
+}
+```
+
+```shell
+Cat constructor
+Cat.setName
+cat initializingBean afterPropertiesSet
+Cat constructor
+Cat.setName
+cat initializingBean afterPropertiesSet
+Cat constructor
+Cat.setName
+cat initializingBean afterPropertiesSet
+application contains beanNames:[hierarchicalBeanFactoryTest, cat]
+parent beanFactory contains beanNames:
+[cat, superCat, catObjectFactory, catRepository]
+application contains cat bean: true
+Cat{id=2, name='localCatBean'}
+{cat=Cat{id=2, name='localCatBean'}, superCat=SuperCat{superName='super's name', id=1, name='Tom'}}
+```
+
+#### 通过 Bean 类型查找实例列表
+
+> ```java
+> org.springframework.beans.factory.BeanFactoryUtils#beansOfTypeIncludingAncestors(org.springframework.beans.factory.ListableBeanFactory, java.lang.Class<T>)
+> ```
+>
+> ![image-20231024013354333](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024013354333.png?token=AOSFPPBU2VWHOHRTZRF3UWDFG2XME)
+
+#### 通过 Java 注解查找 Bean 的名称列表
+
+> ```java
+> org.springframework.beans.factory.BeanFactoryUtils#beanNamesForAnnotationIncludingAncestors
+> ```
+>
+> ![image-20231024013519185](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024013519185.png?token=AOSFPPAWJXS6XCAGLCXSLQTFG2XRM)
+
+##  Spring Ioc 延迟依赖查找
+
+###  ObjectFactory
+
+```java
+org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean
+```
+
+### BeanProvider
+
+![image-20231024014240117](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024014240117.png?token=AOSFPPHOQT2JCYJRXSLIQM3FG2YM6)
+
+> ```java
+> org.springframework.beans.factory.ObjectProvider#getIfAvailable(java.util.function.Supplier<T>)
+> ```
+>
+> ![image-20231024014357248](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024014357248.png?token=AOSFPPEBMQVAPOZHR46ZFBLFG2YRY)
+>
+> ```java
+> org.springframework.beans.factory.ObjectProvider#ifAvailable
+> ```
+>
+> ![image-20231024014454927](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024014454927.png?token=AOSFPPCCJU4W3IIP5SGZNKDFG2YVM)
+
+> ```java
+> org.springframework.beans.factory.support.DefaultListableBeanFactory.BeanObjectProvider
+> ```
+>
+> ![image-20231024014708796](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024014708796.png?token=AOSFPPCKZBOOMFGPO63VVVTFG2Y5Y)
+
+## Spring Ioc 安全依赖查找
+
+![image-20231024014824293](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024014824293.png?token=AOSFPPGDVIF7TSZIO25ULJ3FG2ZCO)
+
+## Spring Ioc 内建可以查找的依赖
+
+### AbstractApplicationContext 内建可以查找的依赖
+
+![image-20231024020107154](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024020107154.png?token=AOSFPPEBVKUKBV4JCTOA4GLFG22SG)
+
+```java
+org.springframework.context.support.AbstractApplicationContext#prepareBeanFactory
+```
+
+![image-20231024020135442](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024020135442.png?token=AOSFPPCV25CUWQMKDTPNZ4DFG22T6)
+
+```java
+org.springframework.context.support.AbstractApplicationContext#finishRefresh
+```
+
+![image-20231024015903689](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024015903689.png?token=AOSFPPET6CTWF55JCQIHV23FG22KO)
+
+```java
+org.springframework.context.support.AbstractApplicationContext#initApplicationEventMulticaster
+```
+
+![image-20231024020014089](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024020014089.png?token=AOSFPPAEVQLK2WNTZH3DBYLFG22O2)
+
+### 注解驱动Spring应用上下文内建可查询依赖
+
+```java
+org.springframework.context.annotation.AnnotatedBeanDefinitionReader#AnnotatedBeanDefinitionReader(org.springframework.beans.factory.support.BeanDefinitionRegistry, org.springframework.core.env.Environment)
+```
+
+```java
+org.springframework.context.annotation.AnnotationConfigUtils#registerAnnotationConfigProcessors(org.springframework.beans.factory.support.BeanDefinitionRegistry, java.lang.Object)
+```
+
+![image-20231024020709018](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024020709018.png?token=AOSFPPA4BLV7HLTQ7J4SLVTFG23IY)
+
+![image-20231024020754842](C:\Users\m1557\AppData\Roaming\Typora\typora-user-images\image-20231024020754842.png)
+
+![image-20231024020925641](C:\Users\m1557\AppData\Roaming\Typora\typora-user-images\image-20231024020925641.png)
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
