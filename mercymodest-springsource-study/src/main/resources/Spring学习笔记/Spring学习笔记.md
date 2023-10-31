@@ -1048,9 +1048,9 @@ org.springframework.context.annotation.AnnotationConfigUtils#registerAnnotationC
 
 ![image-20231024020709018](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024020709018.png?token=AOSFPPA4BLV7HLTQ7J4SLVTFG23IY)
 
-![image-20231024020754842](C:\Users\m1557\AppData\Roaming\Typora\typora-user-images\image-20231024020754842.png)
+![image-20231024020754842](https://s2.loli.net/2023/10/31/cspRHm9GY1ufajE.png)
 
-![image-20231024020925641](C:\Users\m1557\AppData\Roaming\Typora\typora-user-images\image-20231024020925641.png)
+![image-20231024020925641](https://s2.loli.net/2023/10/31/CgLQk5z7Rnrmp2d.png)
 
 ## Spring中的常用注解源码解析
 
