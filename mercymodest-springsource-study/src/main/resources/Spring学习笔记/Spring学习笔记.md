@@ -790,8 +790,8 @@ cat initializingBean afterPropertiesSet
 
 ### 层次性依赖查找
 
-> - ![image-20231024002512642](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024002512642.png?token=AOSFPPCVSCADSIW4ITQWCMTFG2P52)
-> - ![image-20231024003154629](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024003154629.png?token=AOSFPPB6AXEV6WGUOFN65Q3FG2QDU)
+> - ![image-20231024002512642](https://s2.loli.net/2023/10/31/AK2nhifM5Spak8H.png)
+> - ![image-20231024003154629](https://s2.loli.net/2023/10/31/dLS8fFzi3q4mGgo.png)
 
 ## Spring Ioc 单一类型的依赖查询
 
@@ -828,11 +828,11 @@ org.springframework.beans.factory.BeanFactory#getBean(java.lang.String, java.lan
 
 > AnnotationConfigApplicationContext
 
-![image-20231024003934599](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024003934599.png?token=AOSFPPFTPHV2TU5KM44QNBDFG2RAK)
+![image-20231024003934599](https://s2.loli.net/2023/10/31/YVtaJyMR1iQWjzO.png)
 
 > ClassPathXmlApplicationContext
 
-![image-20231024004127162](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024004127162.png?token=AOSFPPG5TD36XHKAZ6GQQZ3FG2RHM)
+![image-20231024004127162](https://s2.loli.net/2023/10/31/RWupSKgXOzHZbEm.png)
 
 ### 通过 Bean 类型查找
 
@@ -871,7 +871,7 @@ org.springframework.beans.factory.ListableBeanFactory#findAnnotationOnBean(java.
 
 ## Spring Ioc 的层次查找
 
-![image-20231024005250361](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024005250361.png?token=AOSFPPHEBJBDMEF3XZE6HMLFG2SSC)
+![image-20231024005250361](https://s2.loli.net/2023/10/31/tinUH5KChWw9zxE.png)
 
 ### 测试代码
 
@@ -968,7 +968,7 @@ Cat{id=2, name='localCatBean'}
 > org.springframework.beans.factory.BeanFactoryUtils#beansOfTypeIncludingAncestors(org.springframework.beans.factory.ListableBeanFactory, java.lang.Class<T>)
 > ```
 >
-> ![image-20231024013354333](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024013354333.png?token=AOSFPPBU2VWHOHRTZRF3UWDFG2XME)
+> ![image-20231024013354333](https://s2.loli.net/2023/10/31/Ly38F2YQb7d9CSM.png)
 
 #### 通过 Java 注解查找 Bean 的名称列表
 
@@ -976,7 +976,7 @@ Cat{id=2, name='localCatBean'}
 > org.springframework.beans.factory.BeanFactoryUtils#beanNamesForAnnotationIncludingAncestors
 > ```
 >
-> ![image-20231024013519185](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024013519185.png?token=AOSFPPAWJXS6XCAGLCXSLQTFG2XRM)
+> ![image-20231024013519185](https://s2.loli.net/2023/10/31/YGahbmM6XzHD9kJ.png)
 
 ##  Spring Ioc 延迟依赖查找
 
@@ -988,53 +988,53 @@ org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean
 
 ### BeanProvider
 
-![image-20231024014240117](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024014240117.png?token=AOSFPPHOQT2JCYJRXSLIQM3FG2YM6)
+![image-20231024014240117](https://s2.loli.net/2023/10/31/xYQM6735bwnofdI.png)
 
 > ```java
 > org.springframework.beans.factory.ObjectProvider#getIfAvailable(java.util.function.Supplier<T>)
 > ```
 >
-> ![image-20231024014357248](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024014357248.png?token=AOSFPPEBMQVAPOZHR46ZFBLFG2YRY)
+> ![image-20231024014357248](https://s2.loli.net/2023/10/31/ROVw7oGdAjSKlfC.png)
 >
 > ```java
 > org.springframework.beans.factory.ObjectProvider#ifAvailable
 > ```
 >
-> ![image-20231024014454927](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024014454927.png?token=AOSFPPCCJU4W3IIP5SGZNKDFG2YVM)
+> ![image-20231024014454927](https://s2.loli.net/2023/10/31/nSgXYH5s9eKl8fu.png)
 
 > ```java
 > org.springframework.beans.factory.support.DefaultListableBeanFactory.BeanObjectProvider
 > ```
 >
-> ![image-20231024014708796](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024014708796.png?token=AOSFPPCKZBOOMFGPO63VVVTFG2Y5Y)
+> ![image-20231024014708796](https://s2.loli.net/2023/10/31/oQjrzZVgwLOyNfJ.png)
 
 ## Spring Ioc 安全依赖查找
 
-![image-20231024014824293](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024014824293.png?token=AOSFPPGDVIF7TSZIO25ULJ3FG2ZCO)
+![image-20231024014824293](https://s2.loli.net/2023/10/31/kHd1abI6SuZNxM2.png)
 
 ## Spring Ioc 内建可以查找的依赖
 
 ### AbstractApplicationContext 内建可以查找的依赖
 
-![image-20231024020107154](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024020107154.png?token=AOSFPPEBVKUKBV4JCTOA4GLFG22SG)
+![image-20231024020107154](https://s2.loli.net/2023/10/31/d9bhCiytVUpoHTs.png)
 
 ```java
 org.springframework.context.support.AbstractApplicationContext#prepareBeanFactory
 ```
 
-![image-20231024020135442](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024020135442.png?token=AOSFPPCV25CUWQMKDTPNZ4DFG22T6)
+![image-20231024020135442](https://s2.loli.net/2023/10/31/chC2uTpgNGKPB5O.png)
 
 ```java
 org.springframework.context.support.AbstractApplicationContext#finishRefresh
 ```
 
-![image-20231024015903689](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024015903689.png?token=AOSFPPET6CTWF55JCQIHV23FG22KO)
+![image-20231024015903689](https://s2.loli.net/2023/10/31/n9WTClBw17PxUHi.png)
 
 ```java
 org.springframework.context.support.AbstractApplicationContext#initApplicationEventMulticaster
 ```
 
-![image-20231024020014089](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024020014089.png?token=AOSFPPAEVQLK2WNTZH3DBYLFG22O2)
+![image-20231024020014089](https://s2.loli.net/2023/10/31/ZTlK1Ix9VSkBAr8.png)
 
 ### 注解驱动Spring应用上下文内建可查询依赖
 
@@ -1046,7 +1046,7 @@ org.springframework.context.annotation.AnnotatedBeanDefinitionReader#AnnotatedBe
 org.springframework.context.annotation.AnnotationConfigUtils#registerAnnotationConfigProcessors(org.springframework.beans.factory.support.BeanDefinitionRegistry, java.lang.Object)
 ```
 
-![image-20231024020709018](https://raw.githubusercontent.com/mercymodest/img/main/img/image-20231024020709018.png?token=AOSFPPA4BLV7HLTQ7J4SLVTFG23IY)
+![image-20231024020709018](https://s2.loli.net/2023/10/31/ET1eaqyLk9hR6oA.png)
 
 ![image-20231024020754842](https://s2.loli.net/2023/10/31/cspRHm9GY1ufajE.png)
 
