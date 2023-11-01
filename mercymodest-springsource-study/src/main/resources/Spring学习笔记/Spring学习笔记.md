@@ -1052,6 +1052,113 @@ org.springframework.context.annotation.AnnotationConfigUtils#registerAnnotationC
 
 ![image-20231024020925641](https://s2.loli.net/2023/10/31/CgLQk5z7Rnrmp2d.png)
 
+## 依赖查找中的经典异常
+
+![image-20231101225403910](https://s2.loli.net/2023/11/01/eVZzPD1Xnh6uL4T.png)
+
+### NoSuchBeanDefinitionException
+
+![image-20231101225512260](https://s2.loli.net/2023/11/01/849go3jnJYLq2yi.png)
+
+> ```java
+> org.springframework.beans.factory.NoSuchBeanDefinitionException
+> ```
+>
+> ![image-20231101225719326](https://s2.loli.net/2023/11/01/6jdv9NG8OgLnmR3.png)
+
+### NoUniqueBeanDefinitonException
+
+![image-20231101225831821](https://s2.loli.net/2023/11/01/wMOX7ehrm4J2AIx.png)
+
+> ```java
+> org.springframework.beans.factory.NoUniqueBeanDefinitionException
+> ```
+>
+> ![image-20231101225911193](https://s2.loli.net/2023/11/01/r8W4BJVyQSUiao7.png)
+
+### BeanInstantiationException
+
+![image-20231101230008228](https://s2.loli.net/2023/11/01/m6nGYOX5CyNgTLd.png)
+
+> ```java
+> org.springframework.beans.BeanInstantiationException
+> ```
+>
+> ![image-20231101230129683](https://s2.loli.net/2023/11/01/9cg5uzbGmPQr7Lv.png)
+
+### BeanCreationException
+
+![image-20231101230217866](https://s2.loli.net/2023/11/01/QbT97tgBiLq6nlD.png)
+
+> ```java
+> org.springframework.beans.factory.BeanCreationException
+> ```
+>
+> ![image-20231101230253166](https://s2.loli.net/2023/11/01/sn3uD5pKUlcN4J6.png)
+
+### BeanDefinitionStroeException
+
+![image-20231101230422761](https://s2.loli.net/2023/11/01/dZe3hir4UwXqClk.png)
+
+> ```java
+> org.springframework.beans.factory.BeanDefinitionStoreException
+> ```
+>
+> ![image-20231101230439287](https://s2.loli.net/2023/11/01/1dOysVnKCuGQhcH.png)
+
+## 面试题: ObjectFactory 和 BeanFactory 的区别
+
+> ObjectFactory 和 BeanFactory 均提供了依赖查找的能力，但是二者存在一定的区别
+>
+> ObjectFactory 关注的仅是一个或则一种类型的依赖查找，并且其自身不具备依赖查找的能力，其依赖查找的能力是BeanFactory 输出的
+>
+> BeanFactory 提供了单一类型，集合类型以及层次性的等多种依赖查找方式，其是Spring Framework 的底层 IOC 容器
+
+## 面试题:  BeanFactory#getBean 操作是线程安全的
+
+> BeanFactory#getBean 方法的执行是线程安全的，其操作过程中有加互斥锁来保证多线程环境下的线程安全
+
+![image-20231101231259471](https://s2.loli.net/2023/11/01/blIBVR5LeqNEySO.png)
+
+![image-20231101231530481.png](https://s2.loli.net/2023/11/01/MiDAwgGCFcsbXYd.png)
+
+## 依赖注入的模型和类型
+
+### 手动注入模式
+
+> 配置或者编程的方式，提前安排注入规则
+
+#### XML 配置原信息
+
+#### Java 注解配置元信息
+
+API 配置元信息
+
+### 自动模式
+
+> 实现方提供依赖自动关联的方式，按照内建的注入规则
+
+![image-20231101232906473](https://s2.loli.net/2023/11/01/7W9FnkTZQLPOEDg.png)
+
+> autowring（自动绑定）
+
+![image-20231101233127849](https://s2.loli.net/2023/11/01/IwZ7CreWq1ugF5l.png)
+
+### autowiring modes
+
+| 模式        | 说明                                                         |
+| ----------- | ------------------------------------------------------------ |
+| no          | 默认值 未激活 autowiring 需要手动指定依赖注入对象            |
+| byType      | 根据注入的依赖的属性名称作为Bean名称来进行依赖查询，并将查询的结果赋值给当前属性 |
+| byName      | 根据注入的依赖的类型进行查询，并将查询的结果赋值到当前属性   |
+| constructor | 特殊的type 用于构造器参数                                    |
+
+#### autowring的不足
+
+> https://docs.spring.io/spring-framework/docs/5.3.30/reference/html/core.html#beans-autowired-exceptions
+
+
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
