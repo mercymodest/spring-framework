@@ -1157,6 +1157,186 @@ API 配置元信息
 
 > https://docs.spring.io/spring-framework/docs/5.3.30/reference/html/core.html#beans-autowired-exceptions
 
+官方的说明:
+
+![image-20231102221533147](https://s.ires.cc:9099/files/2023/11/02/image-20231102221533147.png)
+
+##### ChatGPT 3.5 模型对于上述内容的翻译
+
+> 自动装配的局限性和缺点
+>
+> 自动装配在整个项目中始终一致使用时效果最佳。如果通常情况下不使用自动装配，仅用它来连接一个或两个bean定义可能会让开发人员感到困惑。
+>
+> 考虑自动装配的限制和缺点:
+>
+> - 显式设置属性和构造函数参数中的依赖项始终会覆盖自动装配。您无法自动装配诸如基本类型、字符串和类（以及这些简单属性的数组）之类的简单属性。这一限制是设计上的考虑。
+>
+> - 自动装配不如显式装配精确。尽管如前文所述，Spring会小心避免在存在模糊性时进行猜测，以免产生意外结果。您的Spring管理对象之间的关系不再明确记录。
+>
+> - 有可能无法将连接信息提供给可能从Spring容器生成文档的工具。
+>
+> - 容器中的多个bean定义可能与要自动装配的setter方法或构造函数参数指定的类型匹配。对于数组、集合或Map实例，这并非一定是问题。但对于需要单个值的依赖项，这种模糊性并非会被随意解决。如果没有唯一的bean定义可用，就会抛出异常。
+>
+> 在后一种情况下，您有几个选择:
+>
+> - 放弃自动装配，选择显式装配。
+>
+> - 通过将bean定义的autowire-candidate属性设置为false来避免为其自动装配，具体方法请参阅下一节的描述。
+>
+> - 通过将其<bean/>元素的primary属性设置为true来指定单个bean定义为主要候选项。
+>
+> - 实施基于注解的配置提供的更精细控制，具体方法请参阅基于注解的容器配置中的描述。
+
+## Setter 方法注入
+
+### 注入方式分类
+
+- 手动模式
+
+  - XML资源配置元信息
+
+    ```xml
+    <bean id="user" class="com.study.pojo.User">
+        <property name="parnet" ref="superUser"/>
+    </bean>
+    ```
+
+    
+
+  - Java注解配置元信息
+
+    ```java
+    @Bean
+    public UserHolder userHolder(User user){
+        return UserHolderBuilder.create().user(user).build();
+    }
+    ```
+
+    
+
+  - 基于API配置元信息
+
+    ```java
+    AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext();
+    
+    BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(UserHodler.class);
+    
+    applicationContext.register(Config.class);
+    
+    beanDefitnitionBuilder.addPropertyReference("parent","superUser");
+    BeanDefiniton beanDefinition = beanDefinitionBuilder.getBeanDefinition();
+    application.registerBeanDefinition("userHolder",beanDefinition);
+    
+    applicationContext.refresh();
+    ```
+
+    
+
+- 自动模式
+
+  - byType
+
+    ```xml
+    <!-- the property type as a require type lookup on spring ioc -->
+    <bean id="userHolder" class="com.study.pojo.UserHolder" autowire="byType"/>
+    ```
+
+  - byName
+
+    ```xml
+    <!-- the property name as beanName lookup on spring ioc -->
+    <bean id="userHolder" class="com.study.pojo.UserHolder" autowire="byName"/>
+    ```
+
+## 构造器注入
+
+### 注入方式分类
+
+- 手动模式
+
+  - XML配置元信息
+  - Java注解配置元信息
+  - 基于API配置元信息
+
+- 自动模式
+
+  - constructor
+
+    ```java
+    // superCat 的三个构造器
+    	public SuperCat() {
+    	}
+    
+    	public SuperCat(String superName) {
+    		this.superName = superName;
+    	}
+    
+    	public SuperCat(Cat cat){
+    		super.id = cat.id;
+    		super.name=cat.name;
+    	}
+    ```
+
+    ```xml
+    <!-- creaete spring bean  by constructor arguments -->
+    <bean id="superCat" class="com.study.pojo.SuperCat"  autowire="constructor"/>
+    ```
+
+## 字段注入
+
+- @Autowired
+
+  > org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
+
+- @Resouce
+
+  > javax.annotation.Resource
+
+  > ```java
+  > org.springframework.context.annotation.CommonAnnotationBeanPostProcessor
+  > ```
+  >
+  > ![image-20231102231702064](https://s.ires.cc:9099/files/2023/11/02/image-20231102231702064.png)
+
+- @Inject
+
+  > javax.inject.Inject
+
+  > ```java
+  > org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
+  > ```
+  >
+  > ![image-20231102231543660](https://s.ires.cc:9099/files/2023/11/02/image-20231102231543660.png)
+
+## 方式注入
+
+- @Autowired
+- @Resource
+- @Inject
+- @Bean
+
+## 接口回调注入
+
+![image-20231102232900103](https://s.ires.cc:9099/files/2023/11/02/image-20231102232900103.png)
+
+1. org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#doCreateBean
+2. org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#initializeBean(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
+3. org.springframework.context.support.ApplicationContextAwareProcessor#postProcessBeforeInitialization
+4. ![image-20231102233130552](https://s.ires.cc:9099/files/2023/11/02/image-20231102233130552.png)
+5. ![image-20231102233750046](https://s.ires.cc:9099/files/2023/11/02/image-20231102233750046.png)
+6. ![image-20231102233642699](https://s.ires.cc:9099/files/2023/11/02/image-20231102233642699.png)
+
+## 依赖注入类型的选择
+
+- 低依赖的注入
+  - 构造器依赖注入
+- 多依赖注入
+  - Setter 方法依赖注入
+- 便利性依赖注入
+  - 字段依赖注入
+- 声明式依赖注入
+  - 方法依赖注入
+
 
 
 ## Spring中的常用注解源码解析

@@ -17,6 +17,19 @@ public class SuperCat extends Cat {
 
 	private String superName;
 
+
+	public SuperCat() {
+	}
+
+	public SuperCat(String superName) {
+		this.superName = superName;
+	}
+
+	public SuperCat(Cat cat){
+		super.id = cat.id;
+		super.name=cat.name;
+	}
+
 	@Override
 	public String toString() {
 		return "SuperCat{" +
