@@ -1337,7 +1337,71 @@ API 配置元信息
 - 声明式依赖注入
   - 方法依赖注入
 
+## 基础类型的注入
 
+![image-20231113223854916](https://s.ires.cc:9099/files/2023/11/13/image-20231113223854916.png)
+
+```xml
+<bean id='user' class='com.study.entity.User'>
+    <!-- private Long id-->
+  <property name='id' value='3574857485454'/>
+    <!-- private String name-->
+  <property name='name' value='uijdk'/>  
+    <!-- private City workCity (Enum)-->
+  <property name='workCity' value='SHANGHAI,BEIJING'/>  
+    <!-- private Set<City> lifeCity (Enum)-->
+  <property name='lifeCity'>
+      <list>
+         <value>HANGZHOU</value>
+         <value>JIEYANG</value>
+      </list>
+  </property>  
+  <!--org.springframework.core.io.Resource-->
+  <!-- private Resource properties -->  
+   <property value='classpath:/META-INF/user/user-config.propeties'/>
+</bean>
+```
+
+## @Qualifier 
+
+> org.springframework.beans.factory.annotation.Qualifier
+
+- 通过Bean名称限定
+- 通过分组限定
+
+> SpringCloud @LoadBalanced 就是对于 @Qualifier 的拓展
+
+## 延迟依赖注入
+
+- 单一类型
+- 集合类型
+
+### ObjectFactory
+
+> org.springframework.beans.factory.ObjectFactory
+
+### ObjectProvider
+
+> org.springframework.beans.factory.ObjectProvider
+
+![image-20231113230249766](https://s.ires.cc:9099/files/2023/11/13/image-20231113230249766.png)
+
+```java
+@Autowired
+private ObjectPrivoder<User> userProvider;
+```
+
+## Spring IOC 的依赖处理的过程
+
+### 入口
+
+> org.springframework.beans.factory.support.DefaultListableBeanFactory#resolveDependency
+
+![image-20231113230835283](https://s.ires.cc:9099/files/2023/11/13/image-20231113230835283.png)
+
+> 依赖描述符: DependencyDescriptor
+
+> 自动绑定候选对象处理器: AutowireCandidateResolver
 
 ## Spring中的常用注解源码解析
 
