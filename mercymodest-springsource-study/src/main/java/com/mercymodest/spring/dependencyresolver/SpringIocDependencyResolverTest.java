@@ -7,6 +7,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 
 /**
  * @author ZGH.MercyModest
@@ -15,14 +16,13 @@ import org.springframework.context.annotation.Bean;
  */
 public class SpringIocDependencyResolverTest {
 
+
+	@Lazy
 	@Autowired
 	private Cat cat;
 
 	@Autowired
 	private ObjectProvider<SuperCat> superCatProvider;
-
-	@Autowired
-	private User user;
 
 
 
@@ -30,6 +30,9 @@ public class SpringIocDependencyResolverTest {
 		AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext(SpringIocDependencyResolverTest.class);
 		SpringIocDependencyResolverTest springIocDependencyResolverTest = annotationConfigApplicationContext.getBean(SpringIocDependencyResolverTest.class);
 		System.out.println(springIocDependencyResolverTest);
+		SuperCat superCat = springIocDependencyResolverTest.superCatProvider.getIfAvailable();
+		System.out.println(superCat);
+		System.out.println(springIocDependencyResolverTest.cat);
 	}
 
 

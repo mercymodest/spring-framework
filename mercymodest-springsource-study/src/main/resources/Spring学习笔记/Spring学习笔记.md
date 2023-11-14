@@ -1395,13 +1395,177 @@ private ObjectPrivoder<User> userProvider;
 
 ### 入口
 
-> org.springframework.beans.factory.support.DefaultListableBeanFactory#resolveDependency
+![image-20231114224513541](https://s.ires.cc:9099/files/2023/11/14/image-20231114224513541.png)
 
-![image-20231113230835283](https://s.ires.cc:9099/files/2023/11/13/image-20231113230835283.png)
+> 1.  ```java
+>     @Autowired
+>     private Cat cat;
+>     ```
+>
+> 2. ![image-20231114225046471](https://s.ires.cc:9099/files/2023/11/14/image-20231114225046471.png)
+>
+> 3. ![image-20231114225245452](https://s.ires.cc:9099/files/2023/11/14/image-20231114225245452.png)
+>
+> 4. 如果 Spring IOC 容器中存在当前依赖类型的多个`bean`
+>
+>    ![image-20231114230102183](https://s.ires.cc:9099/files/2023/11/14/image-20231114230102183.png)
+>
+>    ![image-20231114230427656](https://s.ires.cc:9099/files/2023/11/14/image-20231114230427656.png)
+>
+>    ![image-20231114230600778](https://s.ires.cc:9099/files/2023/11/14/image-20231114230600778.png)
+>
+>    ![image-20231114230656917](https://s.ires.cc:9099/files/2023/11/14/image-20231114230656917.png)
+
+> 1. ```java
+>    @Autowired
+>    private ObjectProvider<SuperCat> superCatProvider;
+>    ```
+>
+> 2. ![image-20231114231928971](https://s.ires.cc:9099/files/2023/11/14/image-20231114231928971.png)
+>
+> 3. ![image-20231114232027343](https://s.ires.cc:9099/files/2023/11/14/image-20231114232027343.png)
+>
+> 4. ![image-20231114232110882](https://s.ires.cc:9099/files/2023/11/14/image-20231114232110882.png)
+>
+> 5. ![image-20231114232250531](https://s.ires.cc:9099/files/2023/11/14/image-20231114232250531.png)
+>
+> 6. 如果我们调用 `ObjectProvider#getIfAvailable`
+>
+> 7. ![image-20231114232708093](https://s.ires.cc:9099/files/2023/11/14/image-20231114232708093.png)
+
+> 1. ```java
+>    @Autowired
+>    private Optional<User> userOpt;
+>    ```
+>
+> 2. ![image-20231114232958340](https://s.ires.cc:9099/files/2023/11/14/image-20231114232958340.png)
+
+> 1. ```java
+>    @Autowired
+>    private Map<String,Cat> catMap;
+>    ```
+>
+> 2. > org.springframework.beans.factory.support.DefaultListableBeanFactory#resolveMultipleBeans
+>
+> 3. ![image-20231114233348005](https://s.ires.cc:9099/files/2023/11/14/image-20231114233348005.png)
+
+> 如果我们在 注入 Bean 的 时候，使用 @Lazy 注解
+>
+> 1. ```java
+>    @Lazy
+>    @Autowired
+>    private Cat cat;
+>    ```
+>
+> 2. ![image-20231114233807136](https://s.ires.cc:9099/files/2023/11/14/image-20231114233807136.png)
+>
+> 3. ![image-20231114233830130](https://s.ires.cc:9099/files/2023/11/14/image-20231114233830130.png)
+>
+> 4. ![image-20231114234329019](https://s.ires.cc:9099/files/2023/11/14/image-20231114234329019.png)
 
 > 依赖描述符: DependencyDescriptor
 
 > 自动绑定候选对象处理器: AutowireCandidateResolver
+
+## @Autowired 注入过程
+
+![image-20231115001919014](https://s.ires.cc:9099/files/2023/11/15/image-20231115001919014.png)
+
+- 元信息解析
+
+  > org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor#postProcessMergedBeanDefinition
+
+- 依赖查找
+
+- 依赖注入
+
+  > org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor#postProcessProperties
+
+```java
+@Autowaired
+private Cat cat;
+```
+
+![image-20231114235251415](https://s.ires.cc:9099/files/2023/11/14/image-20231114235251415.png)
+
+![image-20231114235319482](https://s.ires.cc:9099/files/2023/11/14/image-20231114235319482.png)
+
+![image-20231114235529814](https://s.ires.cc:9099/files/2023/11/14/image-20231114235529814.png)
+
+## @Inject JSR330 注解 注入
+
+> ![image-20231115001202157](https://s.ires.cc:9099/files/2023/11/15/image-20231115001202157.png)
+>
+> ![image-20231115000929832](https://s.ires.cc:9099/files/2023/11/15/image-20231115000929832.png)
+>
+> ![image-20231115001107451](https://s.ires.cc:9099/files/2023/11/15/image-20231115001107451.png)
+
+## Java 通用注解注入原理
+
+> CommonAnnotationBeanPostProcessor
+>
+> ![image-20231115001952323](https://s.ires.cc:9099/files/2023/11/15/image-20231115001952323.png)
+>
+> ![image-20231115001331863](https://s.ires.cc:9099/files/2023/11/15/image-20231115001331863.png)
+>
+> 
+>
+> ![image-20231115001503306](https://s.ires.cc:9099/files/2023/11/15/image-20231115001503306.png)
+>
+> ![image-20231115001543898](https://s.ires.cc:9099/files/2023/11/15/image-20231115001543898.png)
+>
+> ![image-20231115001559385](https://s.ires.cc:9099/files/2023/11/15/image-20231115001559385.png)
+>
+> ![image-20231115001650086](https://s.ires.cc:9099/files/2023/11/15/image-20231115001650086.png)
+
+## 自定义依赖注入注解
+
+### 方式一
+
+![image-20231115002123175](https://s.ires.cc:9099/files/2023/11/15/image-20231115002123175.png)
+
+```java
+......
+@Autowired
+public @interface MyAutowired {
+    
+}
+```
+
+### 方式二
+
+![image-20231115002603911](https://s.ires.cc:9099/files/2023/11/15/image-20231115002603911.png)
+
+> org.springframework.context.annotation.AnnotationConfigUtils#registerAnnotationConfigProcessors(org.springframework.beans.factory.support.BeanDefinitionRegistry, java.lang.Object)
+>
+> ![image-20231115003443686](https://s.ires.cc:9099/files/2023/11/15/image-20231115003443686.png)
+
+![image-20231115002256806](https://s.ires.cc:9099/files/2023/11/15/image-20231115002256806.png)
+
+```java
+@Bean(org.springframework.context.annotation.AnnotationConfigUtils.AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME)
+public static AutowiredAnnotationBeanPostProcessor autowiredAnnotationBeanPostProcessor(){
+    AutowiredAnnotationBeanPostProcessor autowiredAnnotionBeanPostProcessor = new AutowiredAnnotationBeanPostProcessor();
+    // Inject 包 可能不存在
+    Set<Class<? extends Annotation>> autowiredAnnotationTypes =new LinkedHashSet<>(Arrays.asList(Autowired.class,Value.class,Inject.class,InjectUser.class))
+    autowiredAnnotationBeanPostProcessor.setAutowiredAnnotationTypes();
+    return autowiredAnnotationBeanPostProcessor;
+}
+```
+
+### 方式三
+
+```java
+@Order(Ordered.LOWEST_PRECEDENCE-3)
+@Bean
+public AutowiredAnnotaionBeanPostProcessor injectUserAutowiredBeanPostProcessor(){
+    AutowiredAnnotationBeanPostProcessor injectUserAutowiredBeanPostProcessor = new AutowiredAnnotationBeanProcessor();
+    injectUserAutowiredBeanPostProcessor.setAutowiredAnnotationType(InjectUser.class);
+    return injectUserAutowiredBeanPostProcessor;
+}
+```
+
+## 
 
 ## Spring中的常用注解源码解析
 
