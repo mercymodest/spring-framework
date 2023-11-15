@@ -1565,7 +1565,107 @@ public AutowiredAnnotaionBeanPostProcessor injectUserAutowiredBeanPostProcessor(
 }
 ```
 
-## 
+## 面试题 ：有多少依赖注入的方式
+
+- 构造器注入
+- Setter 方法注入
+- 方法注入
+- 属性注入
+- 接口回调注入
+
+## 面试题: 你偏好构造器注入还是Setter 注入
+
+> 构造器注入适合注入少量的必须依赖注入，Setter 方法注入 适用于可选依赖注入
+
+## Spring 依赖查找的来源
+
+- BeanDefinition 
+
+  - ```xml
+    <bean id="..." class = "......"/>
+    ```
+
+  - `@Bean`
+
+  - BeanDefinitionBudiler
+
+  - API 实现的单列对象
+
+- Spring 内建 BeanDefinition
+
+  > ```java
+  > org.springframework.context.annotation.AnnotationConfigUtils#registerAnnotationConfigProcessors(org.springframework.beans.factory.support.BeanDefinitionRegistry, java.lang.Object)
+  > ```
+  >
+  > ```xml
+  > <context:annotation-config/>
+  > ```
+
+  ![image-20231115233128795](https://s.ires.cc:9099/files/2023/11/15/image-20231115233128795.png)
+
+- Spring 内建 Bean 实例
+
+  ![image-20231115233000482](https://s.ires.cc:9099/files/2023/11/15/image-20231115233000482.png)
+
+## Spring 依赖注入的来源
+
+- BeanDefintion
+
+  - ```xml
+    <bean id = "..." class = "......"/>
+    ```
+
+  - `@Bean`
+
+  - `BeanDefnitionBudiler`
+
+  - Spring 内建的 BeanDefinition
+
+  - Java API
+
+- Spring 内建的Bean实例
+
+- 游离的 Spring 内建实例 `ResolveableDependency`
+
+  - ![image-20231115234012414](https://s.ires.cc:9099/files/2023/11/15/image-20231115234012414.png)
+  - ChatGPT3.5 对于 这段注释的解释
+    - ![image-20231115234757591](https://s.ires.cc:9099/files/2023/11/15/image-20231115234757591.png)
+  - ![image-20231115234104567](https://s.ires.cc:9099/files/2023/11/15/image-20231115234104567.png)
+
+### 小总结
+
+> Spring的 依赖查找和依赖注入有一定的差异的，其差异大致可以总结如下：
+>
+> ![image-20231115234948553](https://s.ires.cc:9099/files/2023/11/15/image-20231115234948553.png)
+>
+> 也就是说，我们可以是通过如下代码 注入 `BeanFactory`
+>
+> ```java
+> //可以注入 BeanFactory 
+> @Autowired
+> private BeanFactory  beanFactory;
+> 
+> // 以下代码执行会报 NosuchBeanDefinition
+> applicationContext.getBean(BeanFactory.class);
+> // 其它的三个`ResolvableDependency`
+> ```
+
+## Spring BeanDefinition 的来源
+
+### 要素
+
+- 元数据 `BeanDefinition`
+- 注册  : `org.springframework.beans.factory.support.BeanDefinitionRegistry#registerBeanDefinition`
+- 类型 延迟和非延迟
+- 顺序: BeanDefinition 的注册顺序
+
+![image-20231115235807904](https://s.ires.cc:9099/files/2023/11/15/image-20231115235807904.png)
+
+![image-20231115235843770](https://s.ires.cc:9099/files/2023/11/15/image-20231115235843770.png)
+
+![image-20231115235908655](https://s.ires.cc:9099/files/2023/11/15/image-20231115235908655.png)
+
+![image-20231116000024312](https://s.ires.cc:9099/files/2023/11/16/image-20231116000024312.png)
 
 ## Spring中的常用注解源码解析
 
