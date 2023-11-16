@@ -1667,6 +1667,81 @@ public AutowiredAnnotaionBeanPostProcessor injectUserAutowiredBeanPostProcessor(
 
 ![image-20231116000024312](https://s.ires.cc:9099/files/2023/11/16/image-20231116000024312.png)
 
+## 如何注册非Spring管理对象作为依赖注入来源
+
+```java
+org.springframework.beans.factory.config.ConfigurableListableBeanFactory#registerResolvableDependency
+```
+
+![image-20231116234627295](https://s.ires.cc:9099/files/2023/11/16/image-20231116234627295.png)
+
+> ```java
+> org.springframework.context.support.AbstractApplicationContext#addBeanFactoryPostProcessor
+> ```
+
+```java
+AnnotationConfigApplicationContext  annotationConfigApplicationContext = new AnnotationConfigApplicationContext();
+annotationConfigApplicationContext.register(AppConfig.class);
+annotationConifgApplicationContext.addBeanFactoryPostProcessor( configurableListableBeanFactory -> {
+    configurableListableBeanFactory.registerResolvableDependency(String.class,"HaHaHa~ Study~ Study~");
+});
+annotationConfigApplicationContext.refresh();
+annotationConfigApplicationContext.close();
+```
+
+## 外部化配置的依赖来源
+
+```java
+@Value("${user.id}")
+private Long userId;
+
+@Value("${user.config}")
+private Resource userResource;
+```
+
+> ```java
+> org.springframework.beans.factory.support.DefaultListableBeanFactory#doResolveDependency
+> ```
+>
+> ![image-20231117000535946](https://s.ires.cc:9099/files/2023/11/17/image-20231117000535946.png)
+>
+> ```java
+> org.springframework.beans.factory.config.EmbeddedValueResolver
+> ```
+
+## 面试题: 依赖查找来源和依赖注入来源是否相同
+
+> 否，依赖查找仅限于SpringBeanDefinition以及单列对象，而依赖注入的来源还包括了 `ResolvableDependency`和`基于外部化配置的依赖` `@Vaule`
+
+## 面试题: 单例对象在IOC容器启动之后是否可以继续注册呢
+
+> ```java
+> org.springframework.beans.factory.config.SingletonBeanRegistry#registerSingleton
+>     
+>     org.springframework.beans.factory.support.DefaultSingletonBeanRegistry#registerSingleton
+>      
+>         org.springframework.beans.factory.support.DefaultListableBeanFactory#registerSingleton
+> ```
+>
+> ![image-20231117001534910](https://s.ires.cc:9099/files/2023/11/17/image-20231117001534910.png)
+>
+> Spring IOC 启动之后，会有一个 freezeConfiguration
+>
+> ![image-20231117001716505](https://s.ires.cc:9099/files/2023/11/17/image-20231117001716505.png)
+>
+> org.springframework.beans.factory.support.DefaultListableBeanFactory#getBeanDefinitionNames
+>
+> ![image-20231117001755149](https://s.ires.cc:9099/files/2023/11/17/image-20231117001755149.png)
+
+> 可以的，单例对象的注册和BeanDefiniton 的注册不同，BeanDefinition 受 ConfigurableListableBeanFactory#freezeBeanDefinition的影响，从而冻结注册,单例对象的注册不受u这个影响
+
+### 面试题:  Spring 依赖注入的来源有哪些
+
+- SpringBeanDefinition
+- 单例对象
+- resolvableDependency
+- @Value 的外部化配置
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
