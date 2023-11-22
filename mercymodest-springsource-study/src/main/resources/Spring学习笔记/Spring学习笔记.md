@@ -1742,6 +1742,158 @@ private Resource userResource;
 - resolvableDependency
 - @Value 的外部化配置
 
+## Spring Bean 的内置作用域
+
+- singleton
+
+  > ![image-20231122231926372](https://s.ires.cc:9099/files/2023/11/22/image-20231122231926372.png)
+  >
+  > ![image-20231122231027273](https://s.ires.cc:9099/files/2023/11/22/image-20231122231027273.png)
+
+- prototype
+
+  > ```java
+  > org.springframework.beans.factory.config.ConfigurableBeanFactory#SCOPE_SINGLETON
+  > 
+  > org.springframework.beans.factory.config.ConfigurableBeanFactory#SCOPE_PROTOTYPE    
+  > ```
+  >
+  > ![image-20231122232011541](https://s.ires.cc:9099/files/2023/11/22/image-20231122232011541.png)
+  >
+  > > Spring 没办法管理 `prototype` 类型 Bean 的完整生命周期，Spring 会执行其初始化方法，但是不会执行其初始化方法
+  > >
+  > > - ![image-20231122232400398](https://s.ires.cc:9099/files/2023/11/22/image-20231122232400398.png)
+  > > - 官方建议我们可以自定义BeanPostProcessor 执行 `prototype` bean 的清扫工作
+  > > - 我们可以通过定义个`singleton` 的单实例Bean，为其定义个销毁方法，在此`singleton`bean中执行`prototype` 的初始化
+
+- request
+
+  - ![image-20231122231138004](https://s.ires.cc:9099/files/2023/11/22/image-20231122231138004.png)
+  - ![image-20231122231231675](https://s.ires.cc:9099/files/2023/11/22/image-20231122231231675.png)
+
+- session
+
+  - ![image-20231122231306218](https://s.ires.cc:9099/files/2023/11/22/image-20231122231306218.png)
+
+  > ![image-20231122231718677](https://s.ires.cc:9099/files/2023/11/22/image-20231122231718677.png)
+  >
+  > ![image-20231122231555575](https://s.ires.cc:9099/files/2023/11/22/image-20231122231555575.png)
+  >
+  > ![image-20231122231629732](https://s.ires.cc:9099/files/2023/11/22/image-20231122231629732.png)
+
+- applicaiton（ServletContext）
+
+  > ```java
+  > org.springframework.web.context.WebApplicationContext#SCOPE_REQUEST
+  > 
+  > org.springframework.web.context.WebApplicationContext#SCOPE_SESSION
+  > 
+  > org.springframework.web.context.WebApplicationContext#SCOPE_APPLICATION    
+  > ```
+  >
+  > ![image-20231122231821088](https://s.ires.cc:9099/files/2023/11/22/image-20231122231821088.png)
+
+### 自定义Spring Bean 的 Scope
+
+1. 实现 Scope 接口
+
+   - org.springframework.beans.factory.config.Scope
+
+2. 注册
+
+   - API: org.springframework.beans.factory.config.ConfigurableBeanFactory#registerScope
+
+   - XML
+
+     ![image-20231122233256511](https://s.ires.cc:9099/files/2023/11/22/image-20231122233256511.png)
+
+#### 实现
+
+```java
+import org.springframework.beans.factory.config.Scope
+import org.springframework.core.NamedThreadLocal    
+public ThreadLocalScope implements Scope{
+    private final NamedThreadLocal<Map<String,Object>> threadLocal =new NamedThreadLocal<>("threadlocal-scope"){
+        protected Map<String,Object> initialValue() {
+           return new HashMap<>();
+       }
+    };
+    
+    public Object get(String name, ObjectFactory<?> objectFactory){
+         Map<String,Object> context = getContext();
+         Object obj = context.get(name);
+         if(Objects.isNull(obj)){
+            obj =objectFactory.getObject();
+            context.put(name.obj);
+            obj=context.get(name); 
+         }
+        
+        return obj;
+    }
+    
+    ... ...
+        
+    private Map<String,Object> getContext(){
+       return threadlocal.get();
+    }
+    
+    public String getConversationId(){
+        return String.valueOf(Thread.currentThread().getId());
+    }
+}
+```
+
+> # 如何注册 自定义的 Scope?
+>
+> ![image-20231122234318165](https://s.ires.cc:9099/files/2023/11/22/image-20231122234318165.png)
+>
+> ![image-20231122234339377](https://s.ires.cc:9099/files/2023/11/22/image-20231122234339377.png)
+>
+> ```java
+> AnnotationConfigApplicaitonContext applicationContext =new AnnotationConfigApplicaitonContext();
+> applicationContext.addBeanFactoryPostProcessor(configurableBeanFacory -> configurableBeanFacotry.resgisterScope("threadlocal-scope",new ThreadLocalScope()));
+> ```
+
+### Spring Cloud RefreshScope
+
+![image-20231122234935149](https://s.ires.cc:9099/files/2023/11/22/image-20231122234935149.png)
+
+![image-20231122235134667](https://s.ires.cc:9099/files/2023/11/22/image-20231122235134667.png)
+
+## 面试题: Spring 内建Bean作用域有哪些
+
+- singleton
+- prototype
+- request
+- session
+- application
+- webscoket
+
+## 面试题: singletion Bean 在应用中是否是唯一的
+
+不是的，Singletion Bean 在 当前 IOC 容器中是单例，但是一个应用可以包含多个 IOC 容器
+
+## 面试题: `application` 这个给作用域是有其它的替代方案
+
+可以的，`singleton` bean 和 `application` bean 没有本质的区别
+
+## Spring Bean 元信息的配置
+
+- 面向资源
+
+  - XML
+
+  - properties （spring 5.3 的时候已经 Deprecated）
+
+- 面向注解
+
+  - @Bean
+  - @Component
+  - @Import
+  - @ImportSeletor
+
+- Java API
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
