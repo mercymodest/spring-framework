@@ -1894,6 +1894,102 @@ public ThreadLocalScope implements Scope{
 
 - Java API
 
+  - > **BeanDefinitionRegistry**
+    >
+    > org.springframework.beans.factory.support.BeanDefinitionRegistry
+    >
+    > ![image-20231124223812618](https://s.ires.cc:9099/files/2023/11/24/image-20231124223812618.png)
+    >
+    > org.springframework.beans.factory.support.DefaultListableBeanFactory#registerBeanDefinition
+
+## Spring BeanDefition 解析阶段
+
+![image-20231124224106599](https://s.ires.cc:9099/files/2023/11/24/image-20231124224106599.png)
+
+![image-20231124225022373](https://s.ires.cc:9099/files/2023/11/24/image-20231124225022373.png)
+
+### XmBeanDefinitionReader
+
+![image-20231124225331119](https://s.ires.cc:9099/files/2023/11/24/image-20231124225331119.png)
+
+![image-20231124225402961](https://s.ires.cc:9099/files/2023/11/24/image-20231124225402961.png)
+
+### AnnotatedBeanDefinitionReader
+
+![image-20231124225258609](https://s.ires.cc:9099/files/2023/11/24/image-20231124225258609.png)
+
+![image-20231124225205263](https://s.ires.cc:9099/files/2023/11/24/image-20231124225205263.png)
+
+> 注册的 bean 可以不标注 `@Configuration` 注解
+
+## Spring BeanDefinition 的合并阶段
+
+> org.springframework.beans.factory.config.ConfigurableBeanFactory#getMergedBeanDefinition
+>
+> ![image-20231124225958549](https://s.ires.cc:9099/files/2023/11/24/image-20231124225958549.png)
+
+### BeanDefinition merged 流程分析
+
+![image-20231124230250041](https://s.ires.cc:9099/files/2023/11/24/image-20231124230250041.png)
+
+![image-20231124230416723](https://s.ires.cc:9099/files/2023/11/24/image-20231124230416723.png)
+
+![image-20231124230449964](https://s.ires.cc:9099/files/2023/11/24/image-20231124230449964.png)
+
+> org.springframework.beans.factory.support.AbstractBeanFactory#getMergedBeanDefinition(java.lang.String, org.springframework.beans.factory.config.BeanDefinition, org.springframework.beans.factory.config.BeanDefinition)
+>
+> ![image-20231124230555370](https://s.ires.cc:9099/files/2023/11/24/image-20231124230555370.png)
+
+![image-20231124230645021](https://s.ires.cc:9099/files/2023/11/24/image-20231124230645021.png)
+
+![image-20231124231032738](https://s.ires.cc:9099/files/2023/11/24/image-20231124231032738.png)
+
+![image-20231124231140848](https://s.ires.cc:9099/files/2023/11/24/image-20231124231140848.png)
+
+> GenericBeanDefinition  -- > RootBeanDefinition
+>
+> ![image-20231124232431173](https://s.ires.cc:9099/files/2023/11/24/image-20231124232431173.png)
+>
+> ![image-20231124232406119](https://s.ires.cc:9099/files/2023/11/24/image-20231124232406119.png)
+
+## Spring BeanClass 加载阶段
+
+> org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#createBean(java.lang.String, org.springframework.beans.factory.support.RootBeanDefinition, java.lang.Object[])
+
+![image-20231124233229381](https://s.ires.cc:9099/files/2023/11/24/image-20231124233229381.png)
+
+![image-20231124233721424](https://s.ires.cc:9099/files/2023/11/24/image-20231124233721424.png)
+
+## Spring Bean 的实例化前阶段
+
+- 非主流的生命周期- Bean 实例化前的阶段
+
+  > 
+
+  ![image-20231124234143515](https://s.ires.cc:9099/files/2023/11/24/image-20231124234143515.png)
+
+### `resolveBeforeInstanttiation`
+
+![image-20231124234224853](https://s.ires.cc:9099/files/2023/11/24/image-20231124234224853.png)
+
+![image-20231124234346402](https://s.ires.cc:9099/files/2023/11/24/image-20231124234346402.png)
+
+> org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
+
+## Spring Bean 的实例化
+
+- 传统的实例化方式
+
+  - 实例化策略
+
+    > ![image-20231124234938827](https://s.ires.cc:9099/files/2023/11/24/image-20231124234938827.png)
+    >
+    > ![image-20231124234958445](https://s.ires.cc:9099/files/2023/11/24/image-20231124234958445.png)
+    >
+    > ![image-20231124235455502](https://s.ires.cc:9099/files/2023/11/24/image-20231124235455502.png)
+    >
+    >  
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
