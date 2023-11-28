@@ -1990,6 +1990,133 @@ public ThreadLocalScope implements Scope{
     >
     >  
 
+## Spring Bean 实例化前阶段
+
+> ```java
+> org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor
+> ```
+>
+> ![image-20231128231400519](https://s.ires.cc:9099/files/2023/11/28/image-20231128231400519.png)
+
+### 我们可以**阻止**`Spring Bean` 实例化
+
+```java
+org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
+```
+
+![image-20231128231921365](https://s.ires.cc:9099/files/2023/11/28/image-20231128231921365.png)
+
+![image-20231128232335422](https://s.ires.cc:9099/files/2023/11/28/image-20231128232335422.png)
+
+![image-20231128232355527](https://s.ires.cc:9099/files/2023/11/28/image-20231128232355527.png)
+
+![image-20231128232726134](https://s.ires.cc:9099/files/2023/11/28/image-20231128232726134.png)
+
+#### InstantiationAwareBenPostProcessor#postProcessorBeforeInstantiation
+
+> ```javascript
+> org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#createBean(java.lang.String, org.springframework.beans.factory.support.RootBeanDefinition, java.lang.Object[])
+> ```
+>
+> ![image-20231128233123354](https://s.ires.cc:9099/files/2023/11/28/image-20231128233123354.png)
+>
+> ```java
+> org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#resolveBeforeInstantiation
+> ```
+>
+> ![image-20231128233149271](https://s.ires.cc:9099/files/2023/11/28/image-20231128233149271.png)
+
+## Spring Bean 实例化后阶段
+
+```java
+org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessAfterInstantiation
+```
+
+![image-20231128233701926](https://s.ires.cc:9099/files/2023/11/28/image-20231128233701926.png)
+
+![image-20231128233633580](https://s.ires.cc:9099/files/2023/11/28/image-20231128233633580.png)
+
+#### `InstantiationAwareBeanPostProcessor#postProcessorAfterInstantiation`
+
+> 调用的入口
+>
+> ```java
+> org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#populateBean
+> ```
+>
+> ![image-20231128233858698](https://s.ires.cc:9099/files/2023/11/28/image-20231128233858698.png)
+>
+> ![image-20231128234015680](https://s.ires.cc:9099/files/2023/11/28/image-20231128234015680.png)
+>
+> 
+
+## Spring Bean 属性赋值前的处理
+
+```java
+org.springframework.beans.PropertyValue
+org.springframework.beans.PropertyValues
+// before Spring 5.1
+org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessPropertyValues
+// after Spring  5.1
+org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessProperties    
+```
+
+### `InstantiationAwareBeanPostProcessor#postProcessorProperties`
+
+> ```java
+> org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#populateBean
+> ```
+>
+> ![image-20231128234640836](https://s.ires.cc:9099/files/2023/11/28/image-20231128234640836.png)
+
+## Spring Aware 接口回调阶段(按照回调顺序排列)
+
+### BeanFactory 支持的 Aware 回调接口
+
+```java
+org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeAwareMethods
+```
+
+![image-20231128235340412](https://s.ires.cc:9099/files/2023/11/28/image-20231128235340412.png)
+
+1. BeanNameAware
+2. BeanClassLoaderAware
+3. BeanFactoryAware
+
+### ApplicationContext 支持回调 `Aware` 接口
+
+```java
+org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#initializeBean(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
+
+org.springframework.context.support.ApplicationContextAwareProcessor
+```
+
+![image-20231129000544934](https://s.ires.cc:9099/files/2023/11/29/image-20231129000544934.png)
+
+![image-20231129000633190](https://s.ires.cc:9099/files/2023/11/29/image-20231129000633190.png)
+
+![image-20231129000827457](https://s.ires.cc:9099/files/2023/11/29/image-20231129000827457.png)
+
+![image-20231129000646496](https://s.ires.cc:9099/files/2023/11/29/image-20231129000646496.png)
+
+![image-20231128235759085](https://s.ires.cc:9099/files/2023/11/28/image-20231128235759085.png)
+
+![image-20231128235744526](https://s.ires.cc:9099/files/2023/11/28/image-20231128235744526.png)
+
+4. EnviromentAware
+
+5. EmbeddedValueResolverAware
+
+6. ResourceLoaderAware
+
+7. ApplicationEnventPlublisherAware
+
+8. MessageSourceAware
+
+9. ApplicationStartupAware
+
+10. ApplicationContextAware
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
