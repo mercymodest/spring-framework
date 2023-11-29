@@ -2117,6 +2117,131 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 
 10. ApplicationContextAware
 
+## Spring Bean 初始化前阶段
+
+> 已经完成的流程
+>
+> - Bean的实例化
+> - 完成了属性赋值
+> - 完成了Aware 接口的回调
+>
+> org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#doCreateBean
+>
+> ![image-20231129224313873](https://s.ires.cc:9099/files/2023/11/29/image-20231129224313873.png)
+>
+> ![](https://s.ires.cc:9099/files/2023/11/29/image-20231129224313873.png)
+>
+> org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#initializeBean(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
+>
+> ![image-20231129224657329](https://s.ires.cc:9099/files/2023/11/29/image-20231129224657329.png)
+>
+> ![image-20231129224735049](https://s.ires.cc:9099/files/2023/11/29/image-20231129224735049.png)
+
+## Spring Bean 的初始化阶段
+
+1. @PostContract 注解
+
+2. 实现 Spring 的 InitializingBean 接口
+
+   ![image-20231129225059499](https://s.ires.cc:9099/files/2023/11/29/image-20231129225059499.png)
+
+   ![image-20231129225209305](https://s.ires.cc:9099/files/2023/11/29/image-20231129225209305.png)
+
+   3. 自定义初始化方法
+
+> - 自定义初始化方法; 实现 InitializingBean 接口
+>
+>   ![image-20231129225412194](https://s.ires.cc:9099/files/2023/11/29/image-20231129225412194.png)
+>
+>   ![image-20231129225500659](https://s.ires.cc:9099/files/2023/11/29/image-20231129225500659.png)
+
+### `@PostContruct` 实现
+
+> ![image-20231129225648534](https://s.ires.cc:9099/files/2023/11/29/image-20231129225648534.png)
+>
+> ![image-20231129225718335](https://s.ires.cc:9099/files/2023/11/29/image-20231129225718335.png)
+>
+> CommonAnnotationBeanPostProcessor  parent InitDestoryAnnotationBeanPostProcessor 
+>
+> BeanPostProcessor#postProcessorBeforeInitialization
+>
+> ![image-20231129225928056](https://s.ires.cc:9099/files/2023/11/29/image-20231129225928056.png)
+>
+> ![image-20231129225953819](https://s.ires.cc:9099/files/2023/11/29/image-20231129225953819.png)
+
+## Spring Bean 初始化后的阶段
+
+> BeanPostProcessor@postProcessorAfterInitialization
+>
+> ![image-20231129230228563](https://s.ires.cc:9099/files/2023/11/29/image-20231129230228563.png)
+
+## Spring Bean 初始化完成阶段
+
+> @since  spring 4.1 
+>
+> ![image-20231129230349658](https://s.ires.cc:9099/files/2023/11/29/image-20231129230349658.png)
+>
+> ![image-20231129230402038](https://s.ires.cc:9099/files/2023/11/29/image-20231129230402038.png)
+>
+> ![image-20231129230519298](https://s.ires.cc:9099/files/2023/11/29/image-20231129230519298.png)
+>
+> 执行方式
+>
+> > org.springframework.beans.factory.support.DefaultListableBeanFactory#preInstantiateSingletons
+>
+> ![image-20231129230749243](https://s.ires.cc:9099/files/2023/11/29/image-20231129230749243.png)
+>
+> ![image-20231129230805618](https://s.ires.cc:9099/files/2023/11/29/image-20231129230805618.png)
+>
+> > 我们常用的 ApplicationContext是如何触发的呢？
+> >
+> > org.springframework.context.support.AbstractApplicationContext#finishBeanFactoryInitialization
+> >
+> > ![image-20231129231014160](https://s.ires.cc:9099/files/2023/11/29/image-20231129231014160.png)
+> >
+> > - AnnotationConfigApplicationContext
+> >
+> > ![image-20231129231050146](https://s.ires.cc:9099/files/2023/11/29/image-20231129231050146.png)
+> >
+> > - ClassPathXmlApplicationContext
+> >
+> >   ![image-20231129231157361](https://s.ires.cc:9099/files/2023/11/29/image-20231129231157361.png)
+> >
+> > 
+
+## Spring Bean 销毁前阶段
+
+> DestructAwareBeanPostProcessor#postProcessorDestruction
+>
+> ![image-20231129231415547](https://s.ires.cc:9099/files/2023/11/29/image-20231129231415547.png)
+>
+> org.springframework.beans.factory.support.DisposableBeanAdapter#destroy
+
+## Spring Bean 销毁阶段
+
+> - org.springframework.context.support.AbstractApplicationContext#close
+>   - org.springframework.context.support.AbstractApplicationContext#doClose
+>     - org.springframework.context.support.AbstractApplicationContext#destroyBeans
+>       - org.springframework.beans.factory.support.DefaultListableBeanFactory#destroySingletons
+>         - ![image-20231129233006317](https://s.ires.cc:9099/files/2023/11/29/image-20231129233006317.png)
+
+- @PreDestroy
+
+> - CommonAnnotaionBeanPostProcessor
+>   - InitDestructAnnotaionBeanPostProcessor
+>     - DestructionAwareBeanPostProcessor
+>
+> ![image-20231129232229480](https://s.ires.cc:9099/files/2023/11/29/image-20231129232229480.png)
+
+- 实现 Spring 的  DisposableBean 接口
+- 自定义销毁方法
+
+> ![image-20231129232033309](https://s.ires.cc:9099/files/2023/11/29/image-20231129232033309.png)
+>
+> ![image-20231129232057030](https://s.ires.cc:9099/files/2023/11/29/image-20231129232057030.png)
+>
+> ![image-20231129232115141](https://s.ires.cc:9099/files/2023/11/29/image-20231129232115141.png)
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
