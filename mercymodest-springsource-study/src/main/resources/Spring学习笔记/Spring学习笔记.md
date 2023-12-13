@@ -2242,6 +2242,21 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 >
 > ![image-20231129232115141](https://s.ires.cc:9099/files/2023/11/29/image-20231129232115141.png)
 
+## Bean的垃圾回收
+
+1. `Bean`重写 `finalize`方法
+2. 关闭 `Spring`IOC 容器
+3. 执行 `GC`
+
+## 面试题：BeanPostProcessor的使用场景有那些
+
+> BeanPostProcessor 提供了SpringBean初始化前后的回调，分别对应 postProcessorBeforeInitialization和postProcessorAfterInitialization ，我们在对应的回调方法里面对象感兴趣的SpringBean进行增强，甚至是替换
+>
+> > ApplicationContext 相关的 `Aware`也是基于BeanPostProcessor进行实现的，即 ApplicationContextAwareProcessor
+> >
+> > ![image-20231213232728978](https://s.ires.cc:9099/files/2023/12/13/202312132348632.png)
+>
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
