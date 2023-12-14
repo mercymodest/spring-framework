@@ -2269,19 +2269,192 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 > `BeanFactory`默认实现是`DefaultListableBeanFacoty`
 >
 > 1. `BeanDefinition`的注册阶段 registryBeanDefinition
+>
+>    - > ```java
+>      > org.springframework.beans.factory.support.BeanDefinitionRegistry#registerBeanDefinition
+>      > ```
+>      >
+>      > ![image-20231214223636400](https://s.ires.cc:9099/files/2023/12/14/202312142236996.png)
+>
 > 2. `BeanDefinition`的合并阶段 getMergedBeanDefinition
+>
+>    - > ```java
+>      > org.springframework.beans.factory.support.AbstractBeanFactory#getMergedBeanDefinition(java.lang.String)
+>      > ```
+>      >
+>      > ![image-20231214223826352](https://s.ires.cc:9099/files/2023/12/14/202312142238570.png)
+>
 > 3. `Bean`的实例化前阶段 resloveBeforeInstantation
+>
+>    - > ```java
+>      > org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#createBean(java.lang.String, org.springframework.beans.factory.support.RootBeanDefinition, java.lang.Object[])
+>      >     
+>      >     org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#resolveBeforeInstantiation
+>      > ```
+>      >
+>      > ![image-20231214224248726](https://s.ires.cc:9099/files/2023/12/14/202312142242790.png)
+>
 > 4. `Bean`的实例化阶段 createBeanInstance
+>
+>    - ![image-20231214224335161](https://s.ires.cc:9099/files/2023/12/14/202312142243207.png)
+>
 > 5. `Bean`的实例化后阶段 populateBean
+>
+>    ![image-20231214224405037](https://s.ires.cc:9099/files/2023/12/14/202312142244077.png)
+>
 > 6. `Bean`属性赋值前阶段 populateBean
+>
+>    - ![image-20231214224518465](https://s.ires.cc:9099/files/2023/12/14/202312142245518.png)
+>
 > 7. `Bean`属性赋值阶段 populateBean
+>
+>    - ![image-20231214224636184](https://s.ires.cc:9099/files/2023/12/14/202312142246321.png)
+>
 > 8. `Bean` Aware 接口回调阶段 initializationBean
+>
+>    - ![image-20231214224841622](https://s.ires.cc:9099/files/2023/12/14/202312142248025.png)
+>    - ![image-20231214224859201](https://s.ires.cc:9099/files/2023/12/14/202312142249477.png)
+>
 > 9. `Bean`初始化前阶段 initializationBean
+>
+>    - ![image-20231214224945595](https://s.ires.cc:9099/files/2023/12/14/202312142249567.png)
+>
 > 10. `Bean`初始化阶段 initializationBean
+>
+>     - ![image-20231214225008317](https://s.ires.cc:9099/files/2023/12/14/202312142250549.png)
+>     - ![image-20231214225029273](https://s.ires.cc:9099/files/2023/12/14/202312142250245.png)
+>
 > 11. `Bean`初始化后阶段 initializationBean
+>
+>     - ![image-20231214225103470](https://s.ires.cc:9099/files/2023/12/14/202312142251823.png)
+>
 > 12. `Bean`初始化完成阶段 preInstantiateSingletions
+>
+>     - > ```java
+>       > org.springframework.beans.factory.support.DefaultListableBeanFactory#preInstantiateSingletons
+>       > ```
+>       >
+>       > ![image-20231214225311244](https://s.ires.cc:9099/files/2023/12/14/202312142253665.png)
+>       >
+>       > ![image-20231214225342584](https://s.ires.cc:9099/files/2023/12/14/202312142253869.png)
+>
 > 13. `Bean`销毁前阶段 destoryBean
+>
+>     - > ```java
+>       > org.springframework.context.support.AbstractApplicationContext#doClose
+>       >     
+>       > org.springframework.beans.factory.support.DefaultSingletonBeanRegistry#destroySingletons
+>       >     
+>       > org.springframework.beans.factory.support.DefaultListableBeanFactory#destroySingletons    
+>       > ```
+>
 > 14. `Bean`销毁后阶段 destoryBean
+>
+>     - ```java
+>       org.springframework.context.support.AbstractApplicationContext#onClose
+>       ```
+
+## Spring 配置元信息
+
+### Spring Bean 配置元信息 `BeanDefinition`
+
+> ![image-20231214230921642](https://s.ires.cc:9099/files/2023/12/14/202312142309757.png)
+
+#### BeanDefinition 三种实现种实现
+
+##### 1. RootBeanDefinition
+
+> ![image-20231214231805940](https://s.ires.cc:9099/files/2023/12/14/202312142318965.png)
+
+##### 2. GenericBeanDefition
+
+> ![image-20231214231852132](https://s.ires.cc:9099/files/2023/12/14/202312142318165.png)
+
+##### 3. AnnotateBeanDedifinition
+
+> ![image-20231214231919855](https://s.ires.cc:9099/files/2023/12/14/202312142319970.png)
+
+## Spring  Bean 属性元信息
+
+### ProPertyValues
+
+> Bean 的属性信息
+
+- 可修改的实现
+
+  - MutablePropertyValues
+
+    - > ```java
+      > org.springframework.beans.factory.support.BeanDefinitionBuilder
+      > 
+      > org.springframework.beans.factory.support.BeanDefinitionBuilder#addPropertyValue
+      > 
+      > org.springframework.beans.factory.support.AbstractBeanDefinition#getPropertyValues    
+      > ```
+
+  - PropertyValue
+
+### Bean 属性上下文存储
+
+> ```java
+> org.springframework.core.AttributeAccessor
+> ```
+>
+> ![image-20231214233105453](https://s.ires.cc:9099/files/2023/12/14/202312142331659.png)
+>
+> ![image-20231214233148942](https://s.ires.cc:9099/files/2023/12/14/202312142331085.png)
+
+#### Bean 元信息元素
+
+> ```java
+> org.springframework.beans.BeanMetadataElement
+> ```
+>
+> ![image-20231214233311963](https://s.ires.cc:9099/files/2023/12/14/202312142333636.png)
+
+## Spring 容器配置元信息
+
+#### Spring XML 配置元信息
+
+##### Beans 元素 相关
+
+![image-20231214233509656](https://s.ires.cc:9099/files/2023/12/14/202312142335078.png)
+
+![image-20231214233930163](https://s.ires.cc:9099/files/2023/12/14/202312142339318.png)
+
+##### 应用上下文相关
+
+![image-20231214234057432](https://s.ires.cc:9099/files/2023/12/14/202312142340445.png)
+
+![image-20231214234806524](https://s.ires.cc:9099/files/2023/12/14/202312142348685.png)
+
+##### 源码小析
+
+> ```java
+> org.springframework.beans.factory.xml.BeanDefinitionParserDelegate
+> 
+> org.springframework.beans.factory.xml.BeanDefinitionParserDelegate#populateDefaults    
+> ```
+>
+> ![image-20231214235028882](https://s.ires.cc:9099/files/2023/12/14/202312142350891.png)
+
+## 基于 XML 资源装载 Spring Bean 配置元信息
+
+![image-20231215002220210](https://s.ires.cc:9099/files/2023/12/15/202312150022291.png)
+
+### XmlBeanDefinitionReader 源码小析
+
+```java
+org.springframework.beans.factory.xml.XmlBeanDefinitionReader#doLoadBeanDefinitions
+```
+
+![image-20231215012014312](https://s.ires.cc:9099/files/2023/12/15/202312150120595.png)
+
+```java
+org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader#doRegisterBeanDefinitions
+```
+
+![image-20231215012131717](https://s.ires.cc:9099/files/2023/12/15/202312150121712.png)
 
 ## Spring中的常用注解源码解析
 
