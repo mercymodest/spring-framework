@@ -2242,20 +2242,46 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 >
 > ![image-20231129232115141](https://s.ires.cc:9099/files/2023/11/29/image-20231129232115141.png)
 
-## Bean的垃圾回收
+## 面试题：BeanPostProcessor的使用场景有哪些
 
-1. `Bean`重写 `finalize`方法
-2. 关闭 `Spring`IOC 容器
-3. 执行 `GC`
-
-## 面试题：BeanPostProcessor的使用场景有那些
-
-> BeanPostProcessor 提供了SpringBean初始化前后的回调，分别对应 postProcessorBeforeInitialization和postProcessorAfterInitialization ，我们在对应的回调方法里面对象感兴趣的SpringBean进行增强，甚至是替换
+> BeanPostProcessor 提供 SpringBean 初始化前后的生命周期回调，分别对应 postProcesoorBeforeInitialization 和 postProcessorAfterInitialization 方法。我们可以在这个两个回调方法里面对我们自己感兴趣的Bean进行增加，甚至是替换
 >
-> > ApplicationContext 相关的 `Aware`也是基于BeanPostProcessor进行实现的，即 ApplicationContextAwareProcessor
+> ![image-20231214130723886](https://s.ires.cc:9099/files/2023/12/14/image-20231214130723886.png)
+>
+> ![image-20231214130745948](https://s.ires.cc:9099/files/2023/12/14/image-20231214130745948.png)
+>
+> > `ApplicationContext`的 Aware回调就是基于`BeanPostProcessor` 进行实现的呢，其对应的是`ApplicationContextAwareProcessor`
 > >
-> > ![image-20231213232728978](https://s.ires.cc:9099/files/2023/12/13/202312132348632.png)
+> > ![image-20231214131012302](https://s.ires.cc:9099/files/2023/12/14/image-20231214131012302.png)
+> >
+> > ![image-20231214131030035](https://s.ires.cc:9099/files/2023/12/14/image-20231214131030035.png)
+
+## 面试题：BeanFactoryPostProcessor 和 BeanPostProcessor的区别
+
+> `BeanFactoryPostProcessor` 是 Spirng BeanFactory （ConfigurableListableBeanFacotry）的后置处理器，用于拓展 `BeanFactory`或许使用 BeanFacotory 进行依赖查找或依赖注入。`BeanPostProcessor` 与 `BeanFactory`直接关联，其关联关系为 `N:1`
 >
+> ![image-20231214131756372](https://s.ires.cc:9099/files/2023/12/14/image-20231214131756372.png)
+>
+> > `BeanFactoryPostProcessor`必须依赖`ApplicationContext`执行，`BeanFactory`无法直接与其交互
+
+## 面试题: BeanFactory 是怎样处理生命周期的？
+
+> `BeanFactory`默认实现是`DefaultListableBeanFacoty`
+>
+> 1. `BeanDefinition`的注册阶段 registryBeanDefinition
+> 2. `BeanDefinition`的合并阶段 getMergedBeanDefinition
+> 3. `Bean`的实例化前阶段 resloveBeforeInstantation
+> 4. `Bean`的实例化阶段 createBeanInstance
+> 5. `Bean`的实例化后阶段 populateBean
+> 6. `Bean`属性赋值前阶段 populateBean
+> 7. `Bean`属性赋值阶段 populateBean
+> 8. `Bean` Aware 接口回调阶段 initializationBean
+> 9. `Bean`初始化前阶段 initializationBean
+> 10. `Bean`初始化阶段 initializationBean
+> 11. `Bean`初始化后阶段 initializationBean
+> 12. `Bean`初始化完成阶段 preInstantiateSingletions
+> 13. `Bean`销毁前阶段 destoryBean
+> 14. `Bean`销毁后阶段 destoryBean
 
 ## Spring中的常用注解源码解析
 
