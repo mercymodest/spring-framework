@@ -2456,6 +2456,123 @@ org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader#doRegi
 
 ![image-20231215012131717](https://s.ires.cc:9099/files/2023/12/15/202312150121712.png)
 
+## 基于 Properties资源装载 Spring Bean 信息
+
+![image-20231218224615532](https://s.ires.cc:9099/files/2023/12/18/202312182246578.png)
+
+![image-20231218224458280](https://s.ires.cc:9099/files/2023/12/18/202312182245560.png)
+
+![image-20231218224521628](https://s.ires.cc:9099/files/2023/12/18/202312182245729.png)
+
+> ```java
+> org.springframework.beans.factory.support.PropertiesBeanDefinitionReader#loadBeanDefinitions(org.springframework.core.io.support.EncodedResource, java.lang.String)
+> ```
+>
+> ![image-20231218224708193](https://s.ires.cc:9099/files/2023/12/18/202312182247115.png)
+
+> ```java
+> org.springframework.beans.factory.support.PropertiesBeanDefinitionReader#registerBeanDefinitions(java.util.Map<?,?>, java.lang.String, java.lang.String)
+> ```
+
+### 基于 `Properties` 配置的 Bean 名称是什么呢
+
+![image-20231218225244601](https://s.ires.cc:9099/files/2023/12/18/202312182252956.png)
+
+## 基于 Java 注解装配 Spring Bean 配置元信息
+
+![image-20231218225725075](https://s.ires.cc:9099/files/2023/12/18/202312182257180.png)
+
+![image-20231218225736919](https://s.ires.cc:9099/files/2023/12/18/202312182257045.png)
+
+![image-20231218225751438](https://s.ires.cc:9099/files/2023/12/18/202312182257350.png)
+
+![](https://s.ires.cc:9099/files/2023/12/18/202312182258028.png)
+
+![image-20231218225833050](https://s.ires.cc:9099/files/2023/12/18/202312182258118.png)
+
+> ```java
+> org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
+> ```
+>
+> ![image-20231218230344710](https://s.ires.cc:9099/files/2023/12/18/202312182303833.png)
+
+> ```java
+> org.springframework.context.annotation.CommonAnnotationBeanPostProcessor
+> ```
+>
+> ![image-20231218230508038](https://s.ires.cc:9099/files/2023/12/18/202312182305029.png)
+>
+> ![image-20231218230752926](https://s.ires.cc:9099/files/2023/12/18/202312182307016.png)
+
+![image-20231218230856374](https://s.ires.cc:9099/files/2023/12/18/202312182308568.png)
+
+![image-20231218230920177](https://s.ires.cc:9099/files/2023/12/18/202312182309130.png)
+
+### `@Component`及其`派生类`
+
+![image-20231218225934654](https://s.ires.cc:9099/files/2023/12/18/202312182259018.png)
+
+![image-20231218230036639](https://s.ires.cc:9099/files/2023/12/18/202312182300764.png)
+
+![image-20231218230147969](https://s.ires.cc:9099/files/2023/12/18/202312182301093.png)
+
+## Spring Bean 配置元信息底层实现
+
+![image-20231218231229104](https://s.ires.cc:9099/files/2023/12/18/202312182312667.png)
+
+### Spring XML 资源 BeanDefinition 解析和注册
+
+- 核心API XmlBeanDefinitonReader
+- 资源
+  - Resource
+- 底层
+  -  BeanDefinitionDocumentReader
+  - XML解析
+    - Java DOM Lever 3 API
+  - BeanDefinition 解析
+    - BeanDefinitionParserDelegate
+  - BeanDefnition注册
+    - BeanDefinitionRegistry
+
+### Spring Properties 资源 BeanDefinition 解析和注册
+
+- 核心API: ProPertiesBeanDefinitionReader
+
+- 资源
+
+  - Resource
+  - EncodedResource
+
+- 底层
+
+  - 存储: java.util.Properties
+
+  - PropertiesBeanDefinitionReader API 内部实现
+  - BeanDefinition 注册: BeanDefinitionRegistry
+
+### 基于 Java 注册 BeanDefinition 解析和注册
+
+- 核心API:  AnnotatedBeanDefinitionReader
+- 资源
+  - java.lang.Class
+- 底层
+  - 条件评估
+    - ConditionEvaluator
+    - Bean 范围解析
+      - ScoepMetadataReslover
+    - BeanDefinition 解析
+      - 内部API实现
+    - BeanDefnition 处理
+      - AnnotationConfigUtils.processorCommonDefinitionAnnotations
+    - BeanDefinition 注册
+      - BeanDefinitionRegistry
+
+#### 源码解析
+
+![image-20231218233612115](https://s.ires.cc:9099/files/2023/12/18/202312182336320.png)
+
+
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
