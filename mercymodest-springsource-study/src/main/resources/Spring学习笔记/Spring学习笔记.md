@@ -2569,9 +2569,242 @@ org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader#doRegi
 
 #### 源码解析
 
+##### AnnotatedBeanDefinitionReader
+
+![image-20231229111331571](https://s.ires.cc:9099/files/2023/12/29/image-20231229111331571.png)
+
+![image-20231229111750297](https://s.ires.cc:9099/files/2023/12/29/image-20231229111750297.png)
+
+![image-20231229111815845](https://s.ires.cc:9099/files/2023/12/29/image-20231229111815845.png)
+
+![image-20231229111918938](https://s.ires.cc:9099/files/2023/12/29/image-20231229111918938.png)
+
+![image-20231229112115642](https://s.ires.cc:9099/files/2023/12/29/image-20231229112115642.png)
+
 ![image-20231218233612115](https://s.ires.cc:9099/files/2023/12/18/202312182336320.png)
 
+## Spring IOC 容器相关 XML 配置
 
+![image-20231229112957685](https://s.ires.cc:9099/files/2023/12/29/image-20231229112957685.png)
+
+![image-20231229113234210](https://s.ires.cc:9099/files/2023/12/29/image-20231229113234210.png)
+
+## Spring IOC 容器装配注解
+
+![image-20231229113842185](https://s.ires.cc:9099/files/2023/12/29/image-20231229113842185.png)
+
+![image-20231229114002689](https://s.ires.cc:9099/files/2023/12/29/image-20231229114002689.png)
+
+![image-20231229114054253](https://s.ires.cc:9099/files/2023/12/29/image-20231229114054253.png)
+
+![image-20231229113903301](/Users/mercymodest/Library/Application Support/typora-user-images/image-20231229113903301.png)
+
+![image-20231229114627167](https://s.ires.cc:9099/files/2023/12/29/image-20231229114627167.png)
+
+## 基于 Extensible XML 拓展 Spring XML 自定义元素
+
+### 编写 XML Schema 文件
+
+```scheme
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="http://study.org/schema/users"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://study.org/schema/users">
+
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+
+    <!-- 定义 User 类型（复杂类型） -->
+    <xsd:complexType name="User">
+        <xsd:attribute name="id" type="xsd:long" use="required"/>
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="city" type="City"/>
+    </xsd:complexType>
+
+    <!-- 定义 City 类型（简单类型，枚举） -->
+    <xsd:simpleType name="City">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="BEIJING"/>
+            <xsd:enumeration value="HANGZHOU"/>
+            <xsd:enumeration value="SHANGHAI"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- 定义 user 元素 -->
+    <xsd:element name="user" type="User"/>
+</xsd:schema>
+```
+
+### 自定义 NamespaceHandler
+
+```java
+public class UsersNamespaceHandler extends NamespaceHandlerSupport {
+
+    @Override
+    public void init() {
+        // 将 "user" 元素注册对应的 BeanDefinitionParser 实现
+        registerBeanDefinitionParser("user", new UserBeanDefinitionParser());
+    }
+}
+```
+
+### 自定义 BeanDefinitonPaser 实现 实现  自定义 XML 元素 和 BeanDefiniton 解析
+
+```java
+public class UserBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+
+    @Override
+    protected Class<?> getBeanClass(Element element) {
+        return User.class;
+    }
+
+    @Override
+    protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
+        setPropertyValue("id", element, builder);
+        setPropertyValue("name", element, builder);
+        setPropertyValue("city", element, builder);
+    }
+
+    private void setPropertyValue(String attributeName, Element element, BeanDefinitionBuilder builder) {
+        String attributeValue = element.getAttribute(attributeName);
+        if (StringUtils.hasText(attributeValue)) {
+            builder.addPropertyValue(attributeName, attributeValue); // -> <property name="" value=""/>
+
+        }
+    }
+}
+```
+
+### 注册 XML 拓展 Schema 文件 和 NamespaceHandler 进行绑定
+
+![image-20231229115925674](https://s.ires.cc:9099/files/2023/12/29/image-20231229115925674.png)
+
+## Entensible XML 源码小析
+
+> ```java
+> org.springframework.beans.factory.xml.XmlBeanDefinitionReader#loadBeanDefinitions(org.springframework.core.io.support.EncodedResource)
+> ```
+>
+> ```java
+> org.springframework.beans.factory.xml.XmlBeanDefinitionReader#doLoadBeanDefinitions
+> ```
+>
+> ```java
+> org.springframework.beans.factory.xml.XmlBeanDefinitionReader#registerBeanDefinitions
+> ```
+>
+> ```java
+> org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader#registerBeanDefinitions
+> ```
+>
+> ```java
+> org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader#doRegisterBeanDefinitions
+> ```
+>
+> ![image-20231229120507925](https://s.ires.cc:9099/files/2023/12/29/image-20231229120507925.png)
+>
+> ![image-20231229120645409](https://s.ires.cc:9099/files/2023/12/29/image-20231229120645409.png)
+
+## 基于 YAML 资源装载外部化配置
+
+> ```java
+> org.springframework.beans.factory.config.YamlProcessor
+> ```
+>
+> ```java
+> org.springframework.beans.factory.config.YamlMapFactoryBean
+> ```
+>
+> ```java
+> org.springframework.beans.factory.config.YamlPropertiesFactoryBean
+> ```
+
+### 我们是否可以通过`@PropertySource`实现`YAML`资源的外部化配置呢？
+
+#### `PropertySource`
+
+![image-20231229155032539](https://s.ires.cc:9099/files/2023/12/29/image-20231229155032539.png)
+
+#### 如何实现`PropertySourceFactory`
+
+###### 来看下 `DefaultPropertySourceFactory`
+
+```java
+package org.springframework.core.io.support;
+
+import java.io.IOException;
+
+import org.springframework.core.env.PropertySource;
+import org.springframework.lang.Nullable;
+
+/**
+ * The default implementation for {@link PropertySourceFactory},
+ * wrapping every resource in a {@link ResourcePropertySource}.
+ *
+ * @author Juergen Hoeller
+ * @since 4.3
+ * @see PropertySourceFactory
+ * @see ResourcePropertySource
+ */
+public class DefaultPropertySourceFactory implements PropertySourceFactory {
+
+	@Override
+	public PropertySource<?> createPropertySource(@Nullable String name, EncodedResource resource) throws IOException {
+		return (name != null ? new ResourcePropertySource(name, resource) : new ResourcePropertySource(resource));
+	}
+
+}
+```
+
+###### 我们可以基于 `YamlPropertiesFactoryBean`
+
+![image-20231229155950176](https://s.ires.cc:9099/files/2023/12/29/image-20231229155950176.png)
+
+```java
+# org.springframework.core.io.support.DefaultPropertySourceFactory#createPropertySource
+YamlPropertiesFactoryBean yamlPropertiesFactroy= new YamlPropertiesFactoryBean();
+yamlPropertiesFactoryBean.setResources(resource.getResource());
+ResourcePropetySource  resourcePropertySource = new ResourcePropertySource(name,yamlPropertiesFactoryBean.getObject());
+```
+
+## 面试题: Spring 内建的 XML Schema 有哪些
+
+![image-20231229172151819](https://s.ires.cc:9099/files/2023/12/29/image-20231229172151819.png)
+
+## 面试题： Spring 配置元信息有哪些
+
+- Bean 的配置元信息 
+
+  通过媒介（如 XML，Proper ties），解析 BeanDefinition
+
+- IOC 容器配置元信息
+
+  通过媒介（如 XML，Properties）控制IOC容器的行为，如 注解驱动，AOP
+
+- 外部化配置
+
+   通过资源抽象(如 YAML Properties) 控制 PropertySource
+
+- Spring Profie
+
+  通过外部化配置，提供条件分支流程
+
+## 面试题： Extensible XML Authoring  有哪些劣势
+
+- 高复杂度
+
+  开发人员需要熟悉 XML Schema，spirng.schemas spring.handlers 以及 Spring API
+
+- 对嵌套支持的比较薄弱
+
+  通常需要使用递归或者使用其嵌套解析的方式实现(子)元素的嵌套
+
+- XML 解析性能较弱
+
+  Spring XML 基于 DOM Level 3 实现，其结构性好，但是其性能比较差
+
+- XML框架移植性差
+
+  Spring XML 很难适配高性能和高移植性的XML框架 如何 JAXB
 
 ## Spring中的常用注解源码解析
 
