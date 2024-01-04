@@ -2806,6 +2806,197 @@ ResourcePropetySource  resourcePropertySource = new ResourcePropertySource(name,
 
   Spring XML 很难适配高性能和高移植性的XML框架 如何 JAXB
 
+## Spring 引入自己的資源管理的动机
+
+- Java 标准资源管理强大，然后拓展起来很复杂，资源存储方式不统一
+- Spring 要自立门户
+- Spring “3c” "抄" “超” “潮”
+
+## Java标准的资源管理
+
+### Java 标准的资源定位
+
+![image-20240104231323047](https://s.ires.cc:9099/files/2024/01/04/202401042313468.png)
+
+### Java URL 协议拓展
+
+- #### java.net.URLStreamHanderFactory
+
+  ![image-20240104232052852](https://s.ires.cc:9099/files/2024/01/04/202401042321902.png)
+
+  ![image-20240104232534432](https://s.ires.cc:9099/files/2024/01/04/202401042325410.png)
+
+- #### Java.net.URLStreamHander
+
+  - #####  方式一:
+
+    ```java
+    sum.net.www.protocol.${protocol}.Hander.java    
+    ```
+
+    ![image-20240104233613107](https://s.ires.cc:9099/files/2024/01/04/202401042336074.png)
+
+  - ##### 方式二:
+  
+    ```java
+    添加 JVM 启动参数
+    -Djava.protocol.handler.pkgs=com.stuy.MyProtocol.Hander
+    ```
+
+    ![image-20240104232611878](https://s.ires.cc:9099/files/2024/01/04/202401042326638.png)
+
+    ![image-20240104232730925](https://s.ires.cc:9099/files/2024/01/04/202401042329566.png)
+
+    ![image-20240104232946311](https://s.ires.cc:9099/files/2024/01/04/202401042329457.png)
+
+    ##### Java 1.8 内建的一些 协议的实现
+  
+    ![image-20240104233530775](https://s.ires.cc:9099/files/2024/01/04/202401042335486.png)
+
+## Spring 资源接口
+
+### 输入流
+
+> org.springframework.core.io.InputStreamSource
+
+![image-20240104234340403](https://s.ires.cc:9099/files/2024/01/04/202401042343506.png)
+
+### 只读资源
+
+> org.springframework.core.io.Resource
+
+![image-20240104234458606](https://s.ires.cc:9099/files/2024/01/04/202401042344828.png)
+
+### 可写资源
+
+> org.springframework.core.io.WritableResource
+
+![image-20240104234607041](https://s.ires.cc:9099/files/2024/01/04/202401042346294.png)
+
+### 编码资源
+
+> org.springframework.core.io.support.EncodedResource
+
+![image-20240104234656003](https://s.ires.cc:9099/files/2024/01/04/202401042346757.png)
+
+### 上下文资源
+
+> org.springframework.core.io.ContextResource
+
+![image-20240104234725885](https://s.ires.cc:9099/files/2024/01/04/202401042347988.png)
+
+## Spring 内建 Resource 实现
+
+![image-20240104234847777](https://s.ires.cc:9099/files/2024/01/04/202401042348760.png)
+
+## Spring Resouce 接口拓展
+
+### 可写资源接口
+
+![image-20240104235041362](https://s.ires.cc:9099/files/2024/01/04/202401042350679.png)
+
+
+
+### 编码资源接口
+
+![image-20240104235113814](https://s.ires.cc:9099/files/2024/01/04/202401042351868.png)
+
+## Spring 资源加载
+
+> ![image-20240104235244033](https://s.ires.cc:9099/files/2024/01/04/202401042352037.png)
+
+![image-20240104235306501](https://s.ires.cc:9099/files/2024/01/04/202401042353512.png)
+
+![image-20240104235825176](https://s.ires.cc:9099/files/2024/01/04/202401042358483.png)
+
+![image-20240104235843058](https://s.ires.cc:9099/files/2024/01/04/202401042358118.png)
+
+## Spring 通配符路径的资源加载器
+
+![image-20240105000527680](https://s.ires.cc:9099/files/2024/01/05/202401050005769.png)
+
+![image-20240105000629732](https://s.ires.cc:9099/files/2024/01/05/202401050006764.png)
+
+![image-20240105000649491](https://s.ires.cc:9099/files/2024/01/05/202401050006550.png)
+
+![image-20240105000948759](https://s.ires.cc:9099/files/2024/01/05/202401050009084.png)
+
+![image-20240105001128356](https://s.ires.cc:9099/files/2024/01/05/202401050011298.png)
+
+## Spring 通配符路径的拓展
+
+![image-20240105001206784](https://s.ires.cc:9099/files/2024/01/05/202401050012921.png)
+
+![image-20240105001318482](https://s.ires.cc:9099/files/2024/01/05/202401050013501.png)
+
+## 依赖注入 Spring Resource
+
+### 单一资源
+
+```java
+@Vaule("classpath:/META-INF/default.properties")
+private Resource  resource;
+```
+
+### 多个资源
+
+```java
+@Value("classpath*:/META-INF/*.properties")
+```
+
+## 依赖注入 ResourceLoader
+
+### 实现 ResourceLoaderAware 接口
+
+![image-20240105001752874](https://s.ires.cc:9099/files/2024/01/05/202401050017985.png)
+
+### 使用 @Autowired 注解注入 ResourceLoader
+
+### 注入 ApplicationContext
+
+> 三种方式注入到 ResourceLoader 都是同一个对象
+
+## 面试题: Spring 资源配置常见类型
+
+- XML
+- Properties
+- YAML
+
+## 面试题：请列举不同类型的 Spring 配置资源
+
+### XML
+
+- 普通的 Spring Bean Definition 配置 *.XML
+- Spring Schema 资源 *.xsd
+
+### properties
+
+- 普通的 Properties 资源
+- Spring Handler 实体类映射文件 META-INF/spring.handlers
+- Spring Schema 资源映射文件 MATE-INF/spring.schemas
+
+### YAML
+
+- 普通YAML资源
+
+## 面试题: Java 标准资源的管理拓展的步骤
+
+### 简易实现
+
+> 在 sum.net.www.protocol. 包下
+>
+> ${protocol}.Handler.Java
+
+### 自定义实现
+
+> 实现 URLStreamHandler
+>
+> 添加 JVM 启动参数: -Djava.protocol.handler.pkgs 指向 URLStreamHandler 所在的包
+
+### 高级实现
+
+> 实现 URLStreamHandlerFactory 并传递到 URL 之中
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
