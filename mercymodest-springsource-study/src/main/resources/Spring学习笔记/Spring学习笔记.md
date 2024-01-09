@@ -2997,6 +2997,327 @@ private Resource  resource;
 
 > 实现 URLStreamHandlerFactory 并传递到 URL 之中
 
+## Spring 国际化管理
+
+### 国际化的使用场景
+
+- 普通国际化文案
+- Bean Validation 校验国际化文案
+- Web 站点渲染
+- Web MVC  错误提示文案
+
+### Sping 提供的国际化接口
+
+> ```java
+> org.springframework.context.MessageSource
+> ```
+>
+> ![image-20240109221451832](https://s.ires.cc:9099/files/2024/01/09/202401092214889.png)
+>
+> 主要概念
+>
+> - code
+>
+>   文案模板编码
+>
+> - args
+>
+>   文案模板参数
+>
+> - Locale
+>
+>   - 区域信息
+>
+> > ```java
+> > org.springframework.context.MessageSource#getMessage(java.lang.String, java.lang.Object[], java.util.Locale)
+> > ```
+> >
+> > ![image-20240109221716086](https://s.ires.cc:9099/files/2024/01/09/202401092217319.png)
+
+#### 层次性 `MessageSource`
+
+##### Sping 层次性接口回顾
+
+- org.springframework.beans.factory.HierarchicalBeanFactory
+- org.springframework.context.ApplicaitonContext
+- org.springframework.beans.factory.config.BeanDefinition
+
+##### Spring 层次性国际化接口
+
+> org.springframework.context.HierarchicalMessageSource
+
+![image-20240109222126150](https://s.ires.cc:9099/files/2024/01/09/202401092221843.png)
+
+### Java 国家化标准实现
+
+#### 核心接口
+
+- java.util.ResourceBundle
+
+  抽象实现
+
+- java.util.PropertyResourceBundle
+
+  Properties 资源实现
+
+- java.uti.ListResourceBundle
+
+  列举实现
+
+#### ResourceBundle 核心特性
+
+- Key — Value 设计
+
+- 层次性设计
+
+  > ```java
+  > java.util.ResourceBundle#setParent
+  > ```
+  >
+  > ![image-20240109223355582](https://s.ires.cc:9099/files/2024/01/09/202401092233562.png)
+  >
+  > ![image-20240109223633966](https://s.ires.cc:9099/files/2024/01/09/202401092236664.png)
+
+- 缓存设计
+
+  ![image-20240109223557371](https://s.ires.cc:9099/files/2024/01/09/202401092235298.png)
+
+- 字节码控制 
+
+  > ```java
+  > java.util.ResourceBundle.Control
+  > ```
+  >
+  > @since 1.6
+
+- Control SPI 拓展
+
+  > ```java
+  > java.util.spi.ResourceBundleControlProvider
+  > ```
+  >
+  > @sine 1.8 
+
+##### 基于 `ChatGPT`的 `java.util.ResourceBundle` 使用示例
+
+![image-20240109224600472](https://s.ires.cc:9099/files/2024/01/09/202401092246986.png)
+
+![image-20240109224627091](https://s.ires.cc:9099/files/2024/01/09/202401092246263.png)
+
+```java
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+public class InternationalizationExample {
+    public static void main(String[] args) {
+        // 设置区域为英语
+        Locale localeEn = new Locale("en", "US");
+        ResourceBundle messagesEn = ResourceBundle.getBundle("Messages", localeEn);
+        System.out.println("English: " + messagesEn.getString("greeting") + ", " + messagesEn.getString("farewell"));
+
+        // 设置区域为法语
+        Locale localeFr = new Locale("fr", "FR");
+        ResourceBundle messagesFr = ResourceBundle.getBundle("Messages", localeFr);
+        System.out.println("French: " + messagesFr.getString("greeting") + ", " + messagesFr.getString("farewell"));
+    }
+}
+```
+
+![image-20240109224722499](https://s.ires.cc:9099/files/2024/01/09/202401092247502.png)
+
+##### 基于`ChatGPT`使用 自定义 `java.util.ResourceBundle.Control` 实现 `UTF-8`编码
+
+![image-20240109225442172](https://s.ires.cc:9099/files/2024/01/09/202401092254076.png)
+
+![image-20240109225507900](https://s.ires.cc:9099/files/2024/01/09/202401092255994.png)
+
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+
+public class UTF8Control extends ResourceBundle.Control {
+    public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
+            throws IllegalAccessException, InstantiationException, IOException {
+        
+        String bundleName = toBundleName(baseName, locale);
+        String resourceName = toResourceName(bundleName, "properties");
+        ResourceBundle bundle = null;
+        InputStream stream = null;
+
+        if (reload) {
+            stream = loader.getResourceAsStream(resourceName);
+        } else {
+            stream = loader.getResourceAsStream(resourceName);
+        }
+
+        if (stream != null) {
+            try (InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
+                 BufferedReader reader = new BufferedReader(isr)) {
+                bundle = new PropertyResourceBundle(reader);
+            }
+        }
+
+        return bundle;
+    }
+}
+```
+
+![image-20240109225746515](https://s.ires.cc:9099/files/2024/01/09/202401092257585.png)
+
+![image-20240109230006497](https://s.ires.cc:9099/files/2024/01/09/202401092300509.png)
+
+```java
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+public class InternationalizationExample {
+    public static void main(String[] args) {
+        // 设置区域为中文（中国）
+        Locale localeZh = new Locale("zh", "CN");
+        ResourceBundle messagesZh = ResourceBundle.getBundle("Messages", localeZh, new UTF8Control());
+        System.out.println("Chinese: " + messagesZh.getString("greeting") + ", " + messagesZh.getString("farewell"));
+    }
+}
+```
+
+![image-20240109230122815](https://s.ires.cc:9099/files/2024/01/09/202401092301810.png)
+
+### Java 文本格式化
+
+#### 核心接口
+
+> ```java
+> java.text.MessageFormat
+> ```
+
+#### 基本用法
+
+- 设置消息格式模式
+
+  - ![image-20240109232829176](https://s.ires.cc:9099/files/2024/01/09/202401092328116.png)
+
+- 格式化
+
+  ![](https://s.ires.cc:9099/files/2024/01/09/202401092326412.png)
+
+- 消息格式模式
+
+  - 格式元素
+
+    {argumentIndex,(,formatType,(formatStyle))}
+
+    - formatType
+
+      消息类型格式,(可选项)
+
+      - number
+      - date
+      - time
+      - choice
+
+    - formatStyle
+
+      - short
+      - medium
+      - long
+      - full
+      - integer
+      - currency
+      - percent
+
+    - ![image-20240109233236451](https://s.ires.cc:9099/files/2024/01/09/202401092332670.png)
+
+> ![image-20240109231225503](https://s.ires.cc:9099/files/2024/01/09/202401092312271.png)
+>
+> ![image-20240109231350062](https://s.ires.cc:9099/files/2024/01/09/202401092313202.png)
+>
+> ![image-20240109231413764](https://s.ires.cc:9099/files/2024/01/09/202401092314879.png)
+>
+> ```java
+> import java.text.MessageFormat;
+> import java.util.Date;
+> import java.util.Locale;
+> import java.util.ResourceBundle;
+> 
+> public class MessageFormatExample {
+>     public static void main(String[] args) {
+>         // 创建 Locale 和 ResourceBundle
+>         Locale localeEn = new Locale("en", "US");
+>         ResourceBundle bundleEn = ResourceBundle.getBundle("Messages", localeEn);
+> 
+>         Locale localeZh = new Locale("zh", "CN");
+>         ResourceBundle bundleZh = ResourceBundle.getBundle("Messages", localeZh);
+> 
+>         // 设置参数
+>         Object[] messageArguments = {"John", new Date(), 10};
+> 
+>         // 格式化消息
+>         String formattedEn = MessageFormat.format(bundleEn.getString("message"), messageArguments);
+>         System.out.println("English: " + formattedEn);
+> 
+>         String formattedZh = MessageFormat.format(bundleZh.getString("message"), messageArguments);
+>         System.out.println("Chinese: " + formattedZh);
+>     }
+> }
+> ```
+>
+> ![image-20240109232653281](https://s.ires.cc:9099/files/2024/01/09/202401092326412.png)
+>
+> ![image-20240109233854070](https://s.ires.cc:9099/files/2024/01/09/202401092338047.png)
+>
+> ![image-20240109231444843](https://s.ires.cc:9099/files/2024/01/09/202401092314903.png)
+
+### MessageSource 开箱即用的实现
+
+#### 开箱即用的内置实现
+
+- `ResouceBundle` + `MessageFormat` 组合实现 `MessageSouce`
+  - org.springframework.context.support.ResourceBundleMesssageSource
+- `Properyties` + `MessageFormat` 组合实现 `MessageSource`
+  - org.springframework.context.support.ReloadableResourceBundleMessageSource
+
+![image-20240109234637471](https://s.ires.cc:9099/files/2024/01/09/202401092346400.png)
+
+![image-20240109234712489](https://s.ires.cc:9099/files/2024/01/09/202401092347687.png)
+
+![image-20240109234748440](https://s.ires.cc:9099/files/2024/01/09/202401092347532.png)
+
+![image-20240109234828411](https://s.ires.cc:9099/files/2024/01/09/202401092348474.png)
+
+### `MessageSource`内建依赖
+
+> ```java
+> org.springframework.context.support.AbstractApplicationContext#initMessageSource
+> ```
+>
+> ![image-20240109235120664](https://s.ires.cc:9099/files/2024/01/09/202401092351617.png)
+
+#### `SpringBoot`为什么需要新建`MessageSource` Bean
+
+- org.springframework.context.support.AbstractApplicationContext 实现决定了 内建 `MessageSource`内建实现
+
+  ![](https://s.ires.cc:9099/files/2024/01/09/202401092351617.png)
+
+- Spring Boot 通过 外部化配置来简化  MessageSource Bean 构建
+
+  ![image-20240110002040572](https://s.ires.cc:9099/files/2024/01/10/202401100020666.png)
+
+- Spring Boot 基于  Bean Validation 校验非常普遍
+
+  Spring Boot 资源记载配置资源的时候是会区分主次的
+
+  ![image-20240110002332976](https://s.ires.cc:9099/files/2024/01/10/202401100023720.png)
+
+  ![image-20240110002745313](https://s.ires.cc:9099/files/2024/01/10/202401100027442.png)
+
+  ### 我们如何覆盖`Spring Boot`的默认实现
+
+  ![image-20240110002911363](https://s.ires.cc:9099/files/2024/01/10/202401100029293.png)
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`

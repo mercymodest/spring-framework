@@ -1,6 +1,11 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '2.7.18'
 }
+
+apply plugin: 'io.spring.dependency-management'
+
+
 
 group 'org.springframework'
 version '6.0.0-SNAPSHOT'
@@ -13,6 +18,7 @@ dependencies {
 
     // spring-webmvc
     implementation(project(":spring-webmvc"))
+
     // spring aop
     implementation(project(":spring-aop"))
     implementation("org.aspectj:aspectjweaver")
@@ -25,6 +31,9 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    // spring boot starter
+    implementation('org.springframework.boot:spring-boot-starter')
 }
 
 test {
