@@ -3313,10 +3313,106 @@ public class InternationalizationExample {
   ![image-20240110002332976](https://s.ires.cc:9099/files/2024/01/10/202401100023720.png)
 
   ![image-20240110002745313](https://s.ires.cc:9099/files/2024/01/10/202401100027442.png)
-
-  ### 我们如何覆盖`Spring Boot`的默认实现
+ ### 我们如何覆盖`Spring Boot`的默认实现
 
   ![image-20240110002911363](https://s.ires.cc:9099/files/2024/01/10/202401100029293.png)
+
+### 面试题:  Spring 国际化接口有哪些
+
+  - > org.springframework.context.MessageSource
+  
+  - > org.springframework.context.HierarchicalMessageSource
+
+### 面试题: Spring 有哪些内建的`org.springframework.context.MessageSource`的实现
+
+  - > org.springframework.context.suppor.ResouceBundleMessageRersouce
+  
+  - > org.springframework.context.support.ReloadableResouceBundleMessageResouce
+  
+  - > org.springframework.context.support.StaticMessageSource
+    >
+    > ![image-20240115220725764](https://s.ires.cc:9099/files/2024/01/15/202401152207980.png)
+  
+  - > org.springframework.context.support.DelegatingMessageSource
+  
+    - 这是 `Spring`默认初始化的时候，如果`IOC`容器中没有则会注册一个`org.springframework.context.support.DelegatingMessageSource`
+
+### 面试题：如何实现配置自动更新的`org.springframework.context.MessageSource`
+
+#### 实现要素步骤:
+
+- 基于`java.io.File`，本地文件实现
+- 基于 `Java` `NIO2`：java.nio.file.WatchService 监听文件的修改
+- 基于 `JUC``java.util.current.ExecutorService`实现文件修改时间的异步处理
+- 基于`org.springframework.context.support.AbstractMessageSource`实现自定义的`MessageSource`
+
+#### 代码实现示例
+
+##### 注册文件监听
+
+```java
+	private void initResourceFileWatchService() {
+		try {
+			FileSystem fileSystem = FileSystems.getDefault();
+			WatchService watchService = fileSystem.newWatchService();
+			File resouceFile = resource.getFile();
+			if (resouceFile.isFile()) {
+				String parent = resouceFile.getParent();
+				Paths.get(parent).register(watchService, StandardWatchEventKinds.ENTRY_MODIFY);
+				this.watchService=watchService;
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+```
+
+##### 文件修改时间处理
+
+```java
+protected void processingMessageFileChanged() {
+		executorService.submit(()->{
+			while (true){
+				WatchKey watchKey=watchService.take();
+				try {
+					if (watchKey.isValid()) {
+						for (WatchEvent<?> pollEvent : watchKey.pollEvents()) {
+							Watchable watchable = watchKey.watchable();
+							if (watchable instanceof Path) {
+								Path parentPath = (Path) watchable;
+								Object context = pollEvent.context();
+								if (context instanceof Path) {
+									// 相对路径
+									Path changeFileRelativePath = (Path) context;
+									// 通过 父Path 解析成变更文件的路径
+									Path changePath = parentPath.resolve(changeFileRelativePath);
+									File file = changePath.toFile();
+									if (!file.isFile()) {
+										continue;
+									}
+									Properties properties = loadMessagesProperties(new FileReader(file));
+									synchronized (messagesProperties) {
+										messagesProperties.clear();
+										messagesProperties.putAll(properties);
+									}
+								}
+							}
+						}
+					}
+				}
+				finally {
+					if (Objects.nonNull(watchKey)) {
+						boolean reset = watchKey.reset();
+						if (!reset) {
+							System.err.println("watchKey reset failed");
+							initResourceFileWatchService();
+						}
+					}
+				}
+			}
+		});
+	}
+```
 
 ## Spring中的常用注解源码解析
 
