@@ -1159,7 +1159,7 @@ API 配置元信息
 
 官方的说明:
 
-![image-20231102221533147](https://s.ires.cc:9099/files/2023/11/02/image-20231102221533147.png)
+![image-20231102221533147](https://f.ires.cc/files/2023/11/02/image-20231102221533147.png)
 
 ##### ChatGPT 3.5 模型对于上述内容的翻译
 
@@ -1296,7 +1296,7 @@ API 配置元信息
   > org.springframework.context.annotation.CommonAnnotationBeanPostProcessor
   > ```
   >
-  > ![image-20231102231702064](https://s.ires.cc:9099/files/2023/11/02/image-20231102231702064.png)
+  > ![image-20231102231702064](https://f.ires.cc/files/2023/11/02/image-20231102231702064.png)
 
 - @Inject
 
@@ -1306,7 +1306,7 @@ API 配置元信息
   > org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
   > ```
   >
-  > ![image-20231102231543660](https://s.ires.cc:9099/files/2023/11/02/image-20231102231543660.png)
+  > ![image-20231102231543660](https://f.ires.cc/files/2023/11/02/image-20231102231543660.png)
 
 ## 方式注入
 
@@ -1317,14 +1317,14 @@ API 配置元信息
 
 ## 接口回调注入
 
-![image-20231102232900103](https://s.ires.cc:9099/files/2023/11/02/image-20231102232900103.png)
+![image-20231102232900103](https://f.ires.cc/files/2023/11/02/image-20231102232900103.png)
 
 1. org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#doCreateBean
 2. org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#initializeBean(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
 3. org.springframework.context.support.ApplicationContextAwareProcessor#postProcessBeforeInitialization
-4. ![image-20231102233130552](https://s.ires.cc:9099/files/2023/11/02/image-20231102233130552.png)
-5. ![image-20231102233750046](https://s.ires.cc:9099/files/2023/11/02/image-20231102233750046.png)
-6. ![image-20231102233642699](https://s.ires.cc:9099/files/2023/11/02/image-20231102233642699.png)
+4. ![image-20231102233130552](https://f.ires.cc/files/2023/11/02/image-20231102233130552.png)
+5. ![image-20231102233750046](https://f.ires.cc/files/2023/11/02/image-20231102233750046.png)
+6. ![image-20231102233642699](https://f.ires.cc/files/2023/11/02/image-20231102233642699.png)
 
 ## 依赖注入类型的选择
 
@@ -1339,7 +1339,7 @@ API 配置元信息
 
 ## 基础类型的注入
 
-![image-20231113223854916](https://s.ires.cc:9099/files/2023/11/13/image-20231113223854916.png)
+![image-20231113223854916](https://f.ires.cc/files/2023/11/13/image-20231113223854916.png)
 
 ```xml
 <bean id='user' class='com.study.entity.User'>
@@ -1384,7 +1384,7 @@ API 配置元信息
 
 > org.springframework.beans.factory.ObjectProvider
 
-![image-20231113230249766](https://s.ires.cc:9099/files/2023/11/13/image-20231113230249766.png)
+![image-20231113230249766](https://f.ires.cc/files/2023/11/13/image-20231113230249766.png)
 
 ```java
 @Autowired
@@ -1395,50 +1395,50 @@ private ObjectPrivoder<User> userProvider;
 
 ### 入口
 
-![image-20231114224513541](https://s.ires.cc:9099/files/2023/11/14/image-20231114224513541.png)
+![image-20231114224513541](https://f.ires.cc/files/2023/11/14/image-20231114224513541.png)
 
 > 1.  ```java
 >     @Autowired
 >     private Cat cat;
 >     ```
 >
-> 2. ![image-20231114225046471](https://s.ires.cc:9099/files/2023/11/14/image-20231114225046471.png)
+> 2. ![image-20231114225046471](https://f.ires.cc/files/2023/11/14/image-20231114225046471.png)
 >
-> 3. ![image-20231114225245452](https://s.ires.cc:9099/files/2023/11/14/image-20231114225245452.png)
+> 3. ![image-20231114225245452](https://f.ires.cc/files/2023/11/14/image-20231114225245452.png)
 >
 > 4. 如果 Spring IOC 容器中存在当前依赖类型的多个`bean`
 >
->    ![image-20231114230102183](https://s.ires.cc:9099/files/2023/11/14/image-20231114230102183.png)
+>    ![image-20231114230102183](https://f.ires.cc/files/2023/11/14/image-20231114230102183.png)
 >
->    ![image-20231114230427656](https://s.ires.cc:9099/files/2023/11/14/image-20231114230427656.png)
+>    ![image-20231114230427656](https://f.ires.cc/files/2023/11/14/image-20231114230427656.png)
 >
->    ![image-20231114230600778](https://s.ires.cc:9099/files/2023/11/14/image-20231114230600778.png)
+>    ![image-20231114230600778](https://f.ires.cc/files/2023/11/14/image-20231114230600778.png)
 >
->    ![image-20231114230656917](https://s.ires.cc:9099/files/2023/11/14/image-20231114230656917.png)
+>    ![image-20231114230656917](https://f.ires.cc/files/2023/11/14/image-20231114230656917.png)
 
 > 1. ```java
 >    @Autowired
 >    private ObjectProvider<SuperCat> superCatProvider;
 >    ```
 >
-> 2. ![image-20231114231928971](https://s.ires.cc:9099/files/2023/11/14/image-20231114231928971.png)
+> 2. ![image-20231114231928971](https://f.ires.cc/files/2023/11/14/image-20231114231928971.png)
 >
-> 3. ![image-20231114232027343](https://s.ires.cc:9099/files/2023/11/14/image-20231114232027343.png)
+> 3. ![image-20231114232027343](https://f.ires.cc/files/2023/11/14/image-20231114232027343.png)
 >
-> 4. ![image-20231114232110882](https://s.ires.cc:9099/files/2023/11/14/image-20231114232110882.png)
+> 4. ![image-20231114232110882](https://f.ires.cc/files/2023/11/14/image-20231114232110882.png)
 >
-> 5. ![image-20231114232250531](https://s.ires.cc:9099/files/2023/11/14/image-20231114232250531.png)
+> 5. ![image-20231114232250531](https://f.ires.cc/files/2023/11/14/image-20231114232250531.png)
 >
 > 6. 如果我们调用 `ObjectProvider#getIfAvailable`
 >
-> 7. ![image-20231114232708093](https://s.ires.cc:9099/files/2023/11/14/image-20231114232708093.png)
+> 7. ![image-20231114232708093](https://f.ires.cc/files/2023/11/14/image-20231114232708093.png)
 
 > 1. ```java
 >    @Autowired
 >    private Optional<User> userOpt;
 >    ```
 >
-> 2. ![image-20231114232958340](https://s.ires.cc:9099/files/2023/11/14/image-20231114232958340.png)
+> 2. ![image-20231114232958340](https://f.ires.cc/files/2023/11/14/image-20231114232958340.png)
 
 > 1. ```java
 >    @Autowired
@@ -1447,7 +1447,7 @@ private ObjectPrivoder<User> userProvider;
 >
 > 2. > org.springframework.beans.factory.support.DefaultListableBeanFactory#resolveMultipleBeans
 >
-> 3. ![image-20231114233348005](https://s.ires.cc:9099/files/2023/11/14/image-20231114233348005.png)
+> 3. ![image-20231114233348005](https://f.ires.cc/files/2023/11/14/image-20231114233348005.png)
 
 > 如果我们在 注入 Bean 的 时候，使用 @Lazy 注解
 >
@@ -1457,11 +1457,11 @@ private ObjectPrivoder<User> userProvider;
 >    private Cat cat;
 >    ```
 >
-> 2. ![image-20231114233807136](https://s.ires.cc:9099/files/2023/11/14/image-20231114233807136.png)
+> 2. ![image-20231114233807136](https://f.ires.cc/files/2023/11/14/image-20231114233807136.png)
 >
-> 3. ![image-20231114233830130](https://s.ires.cc:9099/files/2023/11/14/image-20231114233830130.png)
+> 3. ![image-20231114233830130](https://f.ires.cc/files/2023/11/14/image-20231114233830130.png)
 >
-> 4. ![image-20231114234329019](https://s.ires.cc:9099/files/2023/11/14/image-20231114234329019.png)
+> 4. ![image-20231114234329019](https://f.ires.cc/files/2023/11/14/image-20231114234329019.png)
 
 > 依赖描述符: DependencyDescriptor
 
@@ -1469,7 +1469,7 @@ private ObjectPrivoder<User> userProvider;
 
 ## @Autowired 注入过程
 
-![image-20231115001919014](https://s.ires.cc:9099/files/2023/11/15/image-20231115001919014.png)
+![image-20231115001919014](https://f.ires.cc/files/2023/11/15/image-20231115001919014.png)
 
 - 元信息解析
 
@@ -1486,43 +1486,43 @@ private ObjectPrivoder<User> userProvider;
 private Cat cat;
 ```
 
-![image-20231114235251415](https://s.ires.cc:9099/files/2023/11/14/image-20231114235251415.png)
+![image-20231114235251415](https://f.ires.cc/files/2023/11/14/image-20231114235251415.png)
 
-![image-20231114235319482](https://s.ires.cc:9099/files/2023/11/14/image-20231114235319482.png)
+![image-20231114235319482](https://f.ires.cc/files/2023/11/14/image-20231114235319482.png)
 
-![image-20231114235529814](https://s.ires.cc:9099/files/2023/11/14/image-20231114235529814.png)
+![image-20231114235529814](https://f.ires.cc/files/2023/11/14/image-20231114235529814.png)
 
 ## @Inject JSR330 注解 注入
 
-> ![image-20231115001202157](https://s.ires.cc:9099/files/2023/11/15/image-20231115001202157.png)
+> ![image-20231115001202157](https://f.ires.cc/files/2023/11/15/image-20231115001202157.png)
 >
-> ![image-20231115000929832](https://s.ires.cc:9099/files/2023/11/15/image-20231115000929832.png)
+> ![image-20231115000929832](https://f.ires.cc/files/2023/11/15/image-20231115000929832.png)
 >
-> ![image-20231115001107451](https://s.ires.cc:9099/files/2023/11/15/image-20231115001107451.png)
+> ![image-20231115001107451](https://f.ires.cc/files/2023/11/15/image-20231115001107451.png)
 
 ## Java 通用注解注入原理
 
 > CommonAnnotationBeanPostProcessor
 >
-> ![image-20231115001952323](https://s.ires.cc:9099/files/2023/11/15/image-20231115001952323.png)
+> ![image-20231115001952323](https://f.ires.cc/files/2023/11/15/image-20231115001952323.png)
 >
-> ![image-20231115001331863](https://s.ires.cc:9099/files/2023/11/15/image-20231115001331863.png)
+> ![image-20231115001331863](https://f.ires.cc/files/2023/11/15/image-20231115001331863.png)
 >
 > 
 >
-> ![image-20231115001503306](https://s.ires.cc:9099/files/2023/11/15/image-20231115001503306.png)
+> ![image-20231115001503306](https://f.ires.cc/files/2023/11/15/image-20231115001503306.png)
 >
-> ![image-20231115001543898](https://s.ires.cc:9099/files/2023/11/15/image-20231115001543898.png)
+> ![image-20231115001543898](https://f.ires.cc/files/2023/11/15/image-20231115001543898.png)
 >
-> ![image-20231115001559385](https://s.ires.cc:9099/files/2023/11/15/image-20231115001559385.png)
+> ![image-20231115001559385](https://f.ires.cc/files/2023/11/15/image-20231115001559385.png)
 >
-> ![image-20231115001650086](https://s.ires.cc:9099/files/2023/11/15/image-20231115001650086.png)
+> ![image-20231115001650086](https://f.ires.cc/files/2023/11/15/image-20231115001650086.png)
 
 ## 自定义依赖注入注解
 
 ### 方式一
 
-![image-20231115002123175](https://s.ires.cc:9099/files/2023/11/15/image-20231115002123175.png)
+![image-20231115002123175](https://f.ires.cc/files/2023/11/15/image-20231115002123175.png)
 
 ```java
 ......
@@ -1534,13 +1534,13 @@ public @interface MyAutowired {
 
 ### 方式二
 
-![image-20231115002603911](https://s.ires.cc:9099/files/2023/11/15/image-20231115002603911.png)
+![image-20231115002603911](https://f.ires.cc/files/2023/11/15/image-20231115002603911.png)
 
 > org.springframework.context.annotation.AnnotationConfigUtils#registerAnnotationConfigProcessors(org.springframework.beans.factory.support.BeanDefinitionRegistry, java.lang.Object)
 >
-> ![image-20231115003443686](https://s.ires.cc:9099/files/2023/11/15/image-20231115003443686.png)
+> ![image-20231115003443686](https://f.ires.cc/files/2023/11/15/image-20231115003443686.png)
 
-![image-20231115002256806](https://s.ires.cc:9099/files/2023/11/15/image-20231115002256806.png)
+![image-20231115002256806](https://f.ires.cc/files/2023/11/15/image-20231115002256806.png)
 
 ```java
 @Bean(org.springframework.context.annotation.AnnotationConfigUtils.AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME)
@@ -1601,11 +1601,11 @@ public AutowiredAnnotaionBeanPostProcessor injectUserAutowiredBeanPostProcessor(
   > <context:annotation-config/>
   > ```
 
-  ![image-20231115233128795](https://s.ires.cc:9099/files/2023/11/15/image-20231115233128795.png)
+  ![image-20231115233128795](https://f.ires.cc/files/2023/11/15/image-20231115233128795.png)
 
 - Spring 内建 Bean 实例
 
-  ![image-20231115233000482](https://s.ires.cc:9099/files/2023/11/15/image-20231115233000482.png)
+  ![image-20231115233000482](https://f.ires.cc/files/2023/11/15/image-20231115233000482.png)
 
 ## Spring 依赖注入的来源
 
@@ -1627,16 +1627,16 @@ public AutowiredAnnotaionBeanPostProcessor injectUserAutowiredBeanPostProcessor(
 
 - 游离的 Spring 内建实例 `ResolveableDependency`
 
-  - ![image-20231115234012414](https://s.ires.cc:9099/files/2023/11/15/image-20231115234012414.png)
+  - ![image-20231115234012414](https://f.ires.cc/files/2023/11/15/image-20231115234012414.png)
   - ChatGPT3.5 对于 这段注释的解释
-    - ![image-20231115234757591](https://s.ires.cc:9099/files/2023/11/15/image-20231115234757591.png)
-  - ![image-20231115234104567](https://s.ires.cc:9099/files/2023/11/15/image-20231115234104567.png)
+    - ![image-20231115234757591](https://f.ires.cc/files/2023/11/15/image-20231115234757591.png)
+  - ![image-20231115234104567](https://f.ires.cc/files/2023/11/15/image-20231115234104567.png)
 
 ### 小总结
 
 > Spring的 依赖查找和依赖注入有一定的差异的，其差异大致可以总结如下：
 >
-> ![image-20231115234948553](https://s.ires.cc:9099/files/2023/11/15/image-20231115234948553.png)
+> ![image-20231115234948553](https://f.ires.cc/files/2023/11/15/image-20231115234948553.png)
 >
 > 也就是说，我们可以是通过如下代码 注入 `BeanFactory`
 >
@@ -1659,13 +1659,13 @@ public AutowiredAnnotaionBeanPostProcessor injectUserAutowiredBeanPostProcessor(
 - 类型 延迟和非延迟
 - 顺序: BeanDefinition 的注册顺序
 
-![image-20231115235807904](https://s.ires.cc:9099/files/2023/11/15/image-20231115235807904.png)
+![image-20231115235807904](https://f.ires.cc/files/2023/11/15/image-20231115235807904.png)
 
-![image-20231115235843770](https://s.ires.cc:9099/files/2023/11/15/image-20231115235843770.png)
+![image-20231115235843770](https://f.ires.cc/files/2023/11/15/image-20231115235843770.png)
 
-![image-20231115235908655](https://s.ires.cc:9099/files/2023/11/15/image-20231115235908655.png)
+![image-20231115235908655](https://f.ires.cc/files/2023/11/15/image-20231115235908655.png)
 
-![image-20231116000024312](https://s.ires.cc:9099/files/2023/11/16/image-20231116000024312.png)
+![image-20231116000024312](https://f.ires.cc/files/2023/11/16/image-20231116000024312.png)
 
 ## 如何注册非Spring管理对象作为依赖注入来源
 
@@ -1673,7 +1673,7 @@ public AutowiredAnnotaionBeanPostProcessor injectUserAutowiredBeanPostProcessor(
 org.springframework.beans.factory.config.ConfigurableListableBeanFactory#registerResolvableDependency
 ```
 
-![image-20231116234627295](https://s.ires.cc:9099/files/2023/11/16/image-20231116234627295.png)
+![image-20231116234627295](https://f.ires.cc/files/2023/11/16/image-20231116234627295.png)
 
 > ```java
 > org.springframework.context.support.AbstractApplicationContext#addBeanFactoryPostProcessor
@@ -1703,7 +1703,7 @@ private Resource userResource;
 > org.springframework.beans.factory.support.DefaultListableBeanFactory#doResolveDependency
 > ```
 >
-> ![image-20231117000535946](https://s.ires.cc:9099/files/2023/11/17/image-20231117000535946.png)
+> ![image-20231117000535946](https://f.ires.cc/files/2023/11/17/image-20231117000535946.png)
 >
 > ```java
 > org.springframework.beans.factory.config.EmbeddedValueResolver
@@ -1723,15 +1723,15 @@ private Resource userResource;
 >         org.springframework.beans.factory.support.DefaultListableBeanFactory#registerSingleton
 > ```
 >
-> ![image-20231117001534910](https://s.ires.cc:9099/files/2023/11/17/image-20231117001534910.png)
+> ![image-20231117001534910](https://f.ires.cc/files/2023/11/17/image-20231117001534910.png)
 >
 > Spring IOC 启动之后，会有一个 freezeConfiguration
 >
-> ![image-20231117001716505](https://s.ires.cc:9099/files/2023/11/17/image-20231117001716505.png)
+> ![image-20231117001716505](https://f.ires.cc/files/2023/11/17/image-20231117001716505.png)
 >
 > org.springframework.beans.factory.support.DefaultListableBeanFactory#getBeanDefinitionNames
 >
-> ![image-20231117001755149](https://s.ires.cc:9099/files/2023/11/17/image-20231117001755149.png)
+> ![image-20231117001755149](https://f.ires.cc/files/2023/11/17/image-20231117001755149.png)
 
 > 可以的，单例对象的注册和BeanDefiniton 的注册不同，BeanDefinition 受 ConfigurableListableBeanFactory#freezeBeanDefinition的影响，从而冻结注册,单例对象的注册不受u这个影响
 
@@ -1746,9 +1746,9 @@ private Resource userResource;
 
 - singleton
 
-  > ![image-20231122231926372](https://s.ires.cc:9099/files/2023/11/22/image-20231122231926372.png)
+  > ![image-20231122231926372](https://f.ires.cc/files/2023/11/22/image-20231122231926372.png)
   >
-  > ![image-20231122231027273](https://s.ires.cc:9099/files/2023/11/22/image-20231122231027273.png)
+  > ![image-20231122231027273](https://f.ires.cc/files/2023/11/22/image-20231122231027273.png)
 
 - prototype
 
@@ -1758,28 +1758,28 @@ private Resource userResource;
   > org.springframework.beans.factory.config.ConfigurableBeanFactory#SCOPE_PROTOTYPE    
   > ```
   >
-  > ![image-20231122232011541](https://s.ires.cc:9099/files/2023/11/22/image-20231122232011541.png)
+  > ![image-20231122232011541](https://f.ires.cc/files/2023/11/22/image-20231122232011541.png)
   >
   > > Spring 没办法管理 `prototype` 类型 Bean 的完整生命周期，Spring 会执行其初始化方法，但是不会执行其初始化方法
   > >
-  > > - ![image-20231122232400398](https://s.ires.cc:9099/files/2023/11/22/image-20231122232400398.png)
+  > > - ![image-20231122232400398](https://f.ires.cc/files/2023/11/22/image-20231122232400398.png)
   > > - 官方建议我们可以自定义BeanPostProcessor 执行 `prototype` bean 的清扫工作
   > > - 我们可以通过定义个`singleton` 的单实例Bean，为其定义个销毁方法，在此`singleton`bean中执行`prototype` 的初始化
 
 - request
 
-  - ![image-20231122231138004](https://s.ires.cc:9099/files/2023/11/22/image-20231122231138004.png)
-  - ![image-20231122231231675](https://s.ires.cc:9099/files/2023/11/22/image-20231122231231675.png)
+  - ![image-20231122231138004](https://f.ires.cc/files/2023/11/22/image-20231122231138004.png)
+  - ![image-20231122231231675](https://f.ires.cc/files/2023/11/22/image-20231122231231675.png)
 
 - session
 
-  - ![image-20231122231306218](https://s.ires.cc:9099/files/2023/11/22/image-20231122231306218.png)
+  - ![image-20231122231306218](https://f.ires.cc/files/2023/11/22/image-20231122231306218.png)
 
-  > ![image-20231122231718677](https://s.ires.cc:9099/files/2023/11/22/image-20231122231718677.png)
+  > ![image-20231122231718677](https://f.ires.cc/files/2023/11/22/image-20231122231718677.png)
   >
-  > ![image-20231122231555575](https://s.ires.cc:9099/files/2023/11/22/image-20231122231555575.png)
+  > ![image-20231122231555575](https://f.ires.cc/files/2023/11/22/image-20231122231555575.png)
   >
-  > ![image-20231122231629732](https://s.ires.cc:9099/files/2023/11/22/image-20231122231629732.png)
+  > ![image-20231122231629732](https://f.ires.cc/files/2023/11/22/image-20231122231629732.png)
 
 - applicaiton（ServletContext）
 
@@ -1791,7 +1791,7 @@ private Resource userResource;
   > org.springframework.web.context.WebApplicationContext#SCOPE_APPLICATION    
   > ```
   >
-  > ![image-20231122231821088](https://s.ires.cc:9099/files/2023/11/22/image-20231122231821088.png)
+  > ![image-20231122231821088](https://f.ires.cc/files/2023/11/22/image-20231122231821088.png)
 
 ### 自定义Spring Bean 的 Scope
 
@@ -1805,7 +1805,7 @@ private Resource userResource;
 
    - XML
 
-     ![image-20231122233256511](https://s.ires.cc:9099/files/2023/11/22/image-20231122233256511.png)
+     ![image-20231122233256511](https://f.ires.cc/files/2023/11/22/image-20231122233256511.png)
 
 #### 实现
 
@@ -1845,9 +1845,9 @@ public ThreadLocalScope implements Scope{
 
 > # 如何注册 自定义的 Scope?
 >
-> ![image-20231122234318165](https://s.ires.cc:9099/files/2023/11/22/image-20231122234318165.png)
+> ![image-20231122234318165](https://f.ires.cc/files/2023/11/22/image-20231122234318165.png)
 >
-> ![image-20231122234339377](https://s.ires.cc:9099/files/2023/11/22/image-20231122234339377.png)
+> ![image-20231122234339377](https://f.ires.cc/files/2023/11/22/image-20231122234339377.png)
 >
 > ```java
 > AnnotationConfigApplicaitonContext applicationContext =new AnnotationConfigApplicaitonContext();
@@ -1856,9 +1856,9 @@ public ThreadLocalScope implements Scope{
 
 ### Spring Cloud RefreshScope
 
-![image-20231122234935149](https://s.ires.cc:9099/files/2023/11/22/image-20231122234935149.png)
+![image-20231122234935149](https://f.ires.cc/files/2023/11/22/image-20231122234935149.png)
 
-![image-20231122235134667](https://s.ires.cc:9099/files/2023/11/22/image-20231122235134667.png)
+![image-20231122235134667](https://f.ires.cc/files/2023/11/22/image-20231122235134667.png)
 
 ## 面试题: Spring 内建Bean作用域有哪些
 
@@ -1898,27 +1898,27 @@ public ThreadLocalScope implements Scope{
     >
     > org.springframework.beans.factory.support.BeanDefinitionRegistry
     >
-    > ![image-20231124223812618](https://s.ires.cc:9099/files/2023/11/24/image-20231124223812618.png)
+    > ![image-20231124223812618](https://f.ires.cc/files/2023/11/24/image-20231124223812618.png)
     >
     > org.springframework.beans.factory.support.DefaultListableBeanFactory#registerBeanDefinition
 
 ## Spring BeanDefition 解析阶段
 
-![image-20231124224106599](https://s.ires.cc:9099/files/2023/11/24/image-20231124224106599.png)
+![image-20231124224106599](https://f.ires.cc/files/2023/11/24/image-20231124224106599.png)
 
-![image-20231124225022373](https://s.ires.cc:9099/files/2023/11/24/image-20231124225022373.png)
+![image-20231124225022373](https://f.ires.cc/files/2023/11/24/image-20231124225022373.png)
 
 ### XmBeanDefinitionReader
 
-![image-20231124225331119](https://s.ires.cc:9099/files/2023/11/24/image-20231124225331119.png)
+![image-20231124225331119](https://f.ires.cc/files/2023/11/24/image-20231124225331119.png)
 
-![image-20231124225402961](https://s.ires.cc:9099/files/2023/11/24/image-20231124225402961.png)
+![image-20231124225402961](https://f.ires.cc/files/2023/11/24/image-20231124225402961.png)
 
 ### AnnotatedBeanDefinitionReader
 
-![image-20231124225258609](https://s.ires.cc:9099/files/2023/11/24/image-20231124225258609.png)
+![image-20231124225258609](https://f.ires.cc/files/2023/11/24/image-20231124225258609.png)
 
-![image-20231124225205263](https://s.ires.cc:9099/files/2023/11/24/image-20231124225205263.png)
+![image-20231124225205263](https://f.ires.cc/files/2023/11/24/image-20231124225205263.png)
 
 > 注册的 bean 可以不标注 `@Configuration` 注解
 
@@ -1926,39 +1926,39 @@ public ThreadLocalScope implements Scope{
 
 > org.springframework.beans.factory.config.ConfigurableBeanFactory#getMergedBeanDefinition
 >
-> ![image-20231124225958549](https://s.ires.cc:9099/files/2023/11/24/image-20231124225958549.png)
+> ![image-20231124225958549](https://f.ires.cc/files/2023/11/24/image-20231124225958549.png)
 
 ### BeanDefinition merged 流程分析
 
-![image-20231124230250041](https://s.ires.cc:9099/files/2023/11/24/image-20231124230250041.png)
+![image-20231124230250041](https://f.ires.cc/files/2023/11/24/image-20231124230250041.png)
 
-![image-20231124230416723](https://s.ires.cc:9099/files/2023/11/24/image-20231124230416723.png)
+![image-20231124230416723](https://f.ires.cc/files/2023/11/24/image-20231124230416723.png)
 
-![image-20231124230449964](https://s.ires.cc:9099/files/2023/11/24/image-20231124230449964.png)
+![image-20231124230449964](https://f.ires.cc/files/2023/11/24/image-20231124230449964.png)
 
 > org.springframework.beans.factory.support.AbstractBeanFactory#getMergedBeanDefinition(java.lang.String, org.springframework.beans.factory.config.BeanDefinition, org.springframework.beans.factory.config.BeanDefinition)
 >
-> ![image-20231124230555370](https://s.ires.cc:9099/files/2023/11/24/image-20231124230555370.png)
+> ![image-20231124230555370](https://f.ires.cc/files/2023/11/24/image-20231124230555370.png)
 
-![image-20231124230645021](https://s.ires.cc:9099/files/2023/11/24/image-20231124230645021.png)
+![image-20231124230645021](https://f.ires.cc/files/2023/11/24/image-20231124230645021.png)
 
-![image-20231124231032738](https://s.ires.cc:9099/files/2023/11/24/image-20231124231032738.png)
+![image-20231124231032738](https://f.ires.cc/files/2023/11/24/image-20231124231032738.png)
 
-![image-20231124231140848](https://s.ires.cc:9099/files/2023/11/24/image-20231124231140848.png)
+![image-20231124231140848](https://f.ires.cc/files/2023/11/24/image-20231124231140848.png)
 
 > GenericBeanDefinition  -- > RootBeanDefinition
 >
-> ![image-20231124232431173](https://s.ires.cc:9099/files/2023/11/24/image-20231124232431173.png)
+> ![image-20231124232431173](https://f.ires.cc/files/2023/11/24/image-20231124232431173.png)
 >
-> ![image-20231124232406119](https://s.ires.cc:9099/files/2023/11/24/image-20231124232406119.png)
+> ![image-20231124232406119](https://f.ires.cc/files/2023/11/24/image-20231124232406119.png)
 
 ## Spring BeanClass 加载阶段
 
 > org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#createBean(java.lang.String, org.springframework.beans.factory.support.RootBeanDefinition, java.lang.Object[])
 
-![image-20231124233229381](https://s.ires.cc:9099/files/2023/11/24/image-20231124233229381.png)
+![image-20231124233229381](https://f.ires.cc/files/2023/11/24/image-20231124233229381.png)
 
-![image-20231124233721424](https://s.ires.cc:9099/files/2023/11/24/image-20231124233721424.png)
+![image-20231124233721424](https://f.ires.cc/files/2023/11/24/image-20231124233721424.png)
 
 ## Spring Bean 的实例化前阶段
 
@@ -1966,13 +1966,13 @@ public ThreadLocalScope implements Scope{
 
   > 
 
-  ![image-20231124234143515](https://s.ires.cc:9099/files/2023/11/24/image-20231124234143515.png)
+  ![image-20231124234143515](https://f.ires.cc/files/2023/11/24/image-20231124234143515.png)
 
 ### `resolveBeforeInstanttiation`
 
-![image-20231124234224853](https://s.ires.cc:9099/files/2023/11/24/image-20231124234224853.png)
+![image-20231124234224853](https://f.ires.cc/files/2023/11/24/image-20231124234224853.png)
 
-![image-20231124234346402](https://s.ires.cc:9099/files/2023/11/24/image-20231124234346402.png)
+![image-20231124234346402](https://f.ires.cc/files/2023/11/24/image-20231124234346402.png)
 
 > org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
 
@@ -1982,11 +1982,11 @@ public ThreadLocalScope implements Scope{
 
   - 实例化策略
 
-    > ![image-20231124234938827](https://s.ires.cc:9099/files/2023/11/24/image-20231124234938827.png)
+    > ![image-20231124234938827](https://f.ires.cc/files/2023/11/24/image-20231124234938827.png)
     >
-    > ![image-20231124234958445](https://s.ires.cc:9099/files/2023/11/24/image-20231124234958445.png)
+    > ![image-20231124234958445](https://f.ires.cc/files/2023/11/24/image-20231124234958445.png)
     >
-    > ![image-20231124235455502](https://s.ires.cc:9099/files/2023/11/24/image-20231124235455502.png)
+    > ![image-20231124235455502](https://f.ires.cc/files/2023/11/24/image-20231124235455502.png)
     >
     >  
 
@@ -1996,7 +1996,7 @@ public ThreadLocalScope implements Scope{
 > org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor
 > ```
 >
-> ![image-20231128231400519](https://s.ires.cc:9099/files/2023/11/28/image-20231128231400519.png)
+> ![image-20231128231400519](https://f.ires.cc/files/2023/11/28/image-20231128231400519.png)
 
 ### 我们可以**阻止**`Spring Bean` 实例化
 
@@ -2004,13 +2004,13 @@ public ThreadLocalScope implements Scope{
 org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessBeforeInstantiation
 ```
 
-![image-20231128231921365](https://s.ires.cc:9099/files/2023/11/28/image-20231128231921365.png)
+![image-20231128231921365](https://f.ires.cc/files/2023/11/28/image-20231128231921365.png)
 
-![image-20231128232335422](https://s.ires.cc:9099/files/2023/11/28/image-20231128232335422.png)
+![image-20231128232335422](https://f.ires.cc/files/2023/11/28/image-20231128232335422.png)
 
-![image-20231128232355527](https://s.ires.cc:9099/files/2023/11/28/image-20231128232355527.png)
+![image-20231128232355527](https://f.ires.cc/files/2023/11/28/image-20231128232355527.png)
 
-![image-20231128232726134](https://s.ires.cc:9099/files/2023/11/28/image-20231128232726134.png)
+![image-20231128232726134](https://f.ires.cc/files/2023/11/28/image-20231128232726134.png)
 
 #### InstantiationAwareBenPostProcessor#postProcessorBeforeInstantiation
 
@@ -2018,13 +2018,13 @@ org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#pos
 > org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#createBean(java.lang.String, org.springframework.beans.factory.support.RootBeanDefinition, java.lang.Object[])
 > ```
 >
-> ![image-20231128233123354](https://s.ires.cc:9099/files/2023/11/28/image-20231128233123354.png)
+> ![image-20231128233123354](https://f.ires.cc/files/2023/11/28/image-20231128233123354.png)
 >
 > ```java
 > org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#resolveBeforeInstantiation
 > ```
 >
-> ![image-20231128233149271](https://s.ires.cc:9099/files/2023/11/28/image-20231128233149271.png)
+> ![image-20231128233149271](https://f.ires.cc/files/2023/11/28/image-20231128233149271.png)
 
 ## Spring Bean 实例化后阶段
 
@@ -2032,9 +2032,9 @@ org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#pos
 org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessAfterInstantiation
 ```
 
-![image-20231128233701926](https://s.ires.cc:9099/files/2023/11/28/image-20231128233701926.png)
+![image-20231128233701926](https://f.ires.cc/files/2023/11/28/image-20231128233701926.png)
 
-![image-20231128233633580](https://s.ires.cc:9099/files/2023/11/28/image-20231128233633580.png)
+![image-20231128233633580](https://f.ires.cc/files/2023/11/28/image-20231128233633580.png)
 
 #### `InstantiationAwareBeanPostProcessor#postProcessorAfterInstantiation`
 
@@ -2044,9 +2044,9 @@ org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#pos
 > org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#populateBean
 > ```
 >
-> ![image-20231128233858698](https://s.ires.cc:9099/files/2023/11/28/image-20231128233858698.png)
+> ![image-20231128233858698](https://f.ires.cc/files/2023/11/28/image-20231128233858698.png)
 >
-> ![image-20231128234015680](https://s.ires.cc:9099/files/2023/11/28/image-20231128234015680.png)
+> ![image-20231128234015680](https://f.ires.cc/files/2023/11/28/image-20231128234015680.png)
 >
 > 
 
@@ -2067,7 +2067,7 @@ org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#pos
 > org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#populateBean
 > ```
 >
-> ![image-20231128234640836](https://s.ires.cc:9099/files/2023/11/28/image-20231128234640836.png)
+> ![image-20231128234640836](https://f.ires.cc/files/2023/11/28/image-20231128234640836.png)
 
 ## Spring Aware 接口回调阶段(按照回调顺序排列)
 
@@ -2077,7 +2077,7 @@ org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#pos
 org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeAwareMethods
 ```
 
-![image-20231128235340412](https://s.ires.cc:9099/files/2023/11/28/image-20231128235340412.png)
+![image-20231128235340412](https://f.ires.cc/files/2023/11/28/image-20231128235340412.png)
 
 1. BeanNameAware
 2. BeanClassLoaderAware
@@ -2091,17 +2091,17 @@ org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#ini
 org.springframework.context.support.ApplicationContextAwareProcessor
 ```
 
-![image-20231129000544934](https://s.ires.cc:9099/files/2023/11/29/image-20231129000544934.png)
+![image-20231129000544934](https://f.ires.cc/files/2023/11/29/image-20231129000544934.png)
 
-![image-20231129000633190](https://s.ires.cc:9099/files/2023/11/29/image-20231129000633190.png)
+![image-20231129000633190](https://f.ires.cc/files/2023/11/29/image-20231129000633190.png)
 
-![image-20231129000827457](https://s.ires.cc:9099/files/2023/11/29/image-20231129000827457.png)
+![image-20231129000827457](https://f.ires.cc/files/2023/11/29/image-20231129000827457.png)
 
-![image-20231129000646496](https://s.ires.cc:9099/files/2023/11/29/image-20231129000646496.png)
+![image-20231129000646496](https://f.ires.cc/files/2023/11/29/image-20231129000646496.png)
 
-![image-20231128235759085](https://s.ires.cc:9099/files/2023/11/28/image-20231128235759085.png)
+![image-20231128235759085](https://f.ires.cc/files/2023/11/28/image-20231128235759085.png)
 
-![image-20231128235744526](https://s.ires.cc:9099/files/2023/11/28/image-20231128235744526.png)
+![image-20231128235744526](https://f.ires.cc/files/2023/11/28/image-20231128235744526.png)
 
 4. EnviromentAware
 
@@ -2127,15 +2127,15 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 >
 > org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#doCreateBean
 >
-> ![image-20231129224313873](https://s.ires.cc:9099/files/2023/11/29/image-20231129224313873.png)
+> ![image-20231129224313873](https://f.ires.cc/files/2023/11/29/image-20231129224313873.png)
 >
-> ![](https://s.ires.cc:9099/files/2023/11/29/image-20231129224313873.png)
+> ![](https://f.ires.cc/files/2023/11/29/image-20231129224313873.png)
 >
 > org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#initializeBean(java.lang.String, java.lang.Object, org.springframework.beans.factory.support.RootBeanDefinition)
 >
-> ![image-20231129224657329](https://s.ires.cc:9099/files/2023/11/29/image-20231129224657329.png)
+> ![image-20231129224657329](https://f.ires.cc/files/2023/11/29/image-20231129224657329.png)
 >
-> ![image-20231129224735049](https://s.ires.cc:9099/files/2023/11/29/image-20231129224735049.png)
+> ![image-20231129224735049](https://f.ires.cc/files/2023/11/29/image-20231129224735049.png)
 
 ## Spring Bean 的初始化阶段
 
@@ -2143,69 +2143,69 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 
 2. 实现 Spring 的 InitializingBean 接口
 
-   ![image-20231129225059499](https://s.ires.cc:9099/files/2023/11/29/image-20231129225059499.png)
+   ![image-20231129225059499](https://f.ires.cc/files/2023/11/29/image-20231129225059499.png)
 
-   ![image-20231129225209305](https://s.ires.cc:9099/files/2023/11/29/image-20231129225209305.png)
+   ![image-20231129225209305](https://f.ires.cc/files/2023/11/29/image-20231129225209305.png)
 
    3. 自定义初始化方法
 
 > - 自定义初始化方法; 实现 InitializingBean 接口
 >
->   ![image-20231129225412194](https://s.ires.cc:9099/files/2023/11/29/image-20231129225412194.png)
+>   ![image-20231129225412194](https://f.ires.cc/files/2023/11/29/image-20231129225412194.png)
 >
->   ![image-20231129225500659](https://s.ires.cc:9099/files/2023/11/29/image-20231129225500659.png)
+>   ![image-20231129225500659](https://f.ires.cc/files/2023/11/29/image-20231129225500659.png)
 
 ### `@PostContruct` 实现
 
-> ![image-20231129225648534](https://s.ires.cc:9099/files/2023/11/29/image-20231129225648534.png)
+> ![image-20231129225648534](https://f.ires.cc/files/2023/11/29/image-20231129225648534.png)
 >
-> ![image-20231129225718335](https://s.ires.cc:9099/files/2023/11/29/image-20231129225718335.png)
+> ![image-20231129225718335](https://f.ires.cc/files/2023/11/29/image-20231129225718335.png)
 >
 > CommonAnnotationBeanPostProcessor  parent InitDestoryAnnotationBeanPostProcessor 
 >
 > BeanPostProcessor#postProcessorBeforeInitialization
 >
-> ![image-20231129225928056](https://s.ires.cc:9099/files/2023/11/29/image-20231129225928056.png)
+> ![image-20231129225928056](https://f.ires.cc/files/2023/11/29/image-20231129225928056.png)
 >
-> ![image-20231129225953819](https://s.ires.cc:9099/files/2023/11/29/image-20231129225953819.png)
+> ![image-20231129225953819](https://f.ires.cc/files/2023/11/29/image-20231129225953819.png)
 
 ## Spring Bean 初始化后的阶段
 
 > BeanPostProcessor@postProcessorAfterInitialization
 >
-> ![image-20231129230228563](https://s.ires.cc:9099/files/2023/11/29/image-20231129230228563.png)
+> ![image-20231129230228563](https://f.ires.cc/files/2023/11/29/image-20231129230228563.png)
 
 ## Spring Bean 初始化完成阶段
 
 > @since  spring 4.1 
 >
-> ![image-20231129230349658](https://s.ires.cc:9099/files/2023/11/29/image-20231129230349658.png)
+> ![image-20231129230349658](https://f.ires.cc/files/2023/11/29/image-20231129230349658.png)
 >
-> ![image-20231129230402038](https://s.ires.cc:9099/files/2023/11/29/image-20231129230402038.png)
+> ![image-20231129230402038](https://f.ires.cc/files/2023/11/29/image-20231129230402038.png)
 >
-> ![image-20231129230519298](https://s.ires.cc:9099/files/2023/11/29/image-20231129230519298.png)
+> ![image-20231129230519298](https://f.ires.cc/files/2023/11/29/image-20231129230519298.png)
 >
 > 执行方式
 >
 > > org.springframework.beans.factory.support.DefaultListableBeanFactory#preInstantiateSingletons
 >
-> ![image-20231129230749243](https://s.ires.cc:9099/files/2023/11/29/image-20231129230749243.png)
+> ![image-20231129230749243](https://f.ires.cc/files/2023/11/29/image-20231129230749243.png)
 >
-> ![image-20231129230805618](https://s.ires.cc:9099/files/2023/11/29/image-20231129230805618.png)
+> ![image-20231129230805618](https://f.ires.cc/files/2023/11/29/image-20231129230805618.png)
 >
 > > 我们常用的 ApplicationContext是如何触发的呢？
 > >
 > > org.springframework.context.support.AbstractApplicationContext#finishBeanFactoryInitialization
 > >
-> > ![image-20231129231014160](https://s.ires.cc:9099/files/2023/11/29/image-20231129231014160.png)
+> > ![image-20231129231014160](https://f.ires.cc/files/2023/11/29/image-20231129231014160.png)
 > >
 > > - AnnotationConfigApplicationContext
 > >
-> > ![image-20231129231050146](https://s.ires.cc:9099/files/2023/11/29/image-20231129231050146.png)
+> > ![image-20231129231050146](https://f.ires.cc/files/2023/11/29/image-20231129231050146.png)
 > >
 > > - ClassPathXmlApplicationContext
 > >
-> >   ![image-20231129231157361](https://s.ires.cc:9099/files/2023/11/29/image-20231129231157361.png)
+> >   ![image-20231129231157361](https://f.ires.cc/files/2023/11/29/image-20231129231157361.png)
 > >
 > > 
 
@@ -2213,7 +2213,7 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 
 > DestructAwareBeanPostProcessor#postProcessorDestruction
 >
-> ![image-20231129231415547](https://s.ires.cc:9099/files/2023/11/29/image-20231129231415547.png)
+> ![image-20231129231415547](https://f.ires.cc/files/2023/11/29/image-20231129231415547.png)
 >
 > org.springframework.beans.factory.support.DisposableBeanAdapter#destroy
 
@@ -2223,7 +2223,7 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 >   - org.springframework.context.support.AbstractApplicationContext#doClose
 >     - org.springframework.context.support.AbstractApplicationContext#destroyBeans
 >       - org.springframework.beans.factory.support.DefaultListableBeanFactory#destroySingletons
->         - ![image-20231129233006317](https://s.ires.cc:9099/files/2023/11/29/image-20231129233006317.png)
+>         - ![image-20231129233006317](https://f.ires.cc/files/2023/11/29/image-20231129233006317.png)
 
 - @PreDestroy
 
@@ -2231,36 +2231,36 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 >   - InitDestructAnnotaionBeanPostProcessor
 >     - DestructionAwareBeanPostProcessor
 >
-> ![image-20231129232229480](https://s.ires.cc:9099/files/2023/11/29/image-20231129232229480.png)
+> ![image-20231129232229480](https://f.ires.cc/files/2023/11/29/image-20231129232229480.png)
 
 - 实现 Spring 的  DisposableBean 接口
 - 自定义销毁方法
 
-> ![image-20231129232033309](https://s.ires.cc:9099/files/2023/11/29/image-20231129232033309.png)
+> ![image-20231129232033309](https://f.ires.cc/files/2023/11/29/image-20231129232033309.png)
 >
-> ![image-20231129232057030](https://s.ires.cc:9099/files/2023/11/29/image-20231129232057030.png)
+> ![image-20231129232057030](https://f.ires.cc/files/2023/11/29/image-20231129232057030.png)
 >
-> ![image-20231129232115141](https://s.ires.cc:9099/files/2023/11/29/image-20231129232115141.png)
+> ![image-20231129232115141](https://f.ires.cc/files/2023/11/29/image-20231129232115141.png)
 
 ## 面试题：BeanPostProcessor的使用场景有哪些
 
 > BeanPostProcessor 提供 SpringBean 初始化前后的生命周期回调，分别对应 postProcesoorBeforeInitialization 和 postProcessorAfterInitialization 方法。我们可以在这个两个回调方法里面对我们自己感兴趣的Bean进行增加，甚至是替换
 >
-> ![image-20231214130723886](https://s.ires.cc:9099/files/2023/12/14/image-20231214130723886.png)
+> ![image-20231214130723886](https://f.ires.cc/files/2023/12/14/image-20231214130723886.png)
 >
-> ![image-20231214130745948](https://s.ires.cc:9099/files/2023/12/14/image-20231214130745948.png)
+> ![image-20231214130745948](https://f.ires.cc/files/2023/12/14/image-20231214130745948.png)
 >
 > > `ApplicationContext`的 Aware回调就是基于`BeanPostProcessor` 进行实现的呢，其对应的是`ApplicationContextAwareProcessor`
 > >
-> > ![image-20231214131012302](https://s.ires.cc:9099/files/2023/12/14/image-20231214131012302.png)
+> > ![image-20231214131012302](https://f.ires.cc/files/2023/12/14/image-20231214131012302.png)
 > >
-> > ![image-20231214131030035](https://s.ires.cc:9099/files/2023/12/14/image-20231214131030035.png)
+> > ![image-20231214131030035](https://f.ires.cc/files/2023/12/14/image-20231214131030035.png)
 
 ## 面试题：BeanFactoryPostProcessor 和 BeanPostProcessor的区别
 
 > `BeanFactoryPostProcessor` 是 Spirng BeanFactory （ConfigurableListableBeanFacotry）的后置处理器，用于拓展 `BeanFactory`或许使用 BeanFacotory 进行依赖查找或依赖注入。`BeanPostProcessor` 与 `BeanFactory`直接关联，其关联关系为 `N:1`
 >
-> ![image-20231214131756372](https://s.ires.cc:9099/files/2023/12/14/image-20231214131756372.png)
+> ![image-20231214131756372](https://f.ires.cc/files/2023/12/14/image-20231214131756372.png)
 >
 > > `BeanFactoryPostProcessor`必须依赖`ApplicationContext`执行，`BeanFactory`无法直接与其交互
 
@@ -2274,7 +2274,7 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 >      > org.springframework.beans.factory.support.BeanDefinitionRegistry#registerBeanDefinition
 >      > ```
 >      >
->      > ![image-20231214223636400](https://s.ires.cc:9099/files/2023/12/14/202312142236996.png)
+>      > ![image-20231214223636400](https://f.ires.cc/files/2023/12/14/202312142236996.png)
 >
 > 2. `BeanDefinition`的合并阶段 getMergedBeanDefinition
 >
@@ -2282,7 +2282,7 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 >      > org.springframework.beans.factory.support.AbstractBeanFactory#getMergedBeanDefinition(java.lang.String)
 >      > ```
 >      >
->      > ![image-20231214223826352](https://s.ires.cc:9099/files/2023/12/14/202312142238570.png)
+>      > ![image-20231214223826352](https://f.ires.cc/files/2023/12/14/202312142238570.png)
 >
 > 3. `Bean`的实例化前阶段 resloveBeforeInstantation
 >
@@ -2292,41 +2292,41 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 >      >     org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#resolveBeforeInstantiation
 >      > ```
 >      >
->      > ![image-20231214224248726](https://s.ires.cc:9099/files/2023/12/14/202312142242790.png)
+>      > ![image-20231214224248726](https://f.ires.cc/files/2023/12/14/202312142242790.png)
 >
 > 4. `Bean`的实例化阶段 createBeanInstance
 >
->    - ![image-20231214224335161](https://s.ires.cc:9099/files/2023/12/14/202312142243207.png)
+>    - ![image-20231214224335161](https://f.ires.cc/files/2023/12/14/202312142243207.png)
 >
 > 5. `Bean`的实例化后阶段 populateBean
 >
->    ![image-20231214224405037](https://s.ires.cc:9099/files/2023/12/14/202312142244077.png)
+>    ![image-20231214224405037](https://f.ires.cc/files/2023/12/14/202312142244077.png)
 >
 > 6. `Bean`属性赋值前阶段 populateBean
 >
->    - ![image-20231214224518465](https://s.ires.cc:9099/files/2023/12/14/202312142245518.png)
+>    - ![image-20231214224518465](https://f.ires.cc/files/2023/12/14/202312142245518.png)
 >
 > 7. `Bean`属性赋值阶段 populateBean
 >
->    - ![image-20231214224636184](https://s.ires.cc:9099/files/2023/12/14/202312142246321.png)
+>    - ![image-20231214224636184](https://f.ires.cc/files/2023/12/14/202312142246321.png)
 >
 > 8. `Bean` Aware 接口回调阶段 initializationBean
 >
->    - ![image-20231214224841622](https://s.ires.cc:9099/files/2023/12/14/202312142248025.png)
->    - ![image-20231214224859201](https://s.ires.cc:9099/files/2023/12/14/202312142249477.png)
+>    - ![image-20231214224841622](https://f.ires.cc/files/2023/12/14/202312142248025.png)
+>    - ![image-20231214224859201](https://f.ires.cc/files/2023/12/14/202312142249477.png)
 >
 > 9. `Bean`初始化前阶段 initializationBean
 >
->    - ![image-20231214224945595](https://s.ires.cc:9099/files/2023/12/14/202312142249567.png)
+>    - ![image-20231214224945595](https://f.ires.cc/files/2023/12/14/202312142249567.png)
 >
 > 10. `Bean`初始化阶段 initializationBean
 >
->     - ![image-20231214225008317](https://s.ires.cc:9099/files/2023/12/14/202312142250549.png)
->     - ![image-20231214225029273](https://s.ires.cc:9099/files/2023/12/14/202312142250245.png)
+>     - ![image-20231214225008317](https://f.ires.cc/files/2023/12/14/202312142250549.png)
+>     - ![image-20231214225029273](https://f.ires.cc/files/2023/12/14/202312142250245.png)
 >
 > 11. `Bean`初始化后阶段 initializationBean
 >
->     - ![image-20231214225103470](https://s.ires.cc:9099/files/2023/12/14/202312142251823.png)
+>     - ![image-20231214225103470](https://f.ires.cc/files/2023/12/14/202312142251823.png)
 >
 > 12. `Bean`初始化完成阶段 preInstantiateSingletions
 >
@@ -2334,9 +2334,9 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 >       > org.springframework.beans.factory.support.DefaultListableBeanFactory#preInstantiateSingletons
 >       > ```
 >       >
->       > ![image-20231214225311244](https://s.ires.cc:9099/files/2023/12/14/202312142253665.png)
+>       > ![image-20231214225311244](https://f.ires.cc/files/2023/12/14/202312142253665.png)
 >       >
->       > ![image-20231214225342584](https://s.ires.cc:9099/files/2023/12/14/202312142253869.png)
+>       > ![image-20231214225342584](https://f.ires.cc/files/2023/12/14/202312142253869.png)
 >
 > 13. `Bean`销毁前阶段 destoryBean
 >
@@ -2358,21 +2358,21 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 
 ### Spring Bean 配置元信息 `BeanDefinition`
 
-> ![image-20231214230921642](https://s.ires.cc:9099/files/2023/12/14/202312142309757.png)
+> ![image-20231214230921642](https://f.ires.cc/files/2023/12/14/202312142309757.png)
 
 #### BeanDefinition 三种实现种实现
 
 ##### 1. RootBeanDefinition
 
-> ![image-20231214231805940](https://s.ires.cc:9099/files/2023/12/14/202312142318965.png)
+> ![image-20231214231805940](https://f.ires.cc/files/2023/12/14/202312142318965.png)
 
 ##### 2. GenericBeanDefition
 
-> ![image-20231214231852132](https://s.ires.cc:9099/files/2023/12/14/202312142318165.png)
+> ![image-20231214231852132](https://f.ires.cc/files/2023/12/14/202312142318165.png)
 
 ##### 3. AnnotateBeanDedifinition
 
-> ![image-20231214231919855](https://s.ires.cc:9099/files/2023/12/14/202312142319970.png)
+> ![image-20231214231919855](https://f.ires.cc/files/2023/12/14/202312142319970.png)
 
 ## Spring  Bean 属性元信息
 
@@ -2400,9 +2400,9 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 > org.springframework.core.AttributeAccessor
 > ```
 >
-> ![image-20231214233105453](https://s.ires.cc:9099/files/2023/12/14/202312142331659.png)
+> ![image-20231214233105453](https://f.ires.cc/files/2023/12/14/202312142331659.png)
 >
-> ![image-20231214233148942](https://s.ires.cc:9099/files/2023/12/14/202312142331085.png)
+> ![image-20231214233148942](https://f.ires.cc/files/2023/12/14/202312142331085.png)
 
 #### Bean 元信息元素
 
@@ -2410,7 +2410,7 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 > org.springframework.beans.BeanMetadataElement
 > ```
 >
-> ![image-20231214233311963](https://s.ires.cc:9099/files/2023/12/14/202312142333636.png)
+> ![image-20231214233311963](https://f.ires.cc/files/2023/12/14/202312142333636.png)
 
 ## Spring 容器配置元信息
 
@@ -2418,15 +2418,15 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 
 ##### Beans 元素 相关
 
-![image-20231214233509656](https://s.ires.cc:9099/files/2023/12/14/202312142335078.png)
+![image-20231214233509656](https://f.ires.cc/files/2023/12/14/202312142335078.png)
 
-![image-20231214233930163](https://s.ires.cc:9099/files/2023/12/14/202312142339318.png)
+![image-20231214233930163](https://f.ires.cc/files/2023/12/14/202312142339318.png)
 
 ##### 应用上下文相关
 
-![image-20231214234057432](https://s.ires.cc:9099/files/2023/12/14/202312142340445.png)
+![image-20231214234057432](https://f.ires.cc/files/2023/12/14/202312142340445.png)
 
-![image-20231214234806524](https://s.ires.cc:9099/files/2023/12/14/202312142348685.png)
+![image-20231214234806524](https://f.ires.cc/files/2023/12/14/202312142348685.png)
 
 ##### 源码小析
 
@@ -2436,11 +2436,11 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 > org.springframework.beans.factory.xml.BeanDefinitionParserDelegate#populateDefaults    
 > ```
 >
-> ![image-20231214235028882](https://s.ires.cc:9099/files/2023/12/14/202312142350891.png)
+> ![image-20231214235028882](https://f.ires.cc/files/2023/12/14/202312142350891.png)
 
 ## 基于 XML 资源装载 Spring Bean 配置元信息
 
-![image-20231215002220210](https://s.ires.cc:9099/files/2023/12/15/202312150022291.png)
+![image-20231215002220210](https://f.ires.cc/files/2023/12/15/202312150022291.png)
 
 ### XmlBeanDefinitionReader 源码小析
 
@@ -2448,27 +2448,27 @@ org.springframework.context.support.ApplicationContextAwareProcessor
 org.springframework.beans.factory.xml.XmlBeanDefinitionReader#doLoadBeanDefinitions
 ```
 
-![image-20231215012014312](https://s.ires.cc:9099/files/2023/12/15/202312150120595.png)
+![image-20231215012014312](https://f.ires.cc/files/2023/12/15/202312150120595.png)
 
 ```java
 org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader#doRegisterBeanDefinitions
 ```
 
-![image-20231215012131717](https://s.ires.cc:9099/files/2023/12/15/202312150121712.png)
+![image-20231215012131717](https://f.ires.cc/files/2023/12/15/202312150121712.png)
 
 ## 基于 Properties资源装载 Spring Bean 信息
 
-![image-20231218224615532](https://s.ires.cc:9099/files/2023/12/18/202312182246578.png)
+![image-20231218224615532](https://f.ires.cc/files/2023/12/18/202312182246578.png)
 
-![image-20231218224458280](https://s.ires.cc:9099/files/2023/12/18/202312182245560.png)
+![image-20231218224458280](https://f.ires.cc/files/2023/12/18/202312182245560.png)
 
-![image-20231218224521628](https://s.ires.cc:9099/files/2023/12/18/202312182245729.png)
+![image-20231218224521628](https://f.ires.cc/files/2023/12/18/202312182245729.png)
 
 > ```java
 > org.springframework.beans.factory.support.PropertiesBeanDefinitionReader#loadBeanDefinitions(org.springframework.core.io.support.EncodedResource, java.lang.String)
 > ```
 >
-> ![image-20231218224708193](https://s.ires.cc:9099/files/2023/12/18/202312182247115.png)
+> ![image-20231218224708193](https://f.ires.cc/files/2023/12/18/202312182247115.png)
 
 > ```java
 > org.springframework.beans.factory.support.PropertiesBeanDefinitionReader#registerBeanDefinitions(java.util.Map<?,?>, java.lang.String, java.lang.String)
@@ -2476,49 +2476,49 @@ org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader#doRegi
 
 ### 基于 `Properties` 配置的 Bean 名称是什么呢
 
-![image-20231218225244601](https://s.ires.cc:9099/files/2023/12/18/202312182252956.png)
+![image-20231218225244601](https://f.ires.cc/files/2023/12/18/202312182252956.png)
 
 ## 基于 Java 注解装配 Spring Bean 配置元信息
 
-![image-20231218225725075](https://s.ires.cc:9099/files/2023/12/18/202312182257180.png)
+![image-20231218225725075](https://f.ires.cc/files/2023/12/18/202312182257180.png)
 
-![image-20231218225736919](https://s.ires.cc:9099/files/2023/12/18/202312182257045.png)
+![image-20231218225736919](https://f.ires.cc/files/2023/12/18/202312182257045.png)
 
-![image-20231218225751438](https://s.ires.cc:9099/files/2023/12/18/202312182257350.png)
+![image-20231218225751438](https://f.ires.cc/files/2023/12/18/202312182257350.png)
 
-![](https://s.ires.cc:9099/files/2023/12/18/202312182258028.png)
+![](https://f.ires.cc/files/2023/12/18/202312182258028.png)
 
-![image-20231218225833050](https://s.ires.cc:9099/files/2023/12/18/202312182258118.png)
+![image-20231218225833050](https://f.ires.cc/files/2023/12/18/202312182258118.png)
 
 > ```java
 > org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor
 > ```
 >
-> ![image-20231218230344710](https://s.ires.cc:9099/files/2023/12/18/202312182303833.png)
+> ![image-20231218230344710](https://f.ires.cc/files/2023/12/18/202312182303833.png)
 
 > ```java
 > org.springframework.context.annotation.CommonAnnotationBeanPostProcessor
 > ```
 >
-> ![image-20231218230508038](https://s.ires.cc:9099/files/2023/12/18/202312182305029.png)
+> ![image-20231218230508038](https://f.ires.cc/files/2023/12/18/202312182305029.png)
 >
-> ![image-20231218230752926](https://s.ires.cc:9099/files/2023/12/18/202312182307016.png)
+> ![image-20231218230752926](https://f.ires.cc/files/2023/12/18/202312182307016.png)
 
-![image-20231218230856374](https://s.ires.cc:9099/files/2023/12/18/202312182308568.png)
+![image-20231218230856374](https://f.ires.cc/files/2023/12/18/202312182308568.png)
 
-![image-20231218230920177](https://s.ires.cc:9099/files/2023/12/18/202312182309130.png)
+![image-20231218230920177](https://f.ires.cc/files/2023/12/18/202312182309130.png)
 
 ### `@Component`及其`派生类`
 
-![image-20231218225934654](https://s.ires.cc:9099/files/2023/12/18/202312182259018.png)
+![image-20231218225934654](https://f.ires.cc/files/2023/12/18/202312182259018.png)
 
-![image-20231218230036639](https://s.ires.cc:9099/files/2023/12/18/202312182300764.png)
+![image-20231218230036639](https://f.ires.cc/files/2023/12/18/202312182300764.png)
 
-![image-20231218230147969](https://s.ires.cc:9099/files/2023/12/18/202312182301093.png)
+![image-20231218230147969](https://f.ires.cc/files/2023/12/18/202312182301093.png)
 
 ## Spring Bean 配置元信息底层实现
 
-![image-20231218231229104](https://s.ires.cc:9099/files/2023/12/18/202312182312667.png)
+![image-20231218231229104](https://f.ires.cc/files/2023/12/18/202312182312667.png)
 
 ### Spring XML 资源 BeanDefinition 解析和注册
 
@@ -2571,35 +2571,35 @@ org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader#doRegi
 
 ##### AnnotatedBeanDefinitionReader
 
-![image-20231229111331571](https://s.ires.cc:9099/files/2023/12/29/image-20231229111331571.png)
+![image-20231229111331571](https://f.ires.cc/files/2023/12/29/image-20231229111331571.png)
 
-![image-20231229111750297](https://s.ires.cc:9099/files/2023/12/29/image-20231229111750297.png)
+![image-20231229111750297](https://f.ires.cc/files/2023/12/29/image-20231229111750297.png)
 
-![image-20231229111815845](https://s.ires.cc:9099/files/2023/12/29/image-20231229111815845.png)
+![image-20231229111815845](https://f.ires.cc/files/2023/12/29/image-20231229111815845.png)
 
-![image-20231229111918938](https://s.ires.cc:9099/files/2023/12/29/image-20231229111918938.png)
+![image-20231229111918938](https://f.ires.cc/files/2023/12/29/image-20231229111918938.png)
 
-![image-20231229112115642](https://s.ires.cc:9099/files/2023/12/29/image-20231229112115642.png)
+![image-20231229112115642](https://f.ires.cc/files/2023/12/29/image-20231229112115642.png)
 
-![image-20231218233612115](https://s.ires.cc:9099/files/2023/12/18/202312182336320.png)
+![image-20231218233612115](https://f.ires.cc/files/2023/12/18/202312182336320.png)
 
 ## Spring IOC 容器相关 XML 配置
 
-![image-20231229112957685](https://s.ires.cc:9099/files/2023/12/29/image-20231229112957685.png)
+![image-20231229112957685](https://f.ires.cc/files/2023/12/29/image-20231229112957685.png)
 
-![image-20231229113234210](https://s.ires.cc:9099/files/2023/12/29/image-20231229113234210.png)
+![image-20231229113234210](https://f.ires.cc/files/2023/12/29/image-20231229113234210.png)
 
 ## Spring IOC 容器装配注解
 
-![image-20231229113842185](https://s.ires.cc:9099/files/2023/12/29/image-20231229113842185.png)
+![image-20231229113842185](https://f.ires.cc/files/2023/12/29/image-20231229113842185.png)
 
-![image-20231229114002689](https://s.ires.cc:9099/files/2023/12/29/image-20231229114002689.png)
+![image-20231229114002689](https://f.ires.cc/files/2023/12/29/image-20231229114002689.png)
 
-![image-20231229114054253](https://s.ires.cc:9099/files/2023/12/29/image-20231229114054253.png)
+![image-20231229114054253](https://f.ires.cc/files/2023/12/29/image-20231229114054253.png)
 
 ![image-20231229113903301](/Users/mercymodest/Library/Application Support/typora-user-images/image-20231229113903301.png)
 
-![image-20231229114627167](https://s.ires.cc:9099/files/2023/12/29/image-20231229114627167.png)
+![image-20231229114627167](https://f.ires.cc/files/2023/12/29/image-20231229114627167.png)
 
 ## 基于 Extensible XML 拓展 Spring XML 自定义元素
 
@@ -2676,7 +2676,7 @@ public class UserBeanDefinitionParser extends AbstractSingleBeanDefinitionParser
 
 ### 注册 XML 拓展 Schema 文件 和 NamespaceHandler 进行绑定
 
-![image-20231229115925674](https://s.ires.cc:9099/files/2023/12/29/image-20231229115925674.png)
+![image-20231229115925674](https://f.ires.cc/files/2023/12/29/image-20231229115925674.png)
 
 ## Entensible XML 源码小析
 
@@ -2700,9 +2700,9 @@ public class UserBeanDefinitionParser extends AbstractSingleBeanDefinitionParser
 > org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader#doRegisterBeanDefinitions
 > ```
 >
-> ![image-20231229120507925](https://s.ires.cc:9099/files/2023/12/29/image-20231229120507925.png)
+> ![image-20231229120507925](https://f.ires.cc/files/2023/12/29/image-20231229120507925.png)
 >
-> ![image-20231229120645409](https://s.ires.cc:9099/files/2023/12/29/image-20231229120645409.png)
+> ![image-20231229120645409](https://f.ires.cc/files/2023/12/29/image-20231229120645409.png)
 
 ## 基于 YAML 资源装载外部化配置
 
@@ -2722,7 +2722,7 @@ public class UserBeanDefinitionParser extends AbstractSingleBeanDefinitionParser
 
 #### `PropertySource`
 
-![image-20231229155032539](https://s.ires.cc:9099/files/2023/12/29/image-20231229155032539.png)
+![image-20231229155032539](https://f.ires.cc/files/2023/12/29/image-20231229155032539.png)
 
 #### 如何实现`PropertySourceFactory`
 
@@ -2757,7 +2757,7 @@ public class DefaultPropertySourceFactory implements PropertySourceFactory {
 
 ###### 我们可以基于 `YamlPropertiesFactoryBean`
 
-![image-20231229155950176](https://s.ires.cc:9099/files/2023/12/29/image-20231229155950176.png)
+![image-20231229155950176](https://f.ires.cc/files/2023/12/29/image-20231229155950176.png)
 
 ```java
 # org.springframework.core.io.support.DefaultPropertySourceFactory#createPropertySource
@@ -2768,7 +2768,7 @@ ResourcePropetySource  resourcePropertySource = new ResourcePropertySource(name,
 
 ## 面试题: Spring 内建的 XML Schema 有哪些
 
-![image-20231229172151819](https://s.ires.cc:9099/files/2023/12/29/image-20231229172151819.png)
+![image-20231229172151819](https://f.ires.cc/files/2023/12/29/image-20231229172151819.png)
 
 ## 面试题： Spring 配置元信息有哪些
 
@@ -2816,15 +2816,15 @@ ResourcePropetySource  resourcePropertySource = new ResourcePropertySource(name,
 
 ### Java 标准的资源定位
 
-![image-20240104231323047](https://s.ires.cc:9099/files/2024/01/04/202401042313468.png)
+![image-20240104231323047](https://f.ires.cc/files/2024/01/04/202401042313468.png)
 
 ### Java URL 协议拓展
 
 - #### java.net.URLStreamHanderFactory
 
-  ![image-20240104232052852](https://s.ires.cc:9099/files/2024/01/04/202401042321902.png)
+  ![image-20240104232052852](https://f.ires.cc/files/2024/01/04/202401042321902.png)
 
-  ![image-20240104232534432](https://s.ires.cc:9099/files/2024/01/04/202401042325410.png)
+  ![image-20240104232534432](https://f.ires.cc/files/2024/01/04/202401042325410.png)
 
 - #### Java.net.URLStreamHander
 
@@ -2834,7 +2834,7 @@ ResourcePropetySource  resourcePropertySource = new ResourcePropertySource(name,
     sum.net.www.protocol.${protocol}.Hander.java    
     ```
 
-    ![image-20240104233613107](https://s.ires.cc:9099/files/2024/01/04/202401042336074.png)
+    ![image-20240104233613107](https://f.ires.cc/files/2024/01/04/202401042336074.png)
 
   - ##### 方式二:
   
@@ -2843,15 +2843,15 @@ ResourcePropetySource  resourcePropertySource = new ResourcePropertySource(name,
     -Djava.protocol.handler.pkgs=com.stuy.MyProtocol.Hander
     ```
 
-    ![image-20240104232611878](https://s.ires.cc:9099/files/2024/01/04/202401042326638.png)
+    ![image-20240104232611878](https://f.ires.cc/files/2024/01/04/202401042326638.png)
 
-    ![image-20240104232730925](https://s.ires.cc:9099/files/2024/01/04/202401042329566.png)
+    ![image-20240104232730925](https://f.ires.cc/files/2024/01/04/202401042329566.png)
 
-    ![image-20240104232946311](https://s.ires.cc:9099/files/2024/01/04/202401042329457.png)
+    ![image-20240104232946311](https://f.ires.cc/files/2024/01/04/202401042329457.png)
 
     ##### Java 1.8 内建的一些 协议的实现
   
-    ![image-20240104233530775](https://s.ires.cc:9099/files/2024/01/04/202401042335486.png)
+    ![image-20240104233530775](https://f.ires.cc/files/2024/01/04/202401042335486.png)
 
 ## Spring 资源接口
 
@@ -2859,75 +2859,75 @@ ResourcePropetySource  resourcePropertySource = new ResourcePropertySource(name,
 
 > org.springframework.core.io.InputStreamSource
 
-![image-20240104234340403](https://s.ires.cc:9099/files/2024/01/04/202401042343506.png)
+![image-20240104234340403](https://f.ires.cc/files/2024/01/04/202401042343506.png)
 
 ### 只读资源
 
 > org.springframework.core.io.Resource
 
-![image-20240104234458606](https://s.ires.cc:9099/files/2024/01/04/202401042344828.png)
+![image-20240104234458606](https://f.ires.cc/files/2024/01/04/202401042344828.png)
 
 ### 可写资源
 
 > org.springframework.core.io.WritableResource
 
-![image-20240104234607041](https://s.ires.cc:9099/files/2024/01/04/202401042346294.png)
+![image-20240104234607041](https://f.ires.cc/files/2024/01/04/202401042346294.png)
 
 ### 编码资源
 
 > org.springframework.core.io.support.EncodedResource
 
-![image-20240104234656003](https://s.ires.cc:9099/files/2024/01/04/202401042346757.png)
+![image-20240104234656003](https://f.ires.cc/files/2024/01/04/202401042346757.png)
 
 ### 上下文资源
 
 > org.springframework.core.io.ContextResource
 
-![image-20240104234725885](https://s.ires.cc:9099/files/2024/01/04/202401042347988.png)
+![image-20240104234725885](https://f.ires.cc/files/2024/01/04/202401042347988.png)
 
 ## Spring 内建 Resource 实现
 
-![image-20240104234847777](https://s.ires.cc:9099/files/2024/01/04/202401042348760.png)
+![image-20240104234847777](https://f.ires.cc/files/2024/01/04/202401042348760.png)
 
 ## Spring Resouce 接口拓展
 
 ### 可写资源接口
 
-![image-20240104235041362](https://s.ires.cc:9099/files/2024/01/04/202401042350679.png)
+![image-20240104235041362](https://f.ires.cc/files/2024/01/04/202401042350679.png)
 
 
 
 ### 编码资源接口
 
-![image-20240104235113814](https://s.ires.cc:9099/files/2024/01/04/202401042351868.png)
+![image-20240104235113814](https://f.ires.cc/files/2024/01/04/202401042351868.png)
 
 ## Spring 资源加载
 
-> ![image-20240104235244033](https://s.ires.cc:9099/files/2024/01/04/202401042352037.png)
+> ![image-20240104235244033](https://f.ires.cc/files/2024/01/04/202401042352037.png)
 
-![image-20240104235306501](https://s.ires.cc:9099/files/2024/01/04/202401042353512.png)
+![image-20240104235306501](https://f.ires.cc/files/2024/01/04/202401042353512.png)
 
-![image-20240104235825176](https://s.ires.cc:9099/files/2024/01/04/202401042358483.png)
+![image-20240104235825176](https://f.ires.cc/files/2024/01/04/202401042358483.png)
 
-![image-20240104235843058](https://s.ires.cc:9099/files/2024/01/04/202401042358118.png)
+![image-20240104235843058](https://f.ires.cc/files/2024/01/04/202401042358118.png)
 
 ## Spring 通配符路径的资源加载器
 
-![image-20240105000527680](https://s.ires.cc:9099/files/2024/01/05/202401050005769.png)
+![image-20240105000527680](https://f.ires.cc/files/2024/01/05/202401050005769.png)
 
-![image-20240105000629732](https://s.ires.cc:9099/files/2024/01/05/202401050006764.png)
+![image-20240105000629732](https://f.ires.cc/files/2024/01/05/202401050006764.png)
 
-![image-20240105000649491](https://s.ires.cc:9099/files/2024/01/05/202401050006550.png)
+![image-20240105000649491](https://f.ires.cc/files/2024/01/05/202401050006550.png)
 
-![image-20240105000948759](https://s.ires.cc:9099/files/2024/01/05/202401050009084.png)
+![image-20240105000948759](https://f.ires.cc/files/2024/01/05/202401050009084.png)
 
-![image-20240105001128356](https://s.ires.cc:9099/files/2024/01/05/202401050011298.png)
+![image-20240105001128356](https://f.ires.cc/files/2024/01/05/202401050011298.png)
 
 ## Spring 通配符路径的拓展
 
-![image-20240105001206784](https://s.ires.cc:9099/files/2024/01/05/202401050012921.png)
+![image-20240105001206784](https://f.ires.cc/files/2024/01/05/202401050012921.png)
 
-![image-20240105001318482](https://s.ires.cc:9099/files/2024/01/05/202401050013501.png)
+![image-20240105001318482](https://f.ires.cc/files/2024/01/05/202401050013501.png)
 
 ## 依赖注入 Spring Resource
 
@@ -2948,7 +2948,7 @@ private Resource  resource;
 
 ### 实现 ResourceLoaderAware 接口
 
-![image-20240105001752874](https://s.ires.cc:9099/files/2024/01/05/202401050017985.png)
+![image-20240105001752874](https://f.ires.cc/files/2024/01/05/202401050017985.png)
 
 ### 使用 @Autowired 注解注入 ResourceLoader
 
@@ -3012,7 +3012,7 @@ private Resource  resource;
 > org.springframework.context.MessageSource
 > ```
 >
-> ![image-20240109221451832](https://s.ires.cc:9099/files/2024/01/09/202401092214889.png)
+> ![image-20240109221451832](https://f.ires.cc/files/2024/01/09/202401092214889.png)
 >
 > 主要概念
 >
@@ -3032,7 +3032,7 @@ private Resource  resource;
 > > org.springframework.context.MessageSource#getMessage(java.lang.String, java.lang.Object[], java.util.Locale)
 > > ```
 > >
-> > ![image-20240109221716086](https://s.ires.cc:9099/files/2024/01/09/202401092217319.png)
+> > ![image-20240109221716086](https://f.ires.cc/files/2024/01/09/202401092217319.png)
 
 #### 层次性 `MessageSource`
 
@@ -3046,7 +3046,7 @@ private Resource  resource;
 
 > org.springframework.context.HierarchicalMessageSource
 
-![image-20240109222126150](https://s.ires.cc:9099/files/2024/01/09/202401092221843.png)
+![image-20240109222126150](https://f.ires.cc/files/2024/01/09/202401092221843.png)
 
 ### Java 国家化标准实现
 
@@ -3074,13 +3074,13 @@ private Resource  resource;
   > java.util.ResourceBundle#setParent
   > ```
   >
-  > ![image-20240109223355582](https://s.ires.cc:9099/files/2024/01/09/202401092233562.png)
+  > ![image-20240109223355582](https://f.ires.cc/files/2024/01/09/202401092233562.png)
   >
-  > ![image-20240109223633966](https://s.ires.cc:9099/files/2024/01/09/202401092236664.png)
+  > ![image-20240109223633966](https://f.ires.cc/files/2024/01/09/202401092236664.png)
 
 - 缓存设计
 
-  ![image-20240109223557371](https://s.ires.cc:9099/files/2024/01/09/202401092235298.png)
+  ![image-20240109223557371](https://f.ires.cc/files/2024/01/09/202401092235298.png)
 
 - 字节码控制 
 
@@ -3100,9 +3100,9 @@ private Resource  resource;
 
 ##### 基于 `ChatGPT`的 `java.util.ResourceBundle` 使用示例
 
-![image-20240109224600472](https://s.ires.cc:9099/files/2024/01/09/202401092246986.png)
+![image-20240109224600472](https://f.ires.cc/files/2024/01/09/202401092246986.png)
 
-![image-20240109224627091](https://s.ires.cc:9099/files/2024/01/09/202401092246263.png)
+![image-20240109224627091](https://f.ires.cc/files/2024/01/09/202401092246263.png)
 
 ```java
 import java.util.Locale;
@@ -3123,13 +3123,13 @@ public class InternationalizationExample {
 }
 ```
 
-![image-20240109224722499](https://s.ires.cc:9099/files/2024/01/09/202401092247502.png)
+![image-20240109224722499](https://f.ires.cc/files/2024/01/09/202401092247502.png)
 
 ##### 基于`ChatGPT`使用 自定义 `java.util.ResourceBundle.Control` 实现 `UTF-8`编码
 
-![image-20240109225442172](https://s.ires.cc:9099/files/2024/01/09/202401092254076.png)
+![image-20240109225442172](https://f.ires.cc/files/2024/01/09/202401092254076.png)
 
-![image-20240109225507900](https://s.ires.cc:9099/files/2024/01/09/202401092255994.png)
+![image-20240109225507900](https://f.ires.cc/files/2024/01/09/202401092255994.png)
 
 ```java
 import java.io.BufferedReader;
@@ -3166,9 +3166,9 @@ public class UTF8Control extends ResourceBundle.Control {
 }
 ```
 
-![image-20240109225746515](https://s.ires.cc:9099/files/2024/01/09/202401092257585.png)
+![image-20240109225746515](https://f.ires.cc/files/2024/01/09/202401092257585.png)
 
-![image-20240109230006497](https://s.ires.cc:9099/files/2024/01/09/202401092300509.png)
+![image-20240109230006497](https://f.ires.cc/files/2024/01/09/202401092300509.png)
 
 ```java
 import java.util.Locale;
@@ -3184,7 +3184,7 @@ public class InternationalizationExample {
 }
 ```
 
-![image-20240109230122815](https://s.ires.cc:9099/files/2024/01/09/202401092301810.png)
+![image-20240109230122815](https://f.ires.cc/files/2024/01/09/202401092301810.png)
 
 ### Java 文本格式化
 
@@ -3198,11 +3198,11 @@ public class InternationalizationExample {
 
 - 设置消息格式模式
 
-  - ![image-20240109232829176](https://s.ires.cc:9099/files/2024/01/09/202401092328116.png)
+  - ![image-20240109232829176](https://f.ires.cc/files/2024/01/09/202401092328116.png)
 
 - 格式化
 
-  ![](https://s.ires.cc:9099/files/2024/01/09/202401092326412.png)
+  ![](https://f.ires.cc/files/2024/01/09/202401092326412.png)
 
 - 消息格式模式
 
@@ -3229,13 +3229,13 @@ public class InternationalizationExample {
       - currency
       - percent
 
-    - ![image-20240109233236451](https://s.ires.cc:9099/files/2024/01/09/202401092332670.png)
+    - ![image-20240109233236451](https://f.ires.cc/files/2024/01/09/202401092332670.png)
 
-> ![image-20240109231225503](https://s.ires.cc:9099/files/2024/01/09/202401092312271.png)
+> ![image-20240109231225503](https://f.ires.cc/files/2024/01/09/202401092312271.png)
 >
-> ![image-20240109231350062](https://s.ires.cc:9099/files/2024/01/09/202401092313202.png)
+> ![image-20240109231350062](https://f.ires.cc/files/2024/01/09/202401092313202.png)
 >
-> ![image-20240109231413764](https://s.ires.cc:9099/files/2024/01/09/202401092314879.png)
+> ![image-20240109231413764](https://f.ires.cc/files/2024/01/09/202401092314879.png)
 >
 > ```java
 > import java.text.MessageFormat;
@@ -3265,11 +3265,11 @@ public class InternationalizationExample {
 > }
 > ```
 >
-> ![image-20240109232653281](https://s.ires.cc:9099/files/2024/01/09/202401092326412.png)
+> ![image-20240109232653281](https://f.ires.cc/files/2024/01/09/202401092326412.png)
 >
-> ![image-20240109233854070](https://s.ires.cc:9099/files/2024/01/09/202401092338047.png)
+> ![image-20240109233854070](https://f.ires.cc/files/2024/01/09/202401092338047.png)
 >
-> ![image-20240109231444843](https://s.ires.cc:9099/files/2024/01/09/202401092314903.png)
+> ![image-20240109231444843](https://f.ires.cc/files/2024/01/09/202401092314903.png)
 
 ### MessageSource 开箱即用的实现
 
@@ -3280,13 +3280,13 @@ public class InternationalizationExample {
 - `Properyties` + `MessageFormat` 组合实现 `MessageSource`
   - org.springframework.context.support.ReloadableResourceBundleMessageSource
 
-![image-20240109234637471](https://s.ires.cc:9099/files/2024/01/09/202401092346400.png)
+![image-20240109234637471](https://f.ires.cc/files/2024/01/09/202401092346400.png)
 
-![image-20240109234712489](https://s.ires.cc:9099/files/2024/01/09/202401092347687.png)
+![image-20240109234712489](https://f.ires.cc/files/2024/01/09/202401092347687.png)
 
-![image-20240109234748440](https://s.ires.cc:9099/files/2024/01/09/202401092347532.png)
+![image-20240109234748440](https://f.ires.cc/files/2024/01/09/202401092347532.png)
 
-![image-20240109234828411](https://s.ires.cc:9099/files/2024/01/09/202401092348474.png)
+![image-20240109234828411](https://f.ires.cc/files/2024/01/09/202401092348474.png)
 
 ### `MessageSource`内建依赖
 
@@ -3294,28 +3294,28 @@ public class InternationalizationExample {
 > org.springframework.context.support.AbstractApplicationContext#initMessageSource
 > ```
 >
-> ![image-20240109235120664](https://s.ires.cc:9099/files/2024/01/09/202401092351617.png)
+> ![image-20240109235120664](https://f.ires.cc/files/2024/01/09/202401092351617.png)
 
 #### `SpringBoot`为什么需要新建`MessageSource` Bean
 
 - org.springframework.context.support.AbstractApplicationContext 实现决定了 内建 `MessageSource`内建实现
 
-  ![](https://s.ires.cc:9099/files/2024/01/09/202401092351617.png)
+  ![](https://f.ires.cc/files/2024/01/09/202401092351617.png)
 
 - Spring Boot 通过 外部化配置来简化  MessageSource Bean 构建
 
-  ![image-20240110002040572](https://s.ires.cc:9099/files/2024/01/10/202401100020666.png)
+  ![image-20240110002040572](https://f.ires.cc/files/2024/01/10/202401100020666.png)
 
 - Spring Boot 基于  Bean Validation 校验非常普遍
 
   Spring Boot 资源记载配置资源的时候是会区分主次的
 
-  ![image-20240110002332976](https://s.ires.cc:9099/files/2024/01/10/202401100023720.png)
+  ![image-20240110002332976](https://f.ires.cc/files/2024/01/10/202401100023720.png)
 
-  ![image-20240110002745313](https://s.ires.cc:9099/files/2024/01/10/202401100027442.png)
+  ![image-20240110002745313](https://f.ires.cc/files/2024/01/10/202401100027442.png)
  ### 我们如何覆盖`Spring Boot`的默认实现
 
-  ![image-20240110002911363](https://s.ires.cc:9099/files/2024/01/10/202401100029293.png)
+  ![image-20240110002911363](https://f.ires.cc/files/2024/01/10/202401100029293.png)
 
 ### 面试题:  Spring 国际化接口有哪些
 
@@ -3331,7 +3331,7 @@ public class InternationalizationExample {
   
   - > org.springframework.context.support.StaticMessageSource
     >
-    > ![image-20240115220725764](https://s.ires.cc:9099/files/2024/01/15/202401152207980.png)
+    > ![image-20240115220725764](https://f.ires.cc/files/2024/01/15/202401152207980.png)
   
   - > org.springframework.context.support.DelegatingMessageSource
   
