@@ -3414,6 +3414,136 @@ protected void processingMessageFileChanged() {
 	}
 ```
 
+## Spring 校验
+
+### Spring 校验的使用场景
+
+- Spring 常规校验 （Validator）
+- Spring 数据绑定 （DataBinder）
+- Spring Web 参数绑定 （WebDataBinder）
+- Spring MVC/Spring WebFlux 处理方法参数校验
+
+### `org.springframework.validation.Validator`
+
+- 接口职责
+
+  > spring 内部校验接口，通过编程的方式校验目标对象
+
+- 核心方法
+
+  > ![image-20240122224706799](https://f.ires.cc/files/2024/01/22/202401222247922.png)
+
+![image-20240122224245494](https://f.ires.cc/files/2024/01/22/202401222242650.png)
+
+#### 配套组件
+
+##### Validator 工具类
+
+> org.springframework.validation.ValidationUtils
+
+![image-20240122224526078](https://f.ires.cc/files/2024/01/22/202401222245494.png)
+
+##### 错误收集器
+
+> `org.springframework.validation.Errors`
+
+### `org.springframework.validation.Errors`
+
+#### 接口设计
+
+- 接口职责
+
+  > 数据绑定和数据校验错误信息收集接口，与`JavaBean` 和其属性有强关联关系
+
+- 核心方法
+
+  > Java Bean 的错误信息描述
+  >
+  > ![image-20240122225329904](https://f.ires.cc/files/2024/01/22/202401222253036.png)
+
+  > Java Bean 属性错误信息描述
+  >
+  > ![image-20240122225404460](https://f.ires.cc/files/2024/01/22/202401222254725.png)
+
+- 配套组件
+
+  > org.springframework.validation.ObjectError
+  >
+  > org.springframework.validation.FieldError
+
+#### 文案来源
+
+- 选择 Errors 实现
+
+  > org.springframework.validation.BeanPropertyBindResult
+
+- 调用 `reject` 或者`rejectObject`方法
+
+- 获取 Errors 对象中的 `ObejctError` 或者`FieldError`
+
+- 将 `ObjectError`或者`FieldError`中的`code`和`args`,关联`MessageResource`（org.springframework.context.support.ResourceBundleMessageSource）
+
+![image-20240122231412459](https://f.ires.cc/files/2024/01/22/202401222314158.png)
+
+![image-20240122231432208](https://f.ires.cc/files/2024/01/22/202401222314272.png)
+
+### 自定义实现`org.springframework.validation.Validator`
+
+1. 实现 `supports`
+2. 实现 `validate`
+   - 通过 Errors对象进行错误收集
+     - ObjectError
+     - FieldError
+   - 通过 `ObejectError` 和`FieldError`关联`MessageSource`实现最终文案
+
+#### code
+
+![image-20240122233539874](https://f.ires.cc/files/2024/01/22/202401222335039.png)
+
+![image-20240122233601287](https://f.ires.cc/files/2024/01/22/202401222336342.png)
+
+![image-20240122233624418](https://f.ires.cc/files/2024/01/22/202401222336354.png)
+
+### Spring Validator 的自我救赎
+
+- org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
+
+  
+
+- 依赖 Bean Validation `JSR-303` 或者 `JSR-349`
+
+- Bean 方法参数校验`org.springframework.validation.beanvalidation.MethodValidationPostProcessor`
+
+  ![image-20240122234302057](https://f.ires.cc/files/2024/01/22/202401222343007.png)
+
+##### `org.springframework.validation.beanvalidation.LocalValidatorFactoryBean`
+
+![image-20240122234824999](https://f.ires.cc/files/2024/01/22/202401222348359.png)
+
+![image-20240122234930812](https://f.ires.cc/files/2024/01/22/202401222349943.png)
+
+![image-20240122235008751](https://f.ires.cc/files/2024/01/22/202401222350871.png)
+
+##### `org.springframework.validation.beanvalidation.MethodValidationPostProcessor`
+
+### 面试题: Spring 校验接口是那个
+
+> org.springframework.validation.Validator
+
+### 面试题: Spring 有些核心校验组件
+
+- org.springframework.validation.Validator
+
+- 错误收集: org.springframework.validation.Errors
+
+- Java Bean 错误描述 : org.springframework.validation.ObjectError
+
+- Java Bean 属性错误描述 : org.springframework.validation.FieldError
+
+- Bean Validation 的适配
+
+  org.springframework.validation.LocalValidatorFactoryBean
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
