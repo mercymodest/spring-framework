@@ -3544,6 +3544,117 @@ protected void processingMessageFileChanged() {
 
   org.springframework.validation.LocalValidatorFactoryBean
 
+## Spring 数据绑定
+
+### Spring 数据绑定有那些使用场景
+
+- Spring BeanDefinition 创建 Bean 实例
+- Spring 的数据绑定(`org.springframework.validation.DataBinder`)
+- Spring Web 参数绑定 (`org.springframewok.web.bind.WebDataBinder`)
+
+### Spring 数据绑定的组件
+
+#### 标准组件
+
+- `org.springframework.validation.DataBinder`
+
+#### `Web` 组件
+
+- `org.springframework.web.bind.WebDataBinder`
+- `org.springframework.web.bind.ServletRequestDataBinder`
+- `org.springframework.web.bind.WebReqeustDataBinder`
+- `org.springframework.web.bind.WebExchangeDataBinder`（Sine 5.0）
+
+### `org.springframework.validation.DataBinder `
+
+#### 核心属性
+
+|        属性         |              说明              |
+| :-----------------: | :----------------------------: |
+|       target        |         管理目标 Bean          |
+|     objectName      |         目标 Bean 名称         |
+|     bindResult      |          属性绑定结果          |
+|    typeConverter    |            类型转换            |
+|  conversionService  |          类型转化服务          |
+| messageCodeResolver |       校验错误文案处理器       |
+|     validators      | 关联的 Bean Validator 实例集合 |
+
+#### 核心方法
+
+![image-20240124231225475](https://f.ires.cc/files/2024/01/24/202401242312909.png)
+
+#### 元数据：`org.springframework.beans.PropertyValues`
+
+##### 来源
+
+|     特征     |                             说明                             |
+| :----------: | :----------------------------------------------------------: |
+|   数据来源   |            BeanDefinition,主要来源于 XML 资源配置            |
+|   数据结构   |     一个或多个`org.springframework.beans.PropertyVlaue`      |
+|   成员结构   |     Property包括属性名称，属性值(包括原始值和转化后的值)     |
+|   常见实现   |     ` org.springframework.beans.MultablePropertyVlaues`      |
+| Web 拓展实现 | `org.springframework.web.servlet.HttpServletBean.ServletConfigPropertyValues`  `org.springframework.web.bind.ServletRequestParameterPropertyVluaes` |
+| 相关生命周期 | `org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor#postProcessProperties` |
+
+### `org.springframework.validation.DataBinder` 控制参数
+
+|       参数名称       |                             说明                             |
+| :------------------: | :----------------------------------------------------------: |
+|  ignoreUnkonwFields  | 是否忽略未知字段: ![image-20240124233506581](https://f.ires.cc/files/2024/01/24/202401242335256.png) |
+| ignoreInvalidaFields | 是否忽略非法字段: ![image-20240124233553271](https://f.ires.cc/files/2024/01/24/202401242335860.png) |
+| autoGrowNestedPaths  | 是否自动绑定嵌套路径 ： ![image-20240124233636998](https://f.ires.cc/files/2024/01/24/202401242336348.png) |
+|    allowedFields     | 绑定字段白名单: ![image-20240124233721698](https://f.ires.cc/files/2024/01/24/202401242337875.png) |
+|   disalloweFields    | 绑定字段白名单； ![image-20240124233804767](https://f.ires.cc/files/2024/01/24/202401242338899.png) |
+|    requiredFields    | 必须绑定的字段: ![image-20240124233836790](https://f.ires.cc/files/2024/01/24/202401242338102.png) |
+
+### Spring 底层替换`Java Beans` 实现
+
+#### `JavaBeans`
+
+- 属性(Property)
+  - `java.beans.PropertyEditor`
+- 方法(Method)
+- 事件(Event)
+- 表达式(Expression)
+
+#### `Spring` 的替代实现`org.springframework.beans.BeanWapper`
+
+- 属性(Property)
+  - `java.beans.PropertyEditor`
+- 嵌套属性路径(Nested Path)
+
+### `org.springframework.beans.BeanWrapper`
+
+- `Spring`底层 `JavaBeans` 基础设施的中心化接口
+- 通常不会经常使用,简介用于`org.springframework.beans.factory.BeanFactory`和`org.springframework.validation.DataBinder`
+- 提供标准的`JavaBeans`分析和操作,能够单独或者批量存储`JavaBeans`的属性(properties)
+- 支持嵌套属性路径（Nested Path）
+- 实现类是：`org.springframework.beans.BeanWrapperImpl`
+
+### 标准的`JavaBeans`是如何操作属性的
+
+|              API              |         说明          |
+| :---------------------------: | :-------------------: |
+|    java.beans.Introspector    |  Java Beans 内省 API  |
+|      java.beans.BeanInfo      | java Beans 元信息 API |
+|   java.beans.BeanDescriptor   | Java Beans 信息描述符 |
+| java.beans.PropertyDescriptor | Java Beans 属性描述符 |
+|  java.beans.MethodDescriptor  |  Java Beans 方描述符  |
+| java.beans.EventSetDescriptor |  Java Beans 事件集合  |
+
+### `org.springframewrok.validation.DataBinder` 和`org.springframewok.beans.BeanWrapper`
+
+- bind 方法生成 `org.springframework.validation.BeanPropertyBindingReuslt`
+  - `org.springframework.validation.BeanPropertyBingdingReuslt` 关联`org.springframework.beans.BeanWrapper`
+
+### 面试题: `Spring` 数据绑定的API是什么
+
+> `org.springframework.validation.DataBinder`
+
+### 面试题: `org.springframework.beans.BeanWrapper`和 `JavaBeans`之间的关系
+
+> `org.springframework.beans.BeanWrapper` 是 `Spring` 底层 `JavaBeans` 基础设施中心接口
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
