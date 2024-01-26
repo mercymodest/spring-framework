@@ -3655,6 +3655,72 @@ protected void processingMessageFileChanged() {
 
 > `org.springframework.beans.BeanWrapper` 是 `Spring` 底层 `JavaBeans` 基础设施中心接口
 
+## Spring 类型转化
+
+### 基于`JavaBeans`接口的类型转化实现
+
+- > ```java
+  > java.beans.PropertyEditor
+  > ```
+
+#### 核心职责
+
+将 `String` 类转化为目标类型对象
+
+`java.beans.PropertyEditor`
+
+#### 拓展原理
+
+- Spring 将文本内容传递到`java.beans.PropertyEditor`实现的`#setAsTex(String)`方法
+
+- 在`java.beans.PropertyEditor#setAsText(String)` 方法是实现将`String` 类型转化为其它数据里类型
+
+  - etc.`org.springframework.beans.propertyeditors.ByteArrayPropertyEditor`
+
+    ![image-20240126232213891](https://f.ires.cc/files/2024/01/26/202401262322423.png)
+
+  - etc. `org.springframework.beans.propertyEditors.ChatsetEditor`
+
+    ![](https://f.ires.cc/files/2024/01/26/202401262322150.png)
+
+### Spring 内建的`PropertyEditor` 拓展
+
+![image-20240126232340468](https://f.ires.cc/files/2024/01/26/202401262323519.png)
+
+### 自定义拓展`PropertyEditor`拓展
+
+- 拓展模式
+
+  拓展实现`java.beans.PropertyEditorSupport`
+
+- 实现`org.springframework.beans.PropertyEditorRegistrar`
+
+  - 实现方法`registrarCustomEditors(org.springframewok.beans.PropertyEditorRegistry)`
+  - 将`org.springframework.beans.PropertyEditorRegistrar`注册为 Spring Bean
+
+- 向`org.springframework.beans.PropertyEditorRegistry`注册自定义的`PropertyEditor`实现
+
+  - 通用类实现`registerCustomEditor()`
+
+    ![image-20240126235435377](https://f.ires.cc/files/2024/01/26/202401262354095.png)
+
+  - Java Bean 属性类型实现`registryCustomEdtior`\
+
+    ![image-20240126235556824](https://f.ires.cc/files/2024/01/26/202401262356065.png)
+
+### Spring `java.beans.PropertyEditor`设计的缺陷
+
+- 违反单一职责原则
+  - `java.beans.PropertyEditor`接口职责太多。
+    - 类型转化
+    - Java Beans 事件
+    - Java Gui 交互
+    - ... ...
+- 实现的局限
+  - 来源类型只能是 `String`
+- `java.beans.PropertyEditor`实现缺少类型安全
+  - 除了实现类命名语义上的表达，实现无法感知目标转化类型
+
 ## Spring中的常用注解源码解析
 
 #### `@Bean`
